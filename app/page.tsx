@@ -5,14 +5,17 @@ import { Instagram } from "lucide-react"
 import { SiTiktok } from "react-icons/si"
 import { getFeaturedProducts, getCategories } from "@/lib/supabase/products"
 import { getSiteSettings } from "@/lib/supabase/settings"
+import { getTestimonials } from "@/lib/supabase/testimonials"
+import { Star } from "lucide-react"
 
 export const revalidate = 0 // Disable cache for this page
 
 export default async function HomePage() {
-  const [featuredProducts, categories, settings] = await Promise.all([
+  const [featuredProducts, categories, settings, testimonials] = await Promise.all([
     getFeaturedProducts(), 
     getCategories(),
-    getSiteSettings()
+    getSiteSettings(),
+    getTestimonials(6) // Get up to 6 featured testimonials
   ])
 
   return (
@@ -119,6 +122,43 @@ export default async function HomePage() {
           >
             <Link href="/about">Learn More</Link>
           </Button>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-serif font-light text-foreground mb-4">Customer Stories</h2>
+            <p className="text-lg text-muted-foreground">What our customers say about their experience</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials?.filter(t => t.is_published).slice(0, 6).map((testimonial) => (
+              <div key={testimonial.id} className="bg-white/50 backdrop-blur-sm border border-primary/20 rounded-lg p-6">
+                <div className="mb-4">
+                  <h4 className="font-serif text-foreground mb-2">{testimonial.customer_name}</h4>
+                  <div className="flex items-center space-x-1 mb-2">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed italic">"{testimonial.content}"</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12"
+            >
+              <Link href="/testimonials">View All Stories</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
