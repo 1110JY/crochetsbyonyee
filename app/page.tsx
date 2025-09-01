@@ -4,9 +4,16 @@ import Link from "next/link"
 import { Instagram } from "lucide-react"
 import { SiTiktok } from "react-icons/si"
 import { getFeaturedProducts, getCategories } from "@/lib/supabase/products"
+import { getSiteSettings } from "@/lib/supabase/settings"
+
+export const revalidate = 0 // Disable cache for this page
 
 export default async function HomePage() {
-  const [featuredProducts, categories] = await Promise.all([getFeaturedProducts(), getCategories()])
+  const [featuredProducts, categories, settings] = await Promise.all([
+    getFeaturedProducts(), 
+    getCategories(),
+    getSiteSettings()
+  ])
 
   return (
     <div className="min-h-screen bg-background">
@@ -18,7 +25,14 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-black/40"></div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-serif font-light mb-8 text-balance">Crochets by On-Yee</h1>
+          <h1 className="text-6xl md:text-8xl font-serif font-light mb-4 text-balance">
+            {settings?.hero_title || "Crochets by On-Yee"}
+          </h1>
+          {settings?.hero_subtitle && (
+            <p className="text-xl md:text-2xl font-light mb-8 text-white/90">
+              {settings.hero_subtitle}
+            </p>
+          )}
           <Button
             asChild
             variant="outline"

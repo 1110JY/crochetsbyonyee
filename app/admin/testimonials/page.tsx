@@ -133,18 +133,18 @@ export default function AdminTestimonialsPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
       <AdminHeader title="Testimonials" description="Manage customer testimonials and reviews" />
 
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-xl font-semibold text-amber-900">All Testimonials</h2>
-            <p className="text-amber-600">{testimonials.length} testimonials total</p>
+            <h2 className="text-2xl font-serif font-light text-foreground">All Testimonials</h2>
+            <p className="text-muted-foreground">{testimonials.length} testimonials total</p>
           </div>
           <Button
             onClick={() => setShowAddForm(true)}
-            className="bg-amber-600 hover:bg-amber-700 text-white"
+            className="bg-primary/90 hover:bg-primary text-primary-foreground"
             disabled={showAddForm || editingId}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -154,33 +154,33 @@ export default function AdminTestimonialsPage() {
 
         {/* Add/Edit Form */}
         {(showAddForm || editingId) && (
-          <Card className="border-amber-200 mb-6">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 mb-6">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-amber-900 mb-4">
+              <h3 className="text-2xl font-serif font-light text-foreground mb-6">
                 {editingId ? "Edit Testimonial" : "Add New Testimonial"}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <Label htmlFor="customer_name" className="text-amber-800">
+                  <Label htmlFor="customer_name" className="text-foreground">
                     Customer Name *
                   </Label>
                   <Input
                     id="customer_name"
                     value={formData.customer_name}
                     onChange={(e) => setFormData((prev) => ({ ...prev, customer_name: e.target.value }))}
-                    className="border-amber-200"
-                    placeholder="e.g., Sarah Johnson"
+                    className="border-primary/20 focus:border-primary/30"
+                    placeholder="e.g., Shrek"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="rating" className="text-amber-800">
+                  <Label htmlFor="rating" className="text-foreground">
                     Rating *
                   </Label>
                   <select
                     id="rating"
                     value={formData.rating}
                     onChange={(e) => setFormData((prev) => ({ ...prev, rating: Number.parseInt(e.target.value) }))}
-                    className="w-full px-3 py-2 border border-amber-200 rounded-md"
+                    className="w-full px-3 py-2 border border-primary/20 focus:border-primary/30 rounded-md bg-white/50"
                   >
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <option key={rating} value={rating}>
@@ -191,14 +191,14 @@ export default function AdminTestimonialsPage() {
                 </div>
               </div>
               <div className="mb-4">
-                <Label htmlFor="content" className="text-amber-800">
+                <Label htmlFor="content" className="text-foreground">
                   Testimonial Content *
                 </Label>
                 <Textarea
                   id="content"
                   value={formData.content}
                   onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-                  className="border-amber-200"
+                  className="border-primary/20 focus:border-primary/30"
                   rows={4}
                   placeholder="What did the customer say about your work?"
                 />
@@ -209,29 +209,29 @@ export default function AdminTestimonialsPage() {
                     type="checkbox"
                     checked={formData.is_published}
                     onChange={(e) => setFormData((prev) => ({ ...prev, is_published: e.target.checked }))}
-                    className="rounded border-amber-300"
+                    className="rounded border-primary/20 text-primary focus:ring-primary"
                   />
-                  <span className="text-amber-800">Published</span>
+                  <span className="text-foreground">Published</span>
                 </label>
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={formData.is_featured}
                     onChange={(e) => setFormData((prev) => ({ ...prev, is_featured: e.target.checked }))}
-                    className="rounded border-amber-300"
+                    className="rounded border-primary/20 text-primary focus:ring-primary"
                   />
-                  <span className="text-amber-800">Featured</span>
+                  <span className="text-foreground">Featured</span>
                 </label>
               </div>
               <div className="flex space-x-2">
-                <Button onClick={handleSave} className="bg-amber-600 hover:bg-amber-700 text-white">
+                <Button onClick={handleSave} className="bg-primary/90 hover:bg-primary text-primary-foreground">
                   <Save className="w-4 h-4 mr-2" />
                   Save
                 </Button>
                 <Button
                   onClick={handleCancel}
                   variant="outline"
-                  className="border-amber-300 text-amber-700 hover:bg-amber-50 bg-transparent"
+                  className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Cancel
@@ -245,28 +245,41 @@ export default function AdminTestimonialsPage() {
         {testimonials.length > 0 ? (
           <div className="space-y-4">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="border-amber-200">
+              <Card key={testimonial.id} className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-3">
-                        <h3 className="font-semibold text-amber-900">{testimonial.customer_name}</h3>
+                        <h3 className="font-serif text-foreground">{testimonial.customer_name}</h3>
                         <div className="flex items-center space-x-1">
                           {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                            <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                           ))}
                         </div>
                         <div className="flex space-x-2">
-                          <Badge variant={testimonial.is_published ? "default" : "secondary"}>
+                          <Badge 
+                            variant="outline" 
+                            className={testimonial.is_published 
+                              ? "border-primary/20 text-primary"
+                              : "border-muted text-muted-foreground"
+                            }
+                          >
                             {testimonial.is_published ? "Published" : "Draft"}
                           </Badge>
-                          {testimonial.is_featured && <Badge className="bg-amber-600 text-white">Featured</Badge>}
+                          {testimonial.is_featured && (
+                            <Badge 
+                              variant="outline"
+                              className="border-secondary/20 text-secondary"
+                            >
+                              Featured
+                            </Badge>
+                          )}
                         </div>
                       </div>
 
-                      <p className="text-amber-700 mb-4 italic">"{testimonial.content}"</p>
+                      <p className="text-muted-foreground mb-4 italic">"{testimonial.content}"</p>
 
-                      <p className="text-sm text-amber-600">
+                      <p className="text-sm text-muted-foreground">
                         Added {new Date(testimonial.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -276,7 +289,7 @@ export default function AdminTestimonialsPage() {
                         onClick={() => togglePublished(testimonial.id, testimonial.is_published)}
                         size="sm"
                         variant="outline"
-                        className="border-amber-300 text-amber-700 bg-transparent"
+                        className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
                       >
                         {testimonial.is_published ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
                       </Button>
@@ -284,16 +297,16 @@ export default function AdminTestimonialsPage() {
                         onClick={() => toggleFeatured(testimonial.id, testimonial.is_featured)}
                         size="sm"
                         variant="outline"
-                        className="border-amber-300 text-amber-700 bg-transparent"
+                        className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
                       >
-                        <Star className="w-3 h-3" />
+                        <Star className={`w-3 h-3 ${testimonial.is_featured ? "fill-primary" : ""}`} />
                       </Button>
                       <Button
                         onClick={() => handleEdit(testimonial)}
                         size="sm"
                         variant="outline"
-                        className="border-amber-300 text-amber-700 bg-transparent"
-                        disabled={editingId === testimonial.id || showAddForm}
+                        className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+                        disabled={!!editingId || showAddForm}
                       >
                         <Edit className="w-3 h-3" />
                       </Button>
@@ -301,8 +314,8 @@ export default function AdminTestimonialsPage() {
                         onClick={() => handleDelete(testimonial.id)}
                         size="sm"
                         variant="outline"
-                        className="border-red-300 text-red-700 bg-transparent"
-                        disabled={editingId === testimonial.id || showAddForm}
+                        className="border-destructive/30 hover:border-destructive/50 text-destructive hover:text-destructive"
+                        disabled={!!editingId || showAddForm}
                       >
                         <Trash2 className="w-3 h-3" />
                       </Button>
@@ -313,14 +326,14 @@ export default function AdminTestimonialsPage() {
             ))}
           </div>
         ) : (
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
             <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Star className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-amber-900 mb-2">No Testimonials Yet</h3>
-              <p className="text-amber-600 mb-4">Add customer testimonials to build trust and showcase your work.</p>
-              <Button onClick={() => setShowAddForm(true)} className="bg-amber-600 hover:bg-amber-700 text-white">
+              <h3 className="text-2xl font-serif font-light text-foreground mb-2">No Testimonials Yet</h3>
+              <p className="text-muted-foreground mb-6">Add customer testimonials to build trust and showcase your work.</p>
+              <Button onClick={() => setShowAddForm(true)} className="bg-primary/90 hover:bg-primary text-primary-foreground">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Your First Testimonial
               </Button>

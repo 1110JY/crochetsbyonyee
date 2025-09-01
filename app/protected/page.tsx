@@ -6,12 +6,36 @@ export default async function ProtectedPage() {
 
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
+    console.log("No user found, redirecting to login")
     redirect("/auth/login")
   }
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).single()
+  console.log("User found:", data.user.email)
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", data.user.id)
+    .single()
+
+  if (profileError) {
+    console.error("Error fetching profile:", profileError)
+    return (
+      <div className="min-h-screen bg-amber-50 p-8">
+        <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+          <h1 className="text-xl text-red-600 mb-4">Error Loading Profile</h1>
+          <pre className="bg-gray-100 p-4 rounded overflow-auto">
+            {JSON.stringify({ error: profileError, user: data.user }, null, 2)}
+          </pre>
+        </div>
+      </div>
+    )
+  }
+
+  console.log("Profile found:", profile)
 
   if (profile?.role === "admin") {
+    console.log("Admin user detected, redirecting to admin")
     redirect("/admin")
   }
 

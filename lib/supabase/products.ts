@@ -1,9 +1,4 @@
-import {
-  mockCategories,
-  mockProducts,
-  type Product as MockProduct,
-  type Category as MockCategory,
-} from "@/lib/mock-data"
+import { createClient } from "./server"
 
 export interface Product {
   id: string
@@ -39,81 +34,148 @@ export interface Category {
   updated_at: string
 }
 
-function convertMockProduct(mockProduct: MockProduct): Product {
-  const category = mockCategories.find((cat) => cat.id === mockProduct.category_id)
-  return {
-    id: mockProduct.id,
-    name: mockProduct.name,
-    slug: mockProduct.name.toLowerCase().replace(/\s+/g, "-"),
-    description: mockProduct.description,
-    price: mockProduct.price,
-    category_id: mockProduct.category_id,
-    images: [mockProduct.image_url],
-    materials: ["Cotton yarn", "Polyester filling"],
-    dimensions: "Various sizes available",
-    care_instructions: "Hand wash cold, lay flat to dry",
-    is_featured: mockProduct.is_featured,
-    is_available: true,
-    stock_quantity: 10,
-    created_at: mockProduct.created_at,
-    updated_at: mockProduct.created_at,
-    categories: category
-      ? {
-          id: category.id,
-          name: category.name,
-          slug: category.name.toLowerCase().replace(/\s+/g, "-"),
-          description: category.description,
-        }
-      : undefined,
-  }
-}
-
-function convertMockCategory(mockCategory: MockCategory): Category {
-  return {
-    id: mockCategory.id,
-    name: mockCategory.name,
-    slug: mockCategory.name.toLowerCase().replace(/\s+/g, "-"),
-    description: mockCategory.description,
-    image_url: null,
-    created_at: mockCategory.created_at,
-    updated_at: mockCategory.created_at,
-  }
-}
-
 export async function getProducts(categorySlug?: string): Promise<Product[]> {
-  await new Promise((resolve) => setTimeout(resolve, 100))
-
-  let products = mockProducts.map(convertMockProduct)
+  const supabase = await createClient()
+  
+  let query = supabase
+    .from("products")
+    .select(`
+      *,
+      categories (
+        id,
+        name,
+        slug,
+        description
+      )
+    `)
+    .order("created_at", { ascending: false })
 
   if (categorySlug) {
-    const category = mockCategories.find((cat) => cat.name.toLowerCase().replace(/\s+/g, "-") === categorySlug)
-    if (category) {
-      products = products.filter((product) => product.category_id === category.id)
-    }
+    query = query.eq("categories.slug", categorySlug)
   }
 
-  return products
+  const { data, error } = await query
+
+  if (error) {
+    console.error("Error fetching products:", error)
+    return []
+  }
+
+  return data || []
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  await new Promise((resolve) => setTimeout(resolve, 100))
+  const supabase = await createClient()
+  
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories (
+        id,
+        name,
+        slug,
+        description
+      )
+    `)
+    .eq("slug", slug)
+    .single()
 
-  const mockProduct = mockProducts.find((product) => product.name.toLowerCase().replace(/\s+/g, "-") === slug)
+  if (error) {
+    console.error("Error fetching product:", error)
+    return null
+  }
 
-  return mockProduct ? convertMockProduct(mockProduct) : null
+  return data
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  await new Promise((resolve) => setTimeout(resolve, 100))
+  const supabase = await createClient()
+  
+  const { data, error } = await supabase
+    .from("products")
+    .select(`
+      *,
+      categories (
+        id,
+        name,
+        slug,
+        description
+      )
+    `)
+    .eq("is_featured", true)
+    .eq("is_available", true)
+    .order("created_at", { ascending: false })
+    .limit(6)
 
-  return mockProducts
-    .filter((product) => product.is_featured)
-    .map(convertMockProduct)
-    .slice(0, 6)
+  if (error) {
+    console.error("Error fetching featured products:", error)
+    return []
+  }
+
+  return data || []
 }
 
 export async function getCategories(): Promise<Category[]> {
-  await new Promise((resolve) => setTimeout(resolve, 100))
+  const supabase = await createClient()
+  
+  const { data, error } = await supabase
+    .from("categories")
+    .select("*")
+    .order("name", { ascending: true })
 
-  return mockCategories.map(convertMockCategory)
+  if (error) {
+    console.error("Error fetching categories:", error)
+    return []
+  }
+
+  return data || []
+}
+
+// Actions for managing products
+export async function createProduct(product: Omit<Product, "id" | "created_at" | "updated_at">) {
+  const supabase = await createClient()
+  
+  const { error } = await supabase
+    .from("products")
+    .insert(product)
+
+  if (error) throw error
+
+  // Revalidate product pages
+  await fetch("/api/revalidate?path=/&path=/products", {
+    method: "POST"
+  })
+}
+
+export async function updateProduct(id: string, updates: Partial<Product>) {
+  const supabase = await createClient()
+  
+  const { error } = await supabase
+    .from("products")
+    .update(updates)
+    .eq("id", id)
+
+  if (error) throw error
+
+  // Revalidate product pages
+  await fetch("/api/revalidate?path=/&path=/products", {
+    method: "POST"
+  })
+}
+
+export async function deleteProduct(id: string) {
+  const supabase = await createClient()
+  
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", id)
+
+  if (error) throw error
+
+  // Revalidate product pages
+  await fetch("/api/revalidate?path=/&path=/products", {
+    method: "POST"
+  })
 }

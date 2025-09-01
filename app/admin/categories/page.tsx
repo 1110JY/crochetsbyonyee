@@ -59,11 +59,23 @@ export default function AdminCategoriesPage() {
     try {
       if (editingId) {
         // Update existing category
-        await supabase.from("categories").update(formData).eq("id", editingId)
+        const { error: updateError } = await supabase.from("categories").update(formData).eq("id", editingId)
+        if (updateError) throw updateError
       } else {
         // Create new category
         const slug = formData.slug || generateSlug(formData.name)
-        await supabase.from("categories").insert({ ...formData, slug })
+        const { error: insertError } = await supabase.from("categories").insert({ ...formData, slug })
+        if (insertError) throw insertError
+      }
+
+      // Revalidate both the admin page and the main pages that show categories
+      try {
+        const res = await fetch("/api/revalidate?path=/&path=/products&path=/admin/categories", {
+          method: "POST"
+        });
+        if (!res.ok) throw new Error("Failed to revalidate");
+      } catch (e) {
+        console.error("Failed to revalidate pages:", e);
       }
 
       await loadCategories()
@@ -113,18 +125,18 @@ export default function AdminCategoriesPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
       <AdminHeader title="Categories" description="Manage product categories" />
 
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-xl font-semibold text-amber-900">All Categories</h2>
-            <p className="text-amber-600">{categories.length} categories total</p>
+            <h2 className="text-2xl font-serif font-light text-foreground">All Categories</h2>
+            <p className="text-muted-foreground">{categories.length} categories total</p>
           </div>
           <Button
             onClick={() => setShowAddForm(true)}
-            className="bg-amber-600 hover:bg-amber-700 text-white"
+            className="bg-primary/90 hover:bg-primary text-primary-foreground"
             disabled={showAddForm || editingId}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -134,14 +146,14 @@ export default function AdminCategoriesPage() {
 
         {/* Add/Edit Form */}
         {(showAddForm || editingId) && (
-          <Card className="border-amber-200 mb-6">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 mb-6">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-amber-900 mb-4">
+              <h3 className="text-2xl font-serif font-light text-foreground mb-6">
                 {editingId ? "Edit Category" : "Add New Category"}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <Label htmlFor="name" className="text-amber-800">
+                  <Label htmlFor="name" className="text-foreground">
                     Name *
                   </Label>
                   <Input
@@ -155,7 +167,7 @@ export default function AdminCategoriesPage() {
                         slug: prev.slug || generateSlug(name),
                       }))
                     }}
-                    className="border-amber-200"
+                    className="border-primary/20 focus:border-primary/30"
                     placeholder="e.g., Baby Items"
                   />
                 </div>
@@ -205,7 +217,7 @@ export default function AdminCategoriesPage() {
                 <Button
                   onClick={handleCancel}
                   variant="outline"
-                  className="border-amber-300 text-amber-700 hover:bg-amber-50 bg-transparent"
+                  className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Cancel
@@ -219,14 +231,14 @@ export default function AdminCategoriesPage() {
         {categories.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category) => (
-              <Card key={category.id} className="border-amber-200">
+              <Card key={category.id} className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-amber-900 mb-1">{category.name}</h3>
-                      <p className="text-sm text-amber-600 mb-2">/{category.slug}</p>
+                      <h3 className="font-serif text-lg text-foreground mb-1">{category.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-2">/{category.slug}</p>
                       {category.description && (
-                        <p className="text-sm text-amber-700 line-clamp-2">{category.description}</p>
+                        <p className="text-sm text-muted-foreground/80 line-clamp-2">{category.description}</p>
                       )}
                     </div>
                   </div>
@@ -236,7 +248,7 @@ export default function AdminCategoriesPage() {
                       onClick={() => handleEdit(category)}
                       size="sm"
                       variant="outline"
-                      className="flex-1 border-amber-300 text-amber-700 bg-transparent"
+                      className="flex-1 border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
                       disabled={editingId === category.id || showAddForm}
                     >
                       <Edit className="w-3 h-3 mr-1" />
@@ -246,7 +258,7 @@ export default function AdminCategoriesPage() {
                       onClick={() => handleDelete(category.id)}
                       size="sm"
                       variant="outline"
-                      className="border-red-300 text-red-700 bg-transparent"
+                      className="border-destructive/30 hover:border-destructive/50 text-destructive hover:text-destructive"
                       disabled={editingId === category.id || showAddForm}
                     >
                       <Trash2 className="w-3 h-3" />
@@ -257,14 +269,14 @@ export default function AdminCategoriesPage() {
             ))}
           </div>
         ) : (
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
             <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Plus className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-amber-900 mb-2">No Categories Yet</h3>
-              <p className="text-amber-600 mb-4">Create your first product category to get started.</p>
-              <Button onClick={() => setShowAddForm(true)} className="bg-amber-600 hover:bg-amber-700 text-white">
+              <h3 className="text-2xl font-serif font-light text-foreground mb-2">No Categories Yet</h3>
+              <p className="text-muted-foreground mb-6">Create your first product category to get started.</p>
+              <Button onClick={() => setShowAddForm(true)} className="bg-primary/90 hover:bg-primary text-primary-foreground">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Your First Category
               </Button>

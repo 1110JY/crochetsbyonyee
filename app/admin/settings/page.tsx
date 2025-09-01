@@ -17,7 +17,7 @@ interface SiteSettings {
   phone_number: string
   address: string
   social_instagram: string
-  social_facebook: string
+  social_tiktok: string
   hero_title: string
   hero_subtitle: string
   about_text: string
@@ -31,7 +31,7 @@ export default function AdminSettingsPage() {
     phone_number: "",
     address: "",
     social_instagram: "",
-    social_facebook: "",
+    social_tiktok: "",
     hero_title: "",
     hero_subtitle: "",
     about_text: "",
@@ -69,7 +69,18 @@ export default function AdminSettingsPage() {
       }))
 
       for (const update of updates) {
-        await supabase.from("site_settings").upsert(update, { onConflict: "key" })
+        const { error } = await supabase.from("site_settings").upsert(update, { onConflict: "key" })
+        if (error) throw error
+      }
+
+      // Revalidate all pages that might use these settings
+      try {
+        const res = await fetch("/api/revalidate?path=/&path=/about&path=/contact&path=/products", {
+          method: "POST"
+        });
+        if (!res.ok) throw new Error("Failed to revalidate");
+      } catch (e) {
+        console.error("Failed to revalidate pages:", e);
       }
 
       alert("Settings saved successfully!")
@@ -97,34 +108,34 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
       <AdminHeader title="Site Settings" description="Manage your website content and configuration" />
 
-      <div className="p-6">
-        <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-4xl mx-auto px-8">
+        <div className="space-y-6">
           {/* General Settings */}
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
             <CardHeader>
-              <CardTitle className="text-amber-900 flex items-center">
-                <Settings className="w-5 h-5 mr-2" />
+              <CardTitle className="text-foreground flex items-center font-serif font-light">
+                <Settings className="w-5 h-5 mr-2 text-primary" />
                 General Settings
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="site_title" className="text-amber-800">
+                  <Label htmlFor="site_title" className="text-foreground">
                     Site Title
                   </Label>
                   <Input
                     id="site_title"
                     value={settings.site_title}
                     onChange={(e) => handleChange("site_title", e.target.value)}
-                    className="border-amber-200"
+                    className="border-primary/20 focus:border-primary/30"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="contact_email" className="text-amber-800">
+                  <Label htmlFor="contact_email" className="text-foreground">
                     Contact Email
                   </Label>
                   <Input
@@ -132,20 +143,20 @@ export default function AdminSettingsPage() {
                     type="email"
                     value={settings.contact_email}
                     onChange={(e) => handleChange("contact_email", e.target.value)}
-                    className="border-amber-200"
+                    className="border-primary/20 focus:border-primary/30"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="site_description" className="text-amber-800">
+                <Label htmlFor="site_description" className="text-foreground">
                   Site Description
                 </Label>
                 <Textarea
                   id="site_description"
                   value={settings.site_description}
                   onChange={(e) => handleChange("site_description", e.target.value)}
-                  className="border-amber-200"
+                  className="border-primary/20 focus:border-primary/30"
                   rows={3}
                 />
               </div>
@@ -153,31 +164,31 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* Hero Section */}
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
             <CardHeader>
-              <CardTitle className="text-amber-900">Hero Section</CardTitle>
+              <CardTitle className="text-foreground font-serif font-light">Hero Section</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="hero_title" className="text-amber-800">
+                <Label htmlFor="hero_title" className="text-foreground">
                   Hero Title
                 </Label>
                 <Input
                   id="hero_title"
                   value={settings.hero_title}
                   onChange={(e) => handleChange("hero_title", e.target.value)}
-                  className="border-amber-200"
+                  className="border-primary/20 focus:border-primary/30"
                 />
               </div>
               <div>
-                <Label htmlFor="hero_subtitle" className="text-amber-800">
+                <Label htmlFor="hero_subtitle" className="text-foreground">
                   Hero Subtitle
                 </Label>
                 <Textarea
                   id="hero_subtitle"
                   value={settings.hero_subtitle}
                   onChange={(e) => handleChange("hero_subtitle", e.target.value)}
-                  className="border-amber-200"
+                  className="border-primary/20 focus:border-primary/30"
                   rows={3}
                 />
               </div>
@@ -185,32 +196,32 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* Contact Information */}
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
             <CardHeader>
-              <CardTitle className="text-amber-900">Contact Information</CardTitle>
+              <CardTitle className="text-foreground font-serif font-light">Contact Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="phone_number" className="text-amber-800">
+                  <Label htmlFor="phone_number" className="text-foreground">
                     Phone Number
                   </Label>
                   <Input
                     id="phone_number"
                     value={settings.phone_number}
                     onChange={(e) => handleChange("phone_number", e.target.value)}
-                    className="border-amber-200"
+                    className="border-primary/20 focus:border-primary/30"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="address" className="text-amber-800">
+                  <Label htmlFor="address" className="text-foreground">
                     Address
                   </Label>
                   <Input
                     id="address"
                     value={settings.address}
                     onChange={(e) => handleChange("address", e.target.value)}
-                    className="border-amber-200"
+                    className="border-primary/20 focus:border-primary/30"
                   />
                 </div>
               </div>
@@ -218,33 +229,33 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* Social Media */}
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
             <CardHeader>
-              <CardTitle className="text-amber-900">Social Media</CardTitle>
+              <CardTitle className="text-foreground font-serif font-light">Social Media</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="social_instagram" className="text-amber-800">
+                  <Label htmlFor="social_instagram" className="text-foreground">
                     Instagram URL
                   </Label>
                   <Input
                     id="social_instagram"
                     value={settings.social_instagram}
                     onChange={(e) => handleChange("social_instagram", e.target.value)}
-                    className="border-amber-200"
+                    className="border-primary/20 focus:border-primary/30"
                     placeholder="https://instagram.com/yourhandle"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="social_facebook" className="text-amber-800">
-                    Facebook URL
+                  <Label htmlFor="social_tiktok" className="text-foreground">
+                    TikTok URL
                   </Label>
                   <Input
-                    id="social_facebook"
-                    value={settings.social_facebook}
-                    onChange={(e) => handleChange("social_facebook", e.target.value)}
-                    className="border-amber-200"
+                    id="social_tiktok"
+                    value={settings.social_tiktok}
+                    onChange={(e) => handleChange("social_tiktok", e.target.value)}
+                    className="border-primary/20 focus:border-primary/30"
                     placeholder="https://facebook.com/yourpage"
                   />
                 </div>
@@ -253,20 +264,20 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* About Section */}
-          <Card className="border-amber-200">
+          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
             <CardHeader>
-              <CardTitle className="text-amber-900">About Section</CardTitle>
+              <CardTitle className="text-foreground font-serif font-light">About Section</CardTitle>
             </CardHeader>
             <CardContent>
               <div>
-                <Label htmlFor="about_text" className="text-amber-800">
+                <Label htmlFor="about_text" className="text-foreground">
                   About Text
                 </Label>
                 <Textarea
                   id="about_text"
                   value={settings.about_text}
                   onChange={(e) => handleChange("about_text", e.target.value)}
-                  className="border-amber-200"
+                  className="border-primary/20 focus:border-primary/30"
                   rows={4}
                 />
               </div>
@@ -275,7 +286,7 @@ export default function AdminSettingsPage() {
 
           {/* Save Button */}
           <div className="flex justify-end">
-            <Button onClick={handleSave} disabled={isSaving} className="bg-amber-600 hover:bg-amber-700 text-white">
+            <Button onClick={handleSave} disabled={isSaving} className="bg-primary/90 hover:bg-primary text-primary-foreground">
               <Save className="w-4 h-4 mr-2" />
               {isSaving ? "Saving..." : "Save Settings"}
             </Button>

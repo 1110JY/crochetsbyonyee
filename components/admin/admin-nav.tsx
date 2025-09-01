@@ -27,15 +27,15 @@ export function AdminNav() {
   }
 
   return (
-    <div className="w-64 bg-white border-r border-amber-200 min-h-screen">
+    <div className="w-64 bg-gradient-to-br from-primary/5 via-background to-secondary/5 border-r border-primary/10 min-h-screen backdrop-blur-sm">
       <div className="p-6">
-        <div className="flex items-center space-x-2 mb-8">
-          <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
-            <Heart className="w-4 h-4 text-white" />
+        <div className="flex items-center space-x-3 mb-12">
+          <div className="w-10 h-10 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center">
+            <Heart className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className="font-bold text-amber-900">Admin Panel</h2>
-            <p className="text-xs text-amber-600">Crochets by On-Yee</p>
+            <h2 className="font-serif text-lg">Admin Panel</h2>
+            <p className="text-sm text-muted-foreground">Crochets by On-Yee</p>
           </div>
         </div>
 
@@ -47,9 +47,11 @@ export function AdminNav() {
             return (
               <Link key={item.href} href={item.href}>
                 <Button
-                  variant={isActive ? "default" : "ghost"}
-                  className={`w-full justify-start ${
-                    isActive ? "bg-amber-600 hover:bg-amber-700 text-white" : "text-amber-700 hover:bg-amber-50"
+                  variant={isActive ? "secondary" : "ghost"}
+                  className={`w-full justify-start font-serif ${
+                    isActive 
+                      ? "bg-primary/10 text-primary hover:bg-primary/20" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-primary/5"
                   }`}
                 >
                   <Icon className="w-4 h-4 mr-3" />
@@ -60,11 +62,11 @@ export function AdminNav() {
           })}
         </nav>
 
-        <div className="mt-8 pt-8 border-t border-amber-200">
+        <div className="mt-8 pt-8 border-t border-primary/10">
           <Button
             onClick={handleSignOut}
             variant="ghost"
-            className="w-full justify-start text-amber-700 hover:bg-amber-50"
+            className="w-full justify-start font-serif text-muted-foreground hover:text-foreground hover:bg-primary/5"
           >
             <LogOut className="w-4 h-4 mr-3" />
             Sign Out

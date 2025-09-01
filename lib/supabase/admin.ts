@@ -1,17 +1,36 @@
 import { createClient } from "@/lib/supabase/server"
 
 export async function checkAdminAccess(): Promise<boolean> {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (!user) return false
+    if (!user) {
+      console.log("No user found")
+      return false
+    }
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
+    // Use the REST API directly to avoid RLS issues
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
 
-  return profile?.role === "admin"
+    if (error) {
+      console.error("Error checking admin access:", error)
+      return false
+    }
+
+    console.log("Profile data:", data)
+    return data?.role === 'admin'
+  } catch (error) {
+    console.error("Exception in checkAdminAccess:", error)
+    return false
+  }
 }
 
 export async function getCurrentUser() {
