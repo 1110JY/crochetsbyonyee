@@ -1,0 +1,33 @@
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import type { Product } from "@/lib/supabase/products"
+
+interface ProductCardProps {
+  product: Product
+}
+
+export function ProductCard({ product }: ProductCardProps) {
+  const primaryImage = product.images?.[0] || "/crochet-item.png"
+  const formattedPrice = product.price ? `£${product.price.toFixed(2)}` : "Price on request"
+
+  return (
+    <div className="group">
+      <div className="aspect-square relative overflow-hidden mb-4">
+        <img
+          src={primaryImage || "/placeholder.svg"}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-300"
+        />
+      </div>
+
+      <div className="text-center">
+        <h3 className="font-serif text-xl text-primary mb-2">{product.name}</h3>
+        <p className="text-muted-foreground mb-4">{formattedPrice}</p>
+
+        <Button asChild variant="outline" className="px-6 py-2 bg-transparent">
+          <Link href={`/products/${product.slug}`}>View Product</Link>
+        </Button>
+      </div>
+    </div>
+  )
+}
