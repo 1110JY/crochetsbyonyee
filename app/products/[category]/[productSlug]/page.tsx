@@ -151,7 +151,7 @@ export default async function ProductPage({
                 <Link href="/contact">Enquire About This Item</Link>
               </Button>
               <p className="text-sm text-muted-foreground text-center mt-4">
-                Contact us to discuss customization options or place an order.
+                Contact us to discuss customisation options or place an order.
               </p>
             </div>
           </div>
