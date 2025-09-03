@@ -50,8 +50,17 @@ export async function getProducts(categorySlug?: string): Promise<Product[]> {
     `)
     .order("created_at", { ascending: false })
 
+  // Filter by category if provided
   if (categorySlug) {
-    query = query.eq("categories.slug", categorySlug)
+    const { data: category } = await supabase
+      .from("categories")
+      .select("id")
+      .eq("slug", categorySlug)
+      .single()
+
+    if (category) {
+      query = query.eq("category_id", category.id)
+    }
   }
 
   const { data, error } = await query

@@ -92,7 +92,7 @@ export default async function HomePage() {
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                       <Button
                         variant="outline"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-white text-white hover:bg-white/10 bg-transparent"
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100 bg-background/30 backdrop-blur-[2px] border-primary/20 hover:border-primary/30 text-primary hover:text-primary hover:bg-background/40"
                       >
                         View Products
                       </Button>
@@ -150,14 +150,6 @@ export default async function HomePage() {
           </div>
 
           <div className="text-center mt-12">
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12"
-            >
-              <Link href="/testimonials">View All Stories</Link>
-            </Button>
           </div>
         </div>
       </section>

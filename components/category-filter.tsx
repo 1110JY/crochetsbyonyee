@@ -17,8 +17,8 @@ export function CategoryFilter({ categories, currentCategory }: CategoryFilterPr
         variant={!currentCategory ? "default" : "outline"}
         className={
           !currentCategory
-            ? "bg-amber-600 hover:bg-amber-700 text-white"
-            : "border-amber-300 text-amber-700 hover:bg-amber-50 bg-transparent"
+            ? "bg-primary/90 hover:bg-primary text-primary-foreground"
+            : "border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
         }
       >
         <Link href="/products">All Products</Link>
@@ -31,8 +31,8 @@ export function CategoryFilter({ categories, currentCategory }: CategoryFilterPr
           variant={currentCategory === category.slug ? "default" : "outline"}
           className={
             currentCategory === category.slug
-              ? "bg-amber-600 hover:bg-amber-700 text-white"
-              : "border-amber-300 text-amber-700 hover:bg-amber-50 bg-transparent"
+              ? "bg-primary/90 hover:bg-primary text-primary-foreground"
+              : "border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
           }
         >
           <Link href={`/products/${category.slug}`}>{category.name}</Link>

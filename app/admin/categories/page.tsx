@@ -31,6 +31,8 @@ export default function AdminCategoriesPage() {
     description: "",
     image_url: "",
   })
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string>("")
 
   useEffect(() => {
     loadCategories()
@@ -53,22 +55,61 @@ export default function AdminCategoriesPage() {
       .replace(/(^-|-$)/g, "")
   }
 
+  const handleImageUpload = async (file: File) => {
+    const supabase = createClient()
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+    const filePath = `categories/${fileName}`
+
+    const { data, error } = await supabase.storage
+      .from('product-images')
+      .upload(filePath, file)
+
+    if (error) {
+      throw error
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(filePath)
+
+    return publicUrl
+  }
+
   const handleSave = async () => {
     const supabase = createClient()
 
     try {
+      let imageUrl = formData.image_url
+
+      // Handle image upload if there's a new image
+      if (selectedImage) {
+        imageUrl = await handleImageUpload(selectedImage)
+      }
+
+      const dataToSave = {
+        ...formData,
+        image_url: imageUrl
+      }
+
       if (editingId) {
         // Update existing category
-        const { error: updateError } = await supabase.from("categories").update(formData).eq("id", editingId)
+        const { error: updateError } = await supabase
+          .from("categories")
+          .update(dataToSave)
+          .eq("id", editingId)
         if (updateError) throw updateError
       } else {
         // Create new category
         const slug = formData.slug || generateSlug(formData.name)
-        const { error: insertError } = await supabase.from("categories").insert({ ...formData, slug })
+        const { error: insertError } = await supabase
+          .from("categories")
+          .insert({ ...dataToSave, slug })
         if (insertError) throw insertError
       }
 
-      // Revalidate both the admin page and the main pages that show categories
+      // Revalidate pages
       try {
         const res = await fetch("/api/revalidate?path=/&path=/products&path=/admin/categories", {
           method: "POST"
@@ -82,6 +123,8 @@ export default function AdminCategoriesPage() {
       setEditingId(null)
       setShowAddForm(false)
       setFormData({ name: "", slug: "", description: "", image_url: "" })
+      setSelectedImage(null)
+      setImagePreview("")
     } catch (error) {
       console.error("Error saving category:", error)
       alert("Error saving category. Please try again.")
@@ -111,6 +154,8 @@ export default function AdminCategoriesPage() {
     setEditingId(null)
     setShowAddForm(false)
     setFormData({ name: "", slug: "", description: "", image_url: "" })
+    setSelectedImage(null)
+    setImagePreview("")
   }
 
   if (isLoading) {
@@ -137,7 +182,7 @@ export default function AdminCategoriesPage() {
           <Button
             onClick={() => setShowAddForm(true)}
             className="bg-primary/90 hover:bg-primary text-primary-foreground"
-            disabled={showAddForm || editingId}
+            disabled={!!showAddForm || !!editingId}
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Category
@@ -198,16 +243,52 @@ export default function AdminCategoriesPage() {
                 />
               </div>
               <div className="mb-4">
-                <Label htmlFor="image_url" className="text-amber-800">
-                  Image URL
+                <Label htmlFor="image" className="text-amber-800">
+                  Category Image
                 </Label>
-                <Input
-                  id="image_url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, image_url: e.target.value }))}
-                  className="border-amber-200"
-                  placeholder="https://example.com/image.jpg"
-                />
+                <div className="mt-2 space-y-4">
+                  {(imagePreview || formData.image_url) && (
+                    <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-primary/20">
+                      <img
+                        src={imagePreview || formData.image_url}
+                        alt="Category preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        className="absolute top-2 right-2 p-1 h-8 w-8"
+                        onClick={() => {
+                          setSelectedImage(null)
+                          setImagePreview("")
+                          setFormData(prev => ({ ...prev, image_url: "" }))
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                  <div className="flex items-center space-x-4">
+                    <Input
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      className="border-amber-200"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          setSelectedImage(file)
+                          const reader = new FileReader()
+                          reader.onloadend = () => {
+                            setImagePreview(reader.result as string)
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="flex space-x-2">
                 <Button onClick={handleSave} className="bg-amber-600 hover:bg-amber-700 text-white">

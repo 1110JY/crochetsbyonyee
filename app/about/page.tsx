@@ -43,7 +43,7 @@ export default function AboutPage() {
               </p>
               
               <p className="mb-8">
-                From whimsical amigurumi characters to cozy blankets and stylish accessories, we specialize in creating 
+                From whimsical amigurumi characters to cozy blankets and stylish accessories, we specialise in creating 
                 pieces that bring joy to everyday life. Our kawaii-inspired designs celebrate the beauty of simplicity 
                 and the charm of handcrafted artistry.
               </p>

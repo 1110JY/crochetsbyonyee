@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="text-muted-foreground mb-4">{formattedPrice}</p>
 
         <Button asChild variant="outline" className="px-6 py-2 bg-transparent">
-          <Link href={`/products/${product.slug}`}>View Product</Link>
+          <Link href={`/products/${product.categories?.slug || 'uncategorized'}/${product.slug}`}>View Product</Link>
         </Button>
       </div>
     </div>
