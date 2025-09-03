@@ -21,58 +21,68 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <Badge variant="secondary" className="mb-6 bg-amber-100 text-amber-800 border-amber-200">
-            {currentCategory.name}
+      {/* Hero Section with Gradient */}
+      <section className="relative py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
+        {/* Background overlay */}
+        <div className="absolute inset-0 bg-black/40"></div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <Badge variant="outline" className="mb-6 bg-white/10 text-white border-white/20 backdrop-blur-sm">
+            Collection
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-6 text-balance">{currentCategory.name}</h1>
+          <h1 className="text-6xl md:text-7xl font-serif font-light mb-4 text-balance text-white">
+            {currentCategory.name}
+          </h1>
           {currentCategory.description && (
-            <p className="text-xl text-amber-700 mb-8 text-pretty">{currentCategory.description}</p>
+            <p className="text-xl text-white/90 mb-8 text-pretty font-light max-w-2xl mx-auto">
+              {currentCategory.description}
+            </p>
           )}
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="px-4 sm:px-6 lg:px-8">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <CategoryFilter categories={categories} currentCategory={category} />
         </div>
       </section>
 
       {/* Products Grid */}
-      <section className="py-8 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {products.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white text-2xl">🧶</span>
+            <div className="text-center py-20">
+              <div className="max-w-md mx-auto">
+                <div className="w-24 h-24 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-8">
+                  <div className="w-12 h-12 bg-white/20 rounded-full"></div>
+                </div>
+                <h3 className="text-3xl font-serif font-light text-foreground mb-6">Coming Soon</h3>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                  We're carefully curating our collection of {currentCategory.name.toLowerCase()}. Each piece is crafted with 
+                  love and attention to detail, and we can't wait to share them with you.
+                </p>
+                <p className="text-muted-foreground">
+                  Check back soon or follow us on social media for updates on new arrivals!
+                </p>
               </div>
-              <h3 className="text-2xl font-semibold text-amber-900 mb-4">No Products in This Category</h3>
-              <p className="text-amber-700 max-w-md mx-auto">
-                We're working on adding beautiful {currentCategory.name.toLowerCase()} to our collection. Check back
-                soon!
-              </p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Inline Footer */}
-      <footer className="bg-amber-50 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-amber-700">© 2023 Your Company. All rights reserved.</p>
-        </div>
+      {/* Footer */}
+      <footer className="py-8 px-4 text-center">
+        <p className="text-sm text-muted-foreground">© 2025 Crochets by On-Yee. All rights reserved.</p>
       </footer>
     </div>
   )
