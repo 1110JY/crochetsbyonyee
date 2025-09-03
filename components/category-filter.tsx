@@ -1,7 +1,13 @@
 "use client"
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import type { Category } from "@/lib/supabase/products"
 
 interface CategoryFilterProps {
@@ -10,34 +16,39 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, currentCategory }: CategoryFilterProps) {
-  return (
-    <div className="flex flex-wrap gap-3 justify-center mb-8">
-      <Button
-        asChild
-        variant={!currentCategory ? "default" : "outline"}
-        className={
-          !currentCategory
-            ? "bg-primary/90 hover:bg-primary text-primary-foreground"
-            : "border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-        }
-      >
-        <Link href="/products">All Products</Link>
-      </Button>
+  const router = useRouter()
 
-      {categories.map((category) => (
-        <Button
-          key={category.id}
-          asChild
-          variant={currentCategory === category.slug ? "default" : "outline"}
-          className={
-            currentCategory === category.slug
-              ? "bg-primary/90 hover:bg-primary text-primary-foreground"
-              : "border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+  return (
+    <div className="flex justify-end relative">
+      <Select
+        defaultValue={currentCategory || "all"}
+        onValueChange={(value) => {
+          if (value === "all") {
+            router.push("/products")
+          } else {
+            router.push(`/products/${value}`)
           }
+        }}
+      >
+        <SelectTrigger className="w-[180px] bg-background border-primary/20">
+          <SelectValue placeholder="Select category" />
+        </SelectTrigger>
+        <SelectContent 
+          className="z-[100]" 
+          side="bottom" 
+          align="end" 
+          sideOffset={4}
+          avoidCollisions={false}
+          position="popper"
         >
-          <Link href={`/products/${category.slug}`}>{category.name}</Link>
-        </Button>
-      ))}
+          <SelectItem value="all">All Products</SelectItem>
+          {categories.map((category) => (
+            <SelectItem key={category.id} value={category.slug}>
+              {category.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   )
 }

@@ -12,36 +12,30 @@ export default async function ProductsPage() {
 
       <main>
         {/* Hero Section with Gradient */}
-        <section className="relative py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
+        <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
           {/* Background overlay */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
           
           <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-6xl md:text-8xl font-serif font-light mb-8 text-balance">Collection</h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto text-pretty font-light">
-              Handcrafted with love. Each piece is crafted with premium materials and attention to detail.
-            </p>
-          </div>
-        </section>
-
-        {/* Category Filter Section */}
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-muted/30">
-          <div className="max-w-7xl mx-auto">
-            <CategoryFilter categories={categories} />
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">
+              Collection
+            </h1>
           </div>
         </section>
 
         {/* Products Grid Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <section className="py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             {products.length > 0 ? (
               <>
-                <div className="text-center mb-16">
-                  <h2 className="text-4xl font-serif font-light text-foreground mb-6">Our Handmade Treasures</h2>
-                  <div className="w-24 h-px bg-primary mx-auto"></div>
+                <div className="flex flex-col sm:flex-row items-center justify-between mb-8">
+                  <div className="mb-4 sm:mb-0">
+                    <h2 className="text-3xl font-serif font-light text-foreground">Our Handmade Treasures</h2>
+                  </div>
+                  <CategoryFilter categories={categories} />
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}

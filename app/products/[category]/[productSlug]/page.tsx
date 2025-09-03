@@ -146,7 +146,7 @@ export default async function ProductPage({
               <Button
                 asChild
                 size="lg"
-                className="w-full bg-primary/90 hover:bg-primary text-primary-foreground"
+                className="w-full bg-primary/90 hover:bg-primary text-primary-foreground rounded-full"
               >
                 <Link href="/contact">Enquire About This Item</Link>
               </Button>

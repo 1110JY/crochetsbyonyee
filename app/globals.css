@@ -124,6 +124,12 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    /* Prevent layout shifts from scrollbar */
+    overflow-y: scroll;
+  }
+  html {
+    /* Force scrollbar to always be visible to prevent layout shifts */
+    overflow-y: scroll;
   }
   h1,
   h2,

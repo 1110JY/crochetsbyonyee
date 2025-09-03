@@ -40,7 +40,7 @@ export default async function HomePage() {
             asChild
             variant="outline"
             size="lg"
-            className="border-white/30 text-white hover:bg-white/10 bg-transparent px-12 py-6 text-lg font-light"
+            className="border-white/30 text-white hover:bg-white/10 bg-transparent px-12 py-6 text-lg font-light rounded-full"
           >
             <Link href="/products">View Collection</Link>
           </Button>
@@ -92,7 +92,7 @@ export default async function HomePage() {
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                       <Button
                         variant="outline"
-                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100 bg-background/30 backdrop-blur-[2px] border-primary/20 hover:border-primary/30 text-primary hover:text-primary hover:bg-background/40"
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100 bg-background/30 backdrop-blur-[2px] border-primary/20 hover:border-primary/30 text-primary hover:text-primary hover:bg-background/40 rounded-full"
                       >
                         View Products
                       </Button>
@@ -118,7 +118,7 @@ export default async function HomePage() {
             asChild
             variant="outline"
             size="lg"
-            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12"
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12 rounded-full"
           >
             <Link href="/about">Learn More</Link>
           </Button>

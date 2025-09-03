@@ -76,7 +76,7 @@ export default function ContactPage() {
                 onClick={() => setIsSubmitted(false)}
                 variant="outline"
                 size="lg"
-                className="border-white/30 text-white hover:bg-white/10 bg-transparent px-12 py-6 text-lg font-light"
+                className="border-white/30 text-white hover:bg-white/10 bg-transparent px-12 py-6 text-lg font-light rounded-full"
               >
                 Send Another Message
               </Button>
@@ -97,14 +97,11 @@ export default function ContactPage() {
 
       <main>
         {/* Hero Section with Gradient */}
-        <section className="relative py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
-          <div className="absolute inset-0 bg-black/40"></div>
+        <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
+          <div className="absolute inset-0 bg-black/30"></div>
           
           <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-6xl md:text-8xl font-serif font-light mb-8 text-balance">Get In Touch</h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto text-pretty font-light">
-              Ready to bring your crochet vision to life? Let's discuss your custom creation or answer any questions you might have.
-            </p>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">Contact</h1>
           </div>
         </section>
 
@@ -228,7 +225,7 @@ export default function ContactPage() {
                     type="submit"
                     disabled={isSubmitting}
                     size="lg"
-                    className="px-12 py-6 text-lg"
+                    className="px-12 py-6 text-lg rounded-full"
                   >
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>

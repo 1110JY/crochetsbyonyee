@@ -17,15 +17,12 @@ export default function FAQPage() {
 
       <main>
         {/* Hero Section with Gradient */}
-        <section className="relative py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
+        <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
           {/* Background overlay */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
           
           <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-6xl md:text-8xl font-serif font-light mb-8 text-balance">FAQ</h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto text-pretty font-light">
-              Frequently asked questions about our handmade crochet items, shipping policies, and ordering process.
-            </p>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">FAQ</h1>
           </div>
         </section>
 
@@ -63,7 +60,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     How are these products made?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     All items are LOVINGLY handmade and are one of a kind. Because of their handmade nature, they are all different and unique and may vary slightly from the photographs. All products are made with 100% Acrylic or Polyester Yarn, embroidery thread, felt for face details and filled with fibre toy stuffing.
                   </AccordionContent>
                 </AccordionItem>
@@ -80,7 +77,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     Where do you ship to?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     I offer worldwide shipping to all countries!
                   </AccordionContent>
                 </AccordionItem>
@@ -89,7 +86,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     When will my items ship?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     Items listed on this site will be dispatched within <strong>5-7 business days</strong>. If any updates or delays occur, they will be posted on my Instagram stories. For custom orders, I'll message you the estimated dispatch time.
                     <br /><br />
                     <em>Please note: Shipping times do not include processing/dispatch times.</em>
@@ -100,7 +97,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     What are the shipping costs?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     <div className="space-y-4">
                       <div>
                         <h4 className="font-semibold text-foreground mb-2">UK Shipping</h4>
@@ -120,7 +117,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     Are buyers responsible for import taxes and customs?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     Yes, buyers are responsible for any import taxes or customs that may apply. Crochets By On-Yee is not responsible for delays due to customs.
                   </AccordionContent>
                 </AccordionItem>
@@ -137,7 +134,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     How do I place a custom order?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     Message me on Instagram or email to place your custom order. Payment is through an invoice. When contacting me, please specify exactly what you want with pictures and your country. Prices of products vary depending on the size, level of design and the type of product.
                   </AccordionContent>
                 </AccordionItem>
@@ -154,7 +151,7 @@ export default function FAQPage() {
                   <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
                     What is your returns policy?
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-4"> {/* Changed pt to py */}
+                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
                     We <strong>DO NOT</strong> accept returns, exchanges, cancellations or edits after order is placed. If item is damaged in transit, please contact immediately so we can evaluate the situation.
                   </AccordionContent>
                 </AccordionItem>

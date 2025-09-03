@@ -132,7 +132,7 @@ export default function Page() {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm font-light text-lg py-6 transition-all duration-200" 
+                  className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm font-light text-lg py-6 transition-all duration-200 rounded-full" 
                   disabled={isLoading}
                 >
                   {isLoading ? "Creating account..." : "Create Account"}

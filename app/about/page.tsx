@@ -9,16 +9,12 @@ export default function AboutPage() {
 
       <main>
         {/* Hero Section with Gradient */}
-        <section className="relative py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
+        <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
           {/* Background overlay */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
           
           <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-6xl md:text-8xl font-serif font-light mb-8 text-balance">About</h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto text-pretty font-light">
-              Crafted with love, made to last. Every stitch tells a story of passion, creativity, and dedication to the
-              timeless art of crochet.
-            </p>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">About</h1>
           </div>
         </section>
 
@@ -164,7 +160,7 @@ export default function AboutPage() {
               <Button
                 asChild
                 size="lg"
-                className="px-12"
+                className="px-12 rounded-full min-w-[180px]"
               >
                 <Link href="/products">Browse Collection</Link>
               </Button>
@@ -172,7 +168,7 @@ export default function AboutPage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="px-12"
+                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12 rounded-full min-w-[180px]"
               >
                 <Link href="/contact">Get in Touch</Link>
               </Button>

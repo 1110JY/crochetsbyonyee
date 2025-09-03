@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="font-serif text-xl text-primary mb-2">{product.name}</h3>
         <p className="text-muted-foreground mb-4">{formattedPrice}</p>
 
-        <Button asChild variant="outline" className="px-6 py-2 bg-transparent">
+        <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12 rounded-full">
           <Link href={`/products/${product.categories?.slug || 'uncategorized'}/${product.slug}`}>View Product</Link>
         </Button>
       </div>
