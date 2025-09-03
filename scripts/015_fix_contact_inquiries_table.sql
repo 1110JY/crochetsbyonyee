@@ -1,26 +1,40 @@
--- Drop any existing updated_at trigger
-drop trigger if exists set_updated_at on "public"."contact_inquiries";
+-- First, enable RLS on the table
+alter table "public"."contact_inquiries" enable row level security;
 
--- Make sure all required columns exist with proper defaults
-alter table if exists "public"."contact_inquiries" 
-  add column if not exists "is_read" boolean not null default false,
-  add column if not exists "updated_at" timestamp with time zone;
+-- Drop any existing policies to ensure clean slate
+drop policy if exists "Allow admins full access to contact_inquiries" on "public"."contact_inquiries";
 
--- Add a trigger to automatically update the updated_at timestamp
-create or replace function public.set_updated_at()
-returns trigger as $$
+-- Create policy for admin access
+create policy "Allow admins full access to contact_inquiries"
+  on "public"."contact_inquiries"
+  as permissive
+  for all
+  to authenticated
+  using (
+    exists (
+      select 1 from "public"."profiles"
+      where "public"."profiles"."id" = auth.uid()
+      and "public"."profiles"."role" = 'admin'
+    )
+  )
+  with check (
+    exists (
+      select 1 from "public"."profiles"
+      where "public"."profiles"."id" = auth.uid()
+      and "public"."profiles"."role" = 'admin'
+    )
+  );
+
+-- Double check that is_read column exists and is properly set up
+do $$ 
 begin
-  new.updated_at = timezone('utc'::text, now());
-  return new;
-end;
-$$ language plpgsql;
-
-create trigger set_updated_at
-  before update on "public"."contact_inquiries"
-  for each row
-  execute function public.set_updated_at();
-
--- Update any existing rows that have null updated_at
-update "public"."contact_inquiries"
-set updated_at = created_at
-where updated_at is null;
+  if not exists (
+    select 1 from information_schema.columns 
+    where table_schema = 'public' 
+    and table_name = 'contact_inquiries' 
+    and column_name = 'is_read'
+  ) then
+    alter table "public"."contact_inquiries" 
+    add column "is_read" boolean not null default false;
+  end if;
+end $$;

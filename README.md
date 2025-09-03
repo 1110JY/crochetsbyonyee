@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 ```
 crochet-business
@@ -9,15 +8,25 @@ crochet-business
 │  │  ├─ categories
 │  │  │  └─ page.tsx
 │  │  ├─ inquiries
+│  │  │  ├─ actions.ts
+│  │  │  ├─ inquiries-list.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ layout.tsx
 │  │  ├─ page.tsx
 │  │  ├─ products
+│  │  │  ├─ actions.ts
+│  │  │  ├─ new
+│  │  │  │  └─ page.tsx
 │  │  │  └─ page.tsx
 │  │  ├─ settings
 │  │  │  └─ page.tsx
 │  │  └─ testimonials
 │  │     └─ page.tsx
+│  ├─ api
+│  │  ├─ revalidate
+│  │  │  └─ route.ts
+│  │  └─ send-reply
+│  │     └─ route.ts
 │  ├─ auth
 │  │  ├─ error
 │  │  │  └─ page.tsx
@@ -29,6 +38,8 @@ crochet-business
 │  │     └─ page.tsx
 │  ├─ contact
 │  │  └─ page.tsx
+│  ├─ faq
+│  │  └─ page.tsx
 │  ├─ globals.css
 │  ├─ layout.tsx
 │  ├─ page.tsx
@@ -36,7 +47,9 @@ crochet-business
 │  │  ├─ page.tsx
 │  │  └─ [category]
 │  │     ├─ page.tsx
-│  │     └─ [product]
+│  │     ├─ [product]
+│  │     │  └─ page.tsx
+│  │     └─ [slug]
 │  │        └─ page.tsx
 │  └─ protected
 │     └─ page.tsx
@@ -104,6 +117,7 @@ crochet-business
 │  ├─ use-mobile.ts
 │  └─ use-toast.ts
 ├─ lib
+│  ├─ actions.ts
 │  ├─ mock-data.ts
 │  ├─ supabase
 │  │  ├─ admin.ts
@@ -111,7 +125,9 @@ crochet-business
 │  │  ├─ content.ts
 │  │  ├─ middleware.ts
 │  │  ├─ products.ts
-│  │  └─ server.ts
+│  │  ├─ server.ts
+│  │  ├─ settings.ts
+│  │  └─ testimonials.ts
 │  └─ utils.ts
 ├─ middleware.ts
 ├─ next.config.mjs
@@ -124,6 +140,7 @@ crochet-business
 │  ├─ crochet-item.png
 │  ├─ custom-crochet-creations.png
 │  ├─ elegant-crochet-home-decoration.png
+│  ├─ Favicon.ico
 │  ├─ Favicon.jpg
 │  ├─ placeholder-logo.png
 │  ├─ placeholder-logo.svg
@@ -141,12 +158,17 @@ crochet-business
 │  ├─ 004_simplify_rls_policies.sql
 │  ├─ 005_disable_rls_for_public_data.sql
 │  ├─ 006_remove_all_rls_policies.sql
-│  └─ 007_fix_public_data_access.sql
+│  ├─ 007_fix_public_data_access.sql
+│  ├─ 008_restore_admin_access.sql
+│  ├─ 009_fix_profile_policies.sql
+│  ├─ 010_simplify_profile_access.sql
+│  ├─ 011_create_testimonials_table.sql
+│  ├─ 012_create_storage_bucket.sql
+│  ├─ 013_add_inquiry_replies.sql
+│  ├─ 014_fix_inquiry_read_status.sql
+│  └─ 015_fix_contact_inquiries_table.sql
 ├─ styles
 │  └─ globals.css
 └─ tsconfig.json
 
 ```
-=======
-# crochetsbyonyee
->>>>>>> 9362b81025454513c10ca22b6dd20f592a89f5c0
