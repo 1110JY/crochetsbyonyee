@@ -7,6 +7,7 @@ import { getFeaturedProducts, getCategories } from "@/lib/supabase/products"
 import { getSiteSettings } from "@/lib/supabase/settings"
 import { getTestimonials } from "@/lib/supabase/testimonials"
 import { Star } from "lucide-react"
+import { ReviewSection } from "@/components/review-section"
 
 export const revalidate = 0 // Disable cache for this page
 
@@ -153,6 +154,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Review Section */}
+      <ReviewSection />
 
       {/* Inline Footer */}
       <footer className="py-8 px-6 lg:px-8 bg-background text-center text-sm text-muted-foreground">

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Instagram } from "lucide-react"
@@ -47,10 +48,17 @@ export function Navigation() {
   return (
     <nav className="fixed top-4 left-4 right-4 z-50">
       <div className="max-w-6xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20">
-        <div className="flex justify-between items-center h-16 px-6">
-          {/* Logo - Batch style simple text */}
-          <Link href="/" className="text-xl font-serif text-primary hover:text-accent transition-colors">
-            Crochets by On-Yee
+        <div className="flex justify-between items-center h-18 px-6">
+          {/* Logo */}
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Image
+              src="/navlogo.png"
+              alt="Crochets by On-Yee"
+              width={280}
+              height={70}
+              className="h-28 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation - Batch style minimal */}

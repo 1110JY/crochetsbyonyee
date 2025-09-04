@@ -145,12 +145,25 @@ export default function AdminTestimonialsPage() {
           <Button
             onClick={() => setShowAddForm(true)}
             className="bg-primary/90 hover:bg-primary text-primary-foreground"
-            disabled={showAddForm || editingId}
+            disabled={showAddForm || editingId !== null}
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Testimonial
           </Button>
         </div>
+
+        {/* Pending Reviews Notice */}
+        {testimonials.filter(t => !t.is_published).length > 0 && (
+          <Card className="bg-orange-50/50 backdrop-blur-sm border-orange-200 mb-6">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-serif font-light text-orange-800 mb-2 flex items-center">
+                <Eye className="w-5 h-5 mr-2" />
+                Pending Reviews ({testimonials.filter(t => !t.is_published).length})
+              </h3>
+              <p className="text-orange-700 text-sm">Some testimonials are unpublished and may need your review.</p>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Add/Edit Form */}
         {(showAddForm || editingId) && (
@@ -189,6 +202,18 @@ export default function AdminTestimonialsPage() {
                     ))}
                   </select>
                 </div>
+              </div>
+              <div className="mb-4">
+                <Label htmlFor="title" className="text-foreground">
+                  Review Title (optional)
+                </Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+                  className="border-primary/20 focus:border-primary/30"
+                  placeholder="e.g., Beautiful craftsmanship!"
+                />
               </div>
               <div className="mb-4">
                 <Label htmlFor="content" className="text-foreground">
@@ -274,13 +299,32 @@ export default function AdminTestimonialsPage() {
                               Featured
                             </Badge>
                           )}
+                          {testimonial.source === 'customer_review' && (
+                            <Badge 
+                              variant="outline"
+                              className="border-blue-200 text-blue-600 bg-blue-50/50"
+                            >
+                              Customer Review
+                            </Badge>
+                          )}
                         </div>
                       </div>
 
+                      {testimonial.title && (
+                        <h4 className="font-medium text-foreground mb-2">"{testimonial.title}"</h4>
+                      )}
+
                       <p className="text-muted-foreground mb-4 italic">"{testimonial.content}"</p>
+
+                      {testimonial.email && (
+                        <p className="text-xs text-muted-foreground mb-2">
+                          Email: {testimonial.email}
+                        </p>
+                      )}
 
                       <p className="text-sm text-muted-foreground">
                         Added {new Date(testimonial.created_at).toLocaleDateString()}
+                        {testimonial.source === 'customer_review' && ' (Submitted by customer)'}
                       </p>
                     </div>
 
@@ -306,7 +350,7 @@ export default function AdminTestimonialsPage() {
                         size="sm"
                         variant="outline"
                         className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-                        disabled={!!editingId || showAddForm}
+                        disabled={editingId !== null || showAddForm}
                       >
                         <Edit className="w-3 h-3" />
                       </Button>
@@ -315,7 +359,7 @@ export default function AdminTestimonialsPage() {
                         size="sm"
                         variant="outline"
                         className="border-destructive/30 hover:border-destructive/50 text-destructive hover:text-destructive"
-                        disabled={!!editingId || showAddForm}
+                        disabled={editingId !== null || showAddForm}
                       >
                         <Trash2 className="w-3 h-3" />
                       </Button>

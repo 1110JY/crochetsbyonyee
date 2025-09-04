@@ -9,6 +9,10 @@ export interface Testimonial {
   updated_at: string
   is_featured: boolean
   is_published: boolean
+  email?: string
+  title?: string
+  image_urls?: string[]
+  source?: 'admin' | 'customer_review'
 }
 
 export async function getTestimonials(limit?: number) {
@@ -17,7 +21,7 @@ export async function getTestimonials(limit?: number) {
   const query = supabase
     .from("testimonials")
     .select("*")
-    .eq("is_featured", true)
+    .eq("is_published", true)  // Changed from is_featured to is_published
     .order("created_at", { ascending: false })
 
   if (limit) {

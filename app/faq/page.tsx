@@ -1,14 +1,35 @@
+"use client"
+
 import { Navigation } from "@/components/navigation"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, Instagram, CreditCard } from "lucide-react"
+import { Mail, Instagram, CreditCard, ChevronDown } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
+
+// FAQ Item Component
+function FAQCard({ question, answer, category }: { question: string; answer: React.ReactNode; category?: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <Card className={`bg-white border-2 transition-all duration-300 hover:shadow-lg cursor-pointer ${isOpen ? 'shadow-lg border-primary' : 'border-accent hover:border-primary'}`}>
+      <CardContent className="p-0">
+        <div 
+          className="p-6 flex items-center justify-between"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <h3 className="text-lg font-medium text-foreground pr-4">{question}</h3>
+          <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+        </div>
+        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className="px-6 pb-6 text-muted-foreground leading-relaxed">
+            {answer}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
 
 export default function FAQPage() {
   return (
@@ -48,115 +69,97 @@ export default function FAQPage() {
               <div className="w-24 h-px bg-primary mx-auto"></div>
             </div>
 
-            <Accordion type="single" collapsible className="space-y-16"> {/* Increased space between accordion groups */}
-              {/* Product Section */}
-              <div className="space-y-6"> {/* Increased space */}
-                <h3 className="text-2xl font-serif font-light text-foreground mb-6 flex items-center gap-3">
-                  Product Information
+            <div className="space-y-12">
+              {/* Product Information Section */}
+              <div>
+                <div className="flex items-center gap-3 mb-8">
+                  <h3 className="text-2xl font-serif font-light text-foreground">Product Information</h3>
                   <Badge variant="secondary">Handmade</Badge>
-                </h3>
-                
-                <AccordionItem value="product-1" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    How are these products made?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    All items are LOVINGLY handmade and are one of a kind. Because of their handmade nature, they are all different and unique and may vary slightly from the photographs. All products are made with 100% Acrylic or Polyester Yarn, embroidery thread, felt for face details and filled with fibre toy stuffing.
-                  </AccordionContent>
-                </AccordionItem>
+                </div>
+                <div className="space-y-4">
+                  <FAQCard 
+                    question="How are these products made?"
+                    answer="All items are LOVINGLY handmade and are one of a kind. Because of their handmade nature, they are all different and unique and may vary slightly from the photographs. All products are made with 100% Acrylic or Polyester Yarn, embroidery thread, felt for face details and filled with fibre toy stuffing."
+                  />
+                </div>
               </div>
 
-              {/* Shipping Section */}
-              <div className="space-y-6"> {/* Increased space */}
-                <h3 className="text-2xl font-serif font-light text-foreground mb-6 flex items-center gap-3">
-                  Shipping & Delivery
+              {/* Shipping & Delivery Section */}
+              <div>
+                <div className="flex items-center gap-3 mb-8">
+                  <h3 className="text-2xl font-serif font-light text-foreground">Shipping & Delivery</h3>
                   <Badge variant="outline">Worldwide</Badge>
-                </h3>
-
-                <AccordionItem value="shipping-1" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    Where do you ship to?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    I offer worldwide shipping to all countries!
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="shipping-2" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    When will my items ship?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    Items listed on this site will be dispatched within <strong>5-7 business days</strong>. If any updates or delays occur, they will be posted on my Instagram stories. For custom orders, I'll message you the estimated dispatch time.
-                    <br /><br />
-                    <em>Please note: Shipping times do not include processing/dispatch times.</em>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="shipping-3" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    What are the shipping costs?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    <div className="space-y-4">
+                </div>
+                <div className="space-y-4">
+                  <FAQCard 
+                    question="Where do you ship to?"
+                    answer="I offer worldwide shipping to all countries!"
+                  />
+                  <FAQCard 
+                    question="When will my items ship?"
+                    answer={
                       <div>
-                        <h4 className="font-semibold text-foreground mb-2">UK Shipping</h4>
-                        <p>UK Royal Mail Signed For 2nd Class Delivery - <strong>£5.50</strong></p>
-                        <p className="text-sm mt-1">This option only covers up to £50 if package is lost. Delivery is usually within 2-3 working days, including Saturdays. If express delivery is required, please contact me for further details.</p>
+                        Items listed on this site will be dispatched within <strong>5-7 business days</strong>. If any updates or delays occur, they will be posted on my Instagram stories. For custom orders, I'll message you the estimated dispatch time.
+                        <br /><br />
+                        <em>Please note: Shipping times do not include processing/dispatch times.</em>
                       </div>
-                      <div>
-                        <h4 className="font-semibold text-foreground mb-2">International Shipping</h4>
-                        <p>Shipping cost will vary by country and weight. All orders outside the UK are sent as International Tracked.</p>
-                        <p className="text-sm mt-1">Delivery is usually within 1-6 weeks depending on location and current situations.</p>
+                    }
+                  />
+                  <FAQCard 
+                    question="What are the shipping costs?"
+                    answer={
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-2">UK Shipping</h4>
+                          <p>UK Royal Mail Signed For 2nd Class Delivery - <strong>£5.50</strong></p>
+                          <p className="text-sm mt-1">This option only covers up to £50 if package is lost. Delivery is usually within 2-3 working days, including Saturdays. If express delivery is required, please contact me for further details.</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-2">International Shipping</h4>
+                          <p>International delivery is £9.50. This is an untracked service but is more affordable for the customer.</p>
+                        </div>
                       </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="shipping-4" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    Are buyers responsible for import taxes and customs?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    Yes, buyers are responsible for any import taxes or customs that may apply. Crochets By On-Yee is not responsible for delays due to customs.
-                  </AccordionContent>
-                </AccordionItem>
+                    }
+                  />
+                  <FAQCard 
+                    question="Are buyers responsible for import taxes and customs?"
+                    answer="Yes, buyers are responsible for any import taxes or customs that may apply. Crochets By On-Yee is not responsible for delays due to customs."
+                  />
+                </div>
               </div>
 
-              {/* Ordering Section */}
-              <div className="space-y-6"> {/* Increased space */}
-                <h3 className="text-2xl font-serif font-light text-foreground mb-6 flex items-center gap-3">
-                  Ordering Process
+              {/* Ordering Process Section */}
+              <div>
+                <div className="flex items-center gap-3 mb-8">
+                  <h3 className="text-2xl font-serif font-light text-foreground">Ordering Process</h3>
                   <Badge variant="secondary">Custom Orders</Badge>
-                </h3>
-
-                <AccordionItem value="ordering-1" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    How do I place a custom order?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    Message me on Instagram or email to place your custom order. Payment is through an invoice. When contacting me, please specify exactly what you want with pictures and your country. Prices of products vary depending on the size, level of design and the type of product.
-                  </AccordionContent>
-                </AccordionItem>
+                </div>
+                <div className="space-y-4">
+                  <FAQCard 
+                    question="How do I place a custom order?"
+                    answer="Message me on Instagram or email to place your custom order. Payment is through an invoice. When contacting me, please specify exactly what you want with pictures and your country. Prices of products vary depending on the size, level of design and the type of product."
+                  />
+                </div>
               </div>
 
-              {/* Returns Section */}
-              <div className="space-y-6"> {/* Increased space */}
-                <h3 className="text-2xl font-serif font-light text-foreground mb-6 flex items-center gap-3">
-                  Returns & Exchanges
+              {/* Returns & Exchanges Section */}
+              <div>
+                <div className="flex items-center gap-3 mb-8">
+                  <h3 className="text-2xl font-serif font-light text-foreground">Returns & Exchanges</h3>
                   <Badge variant="destructive">No Returns</Badge>
-                </h3>
-
-                <AccordionItem value="returns-1" className="border border-muted rounded-lg px-6">
-                  <AccordionTrigger className="text-lg font-medium py-5"> {/* Added vertical padding */}
-                    What is your returns policy?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed py-6 pb-8">
-                    We <strong>DO NOT</strong> accept returns, exchanges, cancellations or edits after order is placed. If item is damaged in transit, please contact immediately so we can evaluate the situation.
-                  </AccordionContent>
-                </AccordionItem>
+                </div>
+                <div className="space-y-4">
+                  <FAQCard 
+                    question="What is your returns policy?"
+                    answer={
+                      <div>
+                        We <strong>DO NOT</strong> accept returns, exchanges, cancellations or edits after order is placed. If item is damaged in transit, please contact immediately so we can evaluate the situation.
+                      </div>
+                    }
+                  />
+                </div>
               </div>
-            </Accordion>
+            </div>
           </div>
         </section>
 

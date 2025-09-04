@@ -120,7 +120,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-xl font-serif font-light mb-4">Email Us</h3>
                 <p className="text-muted-foreground">
-                  Drop us a line and we'll get back to you as soon as possible.
+                  Drop us an email and we'll get back to you as soon as possible.
                 </p>
               </div>
               
@@ -151,7 +151,7 @@ export default function ContactPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-serif font-light text-foreground mb-6">Send Us a Message</h2>
+              <h2 className="text-4xl font-serif font-light text-foreground mb-6">Send a Message</h2>
               <div className="w-24 h-px bg-primary mx-auto"></div>
             </div>
 

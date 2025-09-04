@@ -1,10 +1,73 @@
+"use client"
+
 import { Navigation } from "@/components/navigation"
 import { ProductCard } from "@/components/product-card"
 import { CategoryFilter } from "@/components/category-filter"
-import { getProducts, getCategories } from "@/lib/supabase/products"
+import { SortFilter } from "@/components/sort-filter"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import { getProductsClient, getCategoriesClient } from "@/lib/supabase/client-products"
+import type { Product, Category } from "@/lib/supabase/products"
 
-export default async function ProductsPage() {
-  const [products, categories] = await Promise.all([getProducts(), getCategories()])
+export default function ProductsPage() {
+  const searchParams = useSearchParams()
+  const sortBy = searchParams.get("sort") || "newest"
+  
+  const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true)
+      try {
+        const [productsData, categoriesData] = await Promise.all([
+          getProductsClient(undefined, sortBy),
+          getCategoriesClient()
+        ])
+        setProducts(productsData)
+        setCategories(categoriesData)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [sortBy])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main>
+          <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary via-accent to-secondary">
+            <div className="absolute inset-0 bg-black/30"></div>
+            <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">
+                Collection
+              </h1>
+            </div>
+          </section>
+          <section className="py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center">
+                <div className="animate-pulse">
+                  <div className="h-8 bg-muted rounded w-64 mx-auto mb-8"></div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className="h-80 bg-muted rounded-lg"></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,11 +91,14 @@ export default async function ProductsPage() {
           <div className="max-w-7xl mx-auto">
             {products.length > 0 ? (
               <>
-                <div className="flex flex-col sm:flex-row items-center justify-between mb-8">
-                  <div className="mb-4 sm:mb-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+                  <div>
                     <h2 className="text-3xl font-serif font-light text-foreground">Our Handmade Treasures</h2>
                   </div>
-                  <CategoryFilter categories={categories} />
+                  <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <CategoryFilter categories={categories} />
+                    <SortFilter currentSort={sortBy} />
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
