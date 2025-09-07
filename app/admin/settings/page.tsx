@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { createClient } from "@/lib/supabase/client"
 import { useState, useEffect } from "react"
 import { Save, Settings } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface SiteSettings {
   site_title: string
@@ -24,6 +25,7 @@ interface SiteSettings {
 }
 
 export default function AdminSettingsPage() {
+  const router = useRouter()
   const [settings, setSettings] = useState<SiteSettings>({
     site_title: "",
     site_description: "",
@@ -75,13 +77,23 @@ export default function AdminSettingsPage() {
 
       // Revalidate all pages that might use these settings
       try {
-        const res = await fetch("/api/revalidate?path=/&path=/about&path=/contact&path=/products", {
-          method: "POST"
+        const res = await fetch("/api/revalidate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paths: ["/", "/about", "/contact", "/products"]
+          })
         });
         if (!res.ok) throw new Error("Failed to revalidate");
+        console.log("Pages revalidated successfully");
       } catch (e) {
         console.error("Failed to revalidate pages:", e);
       }
+
+      // Also force refresh the current page cache
+      router.refresh()
 
       alert("Settings saved successfully!")
     } catch (error) {

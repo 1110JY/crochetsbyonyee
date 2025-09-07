@@ -78,8 +78,11 @@
 @theme inline {
   /* Updated font variables for new typography */
   --font-sans: var(--font-source-sans);
-  --font-serif: var(--font-playfair);
+  --font-serif: var(--font-dm-serif);
   --font-mono: var(--font-geist-mono);
+  --font-playfair: var(--font-playfair);
+  --font-bree: var(--font-bree-serif);
+  --font-mochiy: var(--font-mochiy-pop);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -131,12 +134,16 @@
     /* Force scrollbar to always be visible to prevent layout shifts */
     overflow-y: scroll;
   }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1 {
     @apply font-serif;
   }
+}
+
+/* Custom font utilities */
+.font-mochiy {
+  font-family: "Mochiy Pop One", cursive;
+}
+
+.font-mochiy-p {
+  font-family: "Mochiy Pop P One", sans-serif;
 }

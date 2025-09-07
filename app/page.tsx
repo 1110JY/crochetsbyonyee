@@ -10,6 +10,7 @@ import { Star } from "lucide-react"
 import { ReviewSection } from "@/components/review-section"
 
 export const revalidate = 0 // Disable cache for this page
+export const dynamic = 'force-dynamic' // Force dynamic rendering
 
 export default async function HomePage() {
   const [featuredProducts, categories, settings, testimonials] = await Promise.all([
@@ -29,11 +30,11 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-black/40"></div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-serif font-light mb-4 text-balance">
+          <h1 className="text-6xl md:text-8xl font-mochiy font-normal mb-4 text-balance">
             {settings?.hero_title || "Crochets by On-Yee"}
           </h1>
           {settings?.hero_subtitle && (
-            <p className="text-xl md:text-2xl font-light mb-8 text-white/90">
+            <p className="text-xl md:text-2xl font-mochiy-p mb-8 text-white/90">
               {settings.hero_subtitle}
             </p>
           )}
@@ -111,7 +112,7 @@ export default async function HomePage() {
       <section className="py-20 px-6 lg:px-8 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-serif font-light text-foreground mb-8">About Our Craft</h2>
-          <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto font-mochiy-p">
             Each piece is meticulously handcrafted with premium materials and years of expertise. We believe in creating
             timeless treasures that bring joy and comfort to your everyday life.
           </p>
@@ -131,7 +132,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-light text-foreground mb-4">Customer Stories</h2>
-            <p className="text-lg text-muted-foreground">What our customers say about their experience</p>
+            <p className="text-lg text-muted-foreground font-mochiy-p">What our customers say about their experience</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -2,6 +2,10 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Playfair_Display } from "next/font/google"
 import { Source_Sans_3 } from "next/font/google"
+import { DM_Serif_Display } from "next/font/google"
+import { Bree_Serif } from "next/font/google"
+import { Mochiy_Pop_One } from "next/font/google"
+import { Mochiy_Pop_P_One } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
@@ -17,6 +21,34 @@ const sourceSans = Source_Sans_3({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-source-sans",
+})
+
+const dmSerif = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-dm-serif",
+})
+
+const breeSerif = Bree_Serif({
+  subsets: ["latin"],
+  weight: "400", 
+  display: "swap",
+  variable: "--font-bree-serif",
+})
+
+const mochiyPop = Mochiy_Pop_One({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-mochiy-pop",
+})
+
+const mochiyPopP = Mochiy_Pop_P_One({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-mochiy-pop-p",
 })
 
 export const metadata: Metadata = {
@@ -40,7 +72,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${sourceSans.variable} ${playfair.variable} ${GeistMono.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Mochiy+Pop+P+One&display=swap" rel="stylesheet" />
+      </head>
+      <body className={`${playfair.variable} ${sourceSans.variable} ${dmSerif.variable} ${breeSerif.variable} ${mochiyPop.variable} ${mochiyPopP.variable} ${GeistMono.variable}`}>
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>

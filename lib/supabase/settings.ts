@@ -20,9 +20,21 @@ interface SettingRow {
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   const supabase = await createClient()
-  const { data } = await supabase.from("site_settings").select("key, value")
+  
+  // Add cache busting by including current timestamp in query
+  const { data, error } = await supabase
+    .from("site_settings")
+    .select("key, value")
+    .gte('created_at', '1970-01-01') // Always true condition to bust cache
 
-  if (!data) return null
+  if (error) {
+    console.error("Error fetching site settings:", error)
+    return null
+  }
+
+  if (!data) {
+    return null
+  }
 
   return data.reduce((acc: Partial<SiteSettings>, setting: SettingRow) => {
     acc[setting.key as keyof SiteSettings] = setting.value
