@@ -60,7 +60,7 @@ export default function Page() {
           <div className="text-center mb-12">
             <Link 
               href="/" 
-              className="text-4xl font-serif font-light text-white hover:text-white/80 transition-colors"
+              className="text-4xl md:text-6xl font-mochiy text-white hover:text-white/80 transition-colors"
             >
               Crochets by On-Yee
             </Link>
@@ -70,17 +70,17 @@ export default function Page() {
           {/* Sign Up Card */}
           <Card className="border-white/20 bg-white/10 backdrop-blur-md shadow-2xl">
             <CardHeader className="text-center pb-8">
-              <CardTitle className="text-3xl font-serif font-light text-white mb-2">
+              <CardTitle className="text-3xl font-mochiy text-white mb-2">
                 Join Our Community
               </CardTitle>
-              <CardDescription className="text-white/70 text-lg font-light">
+              <CardDescription className="text-white/70 text-lg font-nunito">
                 Create an account to get started
               </CardDescription>
             </CardHeader>
             <CardContent className="px-8 pb-8">
               <form onSubmit={handleSignUp} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white/90 font-light">
+                  <Label htmlFor="email" className="text-white/90 font-nunito">
                     Email
                   </Label>
                   <Input
@@ -95,7 +95,7 @@ export default function Page() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white/90 font-light">
+                  <Label htmlFor="password" className="text-white/90 font-nunito">
                     Password
                   </Label>
                   <Input
@@ -110,7 +110,7 @@ export default function Page() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="repeat-password" className="text-white/90 font-light">
+                  <Label htmlFor="repeat-password" className="text-white/90 font-nunito">
                     Confirm Password
                   </Label>
                   <Input
@@ -126,24 +126,24 @@ export default function Page() {
 
                 {error && (
                   <div className="bg-red-500/20 border border-red-400/30 rounded-md p-3">
-                    <p className="text-sm text-red-100">{error}</p>
+                    <p className="text-sm text-red-100 font-nunito">{error}</p>
                   </div>
                 )}
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm font-light text-lg py-6 transition-all duration-200 rounded-full" 
+                  className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm text-lg py-6 transition-all duration-200 rounded-full" 
                   disabled={isLoading}
                 >
                   {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
 
                 <div className="text-center pt-4">
-                  <p className="text-white/70 font-light">
+                  <p className="text-white/70 font-nunito">
                     Already have an account?{" "}
                     <Link 
                       href="/auth/login" 
-                      className="text-white hover:text-white/80 underline underline-offset-4 font-normal transition-colors"
+                      className="text-white hover:text-white/80 underline underline-offset-4 font-nunito transition-colors"
                     >
                       Sign in
                     </Link>
@@ -157,7 +157,7 @@ export default function Page() {
           <div className="text-center mt-8">
             <Link 
               href="/" 
-              className="text-white/60 hover:text-white/80 text-sm font-light transition-colors"
+              className="text-white/60 hover:text-white/80 text-sm font-nunito transition-colors"
             >
               ← Back to Home
             </Link>

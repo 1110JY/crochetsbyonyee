@@ -257,7 +257,7 @@ export function ReviewDialog() {
 
             {/* Image Upload */}
             <div className="space-y-3">
-              <label className="text-sm font-medium">
+              <label className="text-sm font-nunito">
                 Photos (optional)
               </label>
               <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">

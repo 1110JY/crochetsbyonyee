@@ -21,8 +21,8 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="text-center">
-        <h3 className="font-serif text-xl text-primary mb-2">{product.name}</h3>
-        <p className="text-muted-foreground mb-4">{formattedPrice}</p>
+        <h3 className="font-mochiy text-xl text-primary mb-2">{product.name}</h3>
+        <p className="text-muted-foreground mb-4 font-mochiy-p">{formattedPrice}</p>
 
         <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12 rounded-full">
           <Link href={`/products/${product.categories?.slug || 'uncategorized'}/${product.slug}`}>View Product</Link>

@@ -6,6 +6,8 @@ import { DM_Serif_Display } from "next/font/google"
 import { Bree_Serif } from "next/font/google"
 import { Mochiy_Pop_One } from "next/font/google"
 import { Mochiy_Pop_P_One } from "next/font/google"
+import { Fredoka } from "next/font/google"
+import { Nunito } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
@@ -51,6 +53,20 @@ const mochiyPopP = Mochiy_Pop_P_One({
   variable: "--font-mochiy-pop-p",
 })
 
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-fredoka",
+})
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: "300",
+  display: "swap",
+  variable: "--font-nunito",
+})
+
 export const metadata: Metadata = {
   title: "Crochets by On-Yee - Handmade Kawaii Crochets",
   description:
@@ -75,9 +91,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Mochiy+Pop+P+One&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Mochiy+Pop+P+One&family=Fredoka:wght@400&family=Nunito:wght@300&display=swap" rel="stylesheet" />
       </head>
-      <body className={`${playfair.variable} ${sourceSans.variable} ${dmSerif.variable} ${breeSerif.variable} ${mochiyPop.variable} ${mochiyPopP.variable} ${GeistMono.variable}`}>
+      <body className={`${playfair.variable} ${sourceSans.variable} ${dmSerif.variable} ${breeSerif.variable} ${mochiyPop.variable} ${mochiyPopP.variable} ${fredoka.variable} ${nunito.variable} ${GeistMono.variable}`}>
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>

@@ -68,8 +68,8 @@ export default function ContactPage() {
               <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8">
                 <CheckCircle className="w-12 h-12 text-white" />
               </div>
-              <h1 className="text-6xl md:text-8xl font-serif font-light mb-8 text-balance">Thank You</h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto text-pretty font-light">
+              <h1 className="text-6xl md:text-8xl font-mochiy mb-8 text-balance">Thank You</h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl mx-auto text-pretty font-mochiy-p">
                 Your message has been sent successfully. We'll get back to you within 24 hours.
               </p>
               <Button
@@ -84,7 +84,7 @@ export default function ContactPage() {
           </section>
           
           <footer className="py-8 px-4 text-center">
-            <p className="text-sm text-muted-foreground">© 2025 Crochets by On-Yee. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground font-nunito">© 2025 Crochets by On-Yee. All rights reserved.</p>
           </footer>
         </main>
       </div>
@@ -101,7 +101,7 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-black/30"></div>
           
           <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">Contact</h1>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-mochiy text-balance">Contact</h1>
           </div>
         </section>
 
@@ -109,7 +109,7 @@ export default function ContactPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-serif font-light text-foreground mb-6">Let's Create Together</h2>
+              <h2 className="text-4xl font-mochiy text-foreground mb-6">Let's Create Together</h2>
               <div className="w-24 h-px bg-primary mx-auto"></div>
             </div>
             
@@ -118,8 +118,8 @@ export default function ContactPage() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Mail className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-serif font-light mb-4">Email Us</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-mochiy mb-4">Email Us</h3>
+                <p className="text-muted-foreground font-mochiy-p">
                   Drop us an email and we'll get back to you as soon as possible.
                 </p>
               </div>
@@ -128,8 +128,8 @@ export default function ContactPage() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <MessageCircle className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-serif font-light mb-4">Custom Orders</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-mochiy mb-4">Custom Orders</h3>
+                <p className="text-muted-foreground font-mochiy-p">
                   Have a special request? We love bringing unique visions to life.
                 </p>
               </div>
@@ -138,8 +138,8 @@ export default function ContactPage() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Clock className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-serif font-light mb-4">Response Time</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-xl font-mochiy mb-4">Response Time</h3>
+                <p className="text-muted-foreground font-mochiy-p">
                   We typically respond within 24 hours during business days.
                 </p>
               </div>
@@ -151,7 +151,7 @@ export default function ContactPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-serif font-light text-foreground mb-6">Send a Message</h2>
+              <h2 className="text-4xl font-mochiy text-foreground mb-6">Send a Message</h2>
               <div className="w-24 h-px bg-primary mx-auto"></div>
             </div>
 
@@ -159,7 +159,7 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="name" className="text-foreground font-medium">
+                    <Label htmlFor="name" className="text-foreground font-nunito">
                       Name *
                     </Label>
                     <Input
@@ -174,7 +174,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="email" className="text-foreground font-medium">
+                    <Label htmlFor="email" className="text-foreground font-nunito">
                       Email *
                     </Label>
                     <Input
@@ -191,7 +191,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="subject" className="text-foreground font-medium">
+                  <Label htmlFor="subject" className="text-foreground font-nunito">
                     Subject
                   </Label>
                   <Input
@@ -205,7 +205,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="message" className="text-foreground font-medium">
+                  <Label htmlFor="message" className="text-foreground font-nunito">
                     Message *
                   </Label>
                   <Textarea
@@ -237,7 +237,7 @@ export default function ContactPage() {
 
         {/* Footer */}
         <footer className="py-8 px-4 text-center">
-          <p className="text-sm text-muted-foreground">© 2025 Crochets by On-Yee. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground font-nunito">© 2025 Crochets by On-Yee. All rights reserved.</p>
         </footer>
       </main>
     </div>

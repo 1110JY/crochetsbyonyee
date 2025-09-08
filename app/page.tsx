@@ -47,38 +47,13 @@ export default async function HomePage() {
             <Link href="/products">View Collection</Link>
           </Button>
         </div>
-
-        {/* Bottom navigation like Batch theme */}
-        <div className="absolute bottom-8 left-8 right-8 flex justify-between items-center text-white/60">
-          <div className="text-sm">© 2025 All rights reserved.</div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm">Powered by Crochets by On-Yee</span>
-              <div className="flex space-x-3">
-                <a
-                  href="https://www.tiktok.com/@crochetsbyonyee"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <SiTiktok className="w-4 h-4 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/crochetsbyonyee/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >   
-                  <Instagram className="w-4 h-4 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-                </a>
-              </div>
-          </div>
-        </div>
       </section>
 
       {/* Featured Products Grid - Batch style */}
       <section className="py-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-light text-foreground mb-6">Currently Serving</h2>
+            <h2 className="text-4xl font-mochiy font-light text-foreground mb-6">Currently Serving</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -100,7 +75,7 @@ export default async function HomePage() {
                       </Button>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-serif font-light text-center text-foreground">{category.name}</h3>
+                  <h3 className="text-2xl font-mochiy font-light text-center text-foreground">{category.name}</h3>
                 </Link>
               </div>
             ))}
@@ -111,7 +86,7 @@ export default async function HomePage() {
       {/* About Section - Batch style minimal */}
       <section className="py-20 px-6 lg:px-8 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-serif font-light text-foreground mb-8">About Our Craft</h2>
+          <h2 className="text-4xl font-mochiy font-light text-foreground mb-8">About Our Craft</h2>
           <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto font-mochiy-p">
             Each piece is meticulously handcrafted with premium materials and years of expertise. We believe in creating
             timeless treasures that bring joy and comfort to your everyday life.
@@ -131,7 +106,7 @@ export default async function HomePage() {
       <section className="py-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-light text-foreground mb-4">Customer Stories</h2>
+            <h2 className="text-4xl font-mochiy font-light text-foreground mb-4">Customer Stories</h2>
             <p className="text-lg text-muted-foreground font-mochiy-p">What our customers say about their experience</p>
           </div>
 
@@ -139,13 +114,13 @@ export default async function HomePage() {
             {testimonials?.filter(t => t.is_published).slice(0, 6).map((testimonial) => (
               <div key={testimonial.id} className="bg-white/50 backdrop-blur-sm border border-primary/20 rounded-lg p-6">
                 <div className="mb-4">
-                  <h4 className="font-serif text-foreground mb-2">{testimonial.customer_name}</h4>
+                  <h4 className="font-mochiy text-foreground mb-2">{testimonial.customer_name}</h4>
                   <div className="flex items-center space-x-1 mb-2">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground leading-relaxed italic">"{testimonial.content}"</p>
+                  <p className="text-muted-foreground leading-relaxed italic font-mochiy-p">"{testimonial.content}"</p>
                 </div>
               </div>
             ))}
@@ -160,7 +135,7 @@ export default async function HomePage() {
       <ReviewSection />
 
       {/* Inline Footer */}
-      <footer className="py-8 px-6 lg:px-8 bg-background text-center text-sm text-muted-foreground">
+      <footer className="py-8 px-6 lg:px-8 bg-background text-center text-sm text-muted-foreground font-nunito">
         © 2025 All rights reserved. Powered by Crochets by On-Yee.
       </footer>
     </div>

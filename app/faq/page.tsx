@@ -18,11 +18,11 @@ function FAQCard({ question, answer, category }: { question: string; answer: Rea
           className="p-6 flex items-center justify-between"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <h3 className="text-lg font-medium text-foreground pr-4">{question}</h3>
+          <h3 className="text-lg font-mochiy text-foreground pr-4">{question}</h3>
           <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
         </div>
         <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <div className="px-6 pb-6 text-muted-foreground leading-relaxed">
+          <div className="px-6 pb-6 text-muted-foreground leading-relaxed font-mochiy-p">
             {answer}
           </div>
         </div>
@@ -43,7 +43,7 @@ export default function FAQPage() {
           <div className="absolute inset-0 bg-black/30"></div>
           
           <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-light text-balance">FAQ</h1>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-mochiy text-balance">FAQ</h1>
           </div>
         </section>
 
@@ -52,8 +52,8 @@ export default function FAQPage() {
           <div className="max-w-4xl mx-auto">
             <Card className="border-amber-200 bg-amber-50/50">
               <CardContent className="p-6">
-                <h2 className="text-2xl font-serif font-light text-amber-800 mb-4">Important Notice</h2>
-                <p className="text-amber-700 leading-relaxed">
+                <h2 className="text-2xl font-mochiy text-amber-800 mb-4">Important Notice</h2>
+                <p className="text-amber-700 leading-relaxed font-mochiy-p">
                   <strong>International & EU Orders:</strong> Please be aware that additional customs and handling fees may be charged at the point of collection as per new sales tax rules to all international orders from the UK, commencing July 1st 2021. Due to new EU and Brexit regulations, all EU countries and Ireland will now be charged on individual rate of sales tax and potentially other customs handling fees.
                 </p>
               </CardContent>
@@ -65,7 +65,7 @@ export default function FAQPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-serif font-light text-foreground mb-6">Frequently Asked Questions</h2>
+              <h2 className="text-4xl font-mochiy text-foreground mb-6">Frequently Asked Questions</h2>
               <div className="w-24 h-px bg-primary mx-auto"></div>
             </div>
 
@@ -73,7 +73,7 @@ export default function FAQPage() {
               {/* Product Information Section */}
               <div>
                 <div className="flex items-center gap-3 mb-8">
-                  <h3 className="text-2xl font-serif font-light text-foreground">Product Information</h3>
+                  <h3 className="text-2xl font-mochiy text-foreground">Product Information</h3>
                   <Badge variant="secondary">Handmade</Badge>
                 </div>
                 <div className="space-y-4">
@@ -87,7 +87,7 @@ export default function FAQPage() {
               {/* Shipping & Delivery Section */}
               <div>
                 <div className="flex items-center gap-3 mb-8">
-                  <h3 className="text-2xl font-serif font-light text-foreground">Shipping & Delivery</h3>
+                  <h3 className="text-2xl font-mochiy text-foreground">Shipping & Delivery</h3>
                   <Badge variant="outline">Worldwide</Badge>
                 </div>
                 <div className="space-y-4">
@@ -131,7 +131,7 @@ export default function FAQPage() {
               {/* Ordering Process Section */}
               <div>
                 <div className="flex items-center gap-3 mb-8">
-                  <h3 className="text-2xl font-serif font-light text-foreground">Ordering Process</h3>
+                  <h3 className="text-2xl font-mochiy text-foreground">Ordering Process</h3>
                   <Badge variant="secondary">Custom Orders</Badge>
                 </div>
                 <div className="space-y-4">
@@ -145,7 +145,7 @@ export default function FAQPage() {
               {/* Returns & Exchanges Section */}
               <div>
                 <div className="flex items-center gap-3 mb-8">
-                  <h3 className="text-2xl font-serif font-light text-foreground">Returns & Exchanges</h3>
+                  <h3 className="text-2xl font-mochiy text-foreground">Returns & Exchanges</h3>
                   <Badge variant="destructive">No Returns</Badge>
                 </div>
                 <div className="space-y-4">
@@ -167,7 +167,7 @@ export default function FAQPage() {
         <section className="pt-20 pb-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-serif font-light text-foreground mb-6">Contact & Payment</h2>
+              <h2 className="text-4xl font-mochiy text-foreground mb-6">Contact & Payment</h2>
               <div className="w-24 h-px bg-primary mx-auto"></div>
             </div>
 
@@ -177,9 +177,9 @@ export default function FAQPage() {
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <Mail className="w-6 h-6 text-primary" />
-                    <h3 className="text-2xl font-serif font-light">Get in Touch</h3>
+                    <h3 className="text-2xl font-mochiy">Get in Touch</h3>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-muted-foreground leading-relaxed mb-6 font-mochiy-p">
                     Messages and emails are checked regularly and queries will be answered promptly.
                   </p>
                   <div className="space-y-4">
@@ -205,9 +205,9 @@ export default function FAQPage() {
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <CreditCard className="w-6 h-6 text-primary" />
-                    <h3 className="text-2xl font-serif font-light">Payment Methods</h3>
+                    <h3 className="text-2xl font-mochiy">Payment Methods</h3>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-muted-foreground leading-relaxed mb-6 font-mochiy-p">
                     We accept the following payment methods for your convenience:
                   </p>
                   <div className="space-y-3">
@@ -232,7 +232,7 @@ export default function FAQPage() {
 
         {/* Footer - Added more top padding */}
         <footer className="pt-12 pb-8 px-4 text-center">
-          <p className="text-sm text-muted-foreground">© 2025 Crochets by On-Yee. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground font-nunito">© 2025 Crochets by On-Yee. All rights reserved.</p>
         </footer>
       </main>
     </div>

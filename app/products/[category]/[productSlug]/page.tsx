@@ -76,7 +76,7 @@ export default async function ProductPage({
               </>
             ) : (
               <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">No product images available</p>
+                <p className="text-muted-foreground font-mochiy-p">No product images available</p>
               </div>
             )}
           </div>
@@ -84,22 +84,22 @@ export default async function ProductPage({
           {/* Product Details */}
           <div className="space-y-8">
             <div>
-              <h1 className="text-4xl font-serif font-light text-foreground mb-4">
+              <h1 className="text-4xl font-mochiy text-foreground mb-4">
                 {product.name}
               </h1>
               {product.price && (
-                <p className="text-2xl text-foreground">£{product.price.toFixed(2)}</p>
+                <p className="text-2xl text-foreground font-mochiy-p">£{product.price.toFixed(2)}</p>
               )}
             </div>
 
             {/* Availability Badge */}
             <div>
               {product.is_available ? (
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-mochiy-p">
                   In Stock • {product.stock_quantity} available
                 </div>
               ) : (
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-destructive/10 text-destructive text-sm">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-mochiy-p">
                   Out of Stock
                 </div>
               )}
@@ -108,16 +108,16 @@ export default async function ProductPage({
             {/* Description */}
             {product.description && (
               <div className="prose prose-zinc max-w-none">
-                <h3 className="text-lg font-medium text-foreground mb-2">Description</h3>
-                <p className="text-muted-foreground">{product.description}</p>
+                <h3 className="text-lg font-mochiy text-foreground mb-2">Description</h3>
+                <p className="text-muted-foreground font-mochiy-p">{product.description}</p>
               </div>
             )}
 
             {/* Materials */}
             {product.materials && product.materials.length > 0 && (
               <div>
-                <h3 className="text-lg font-medium text-foreground mb-2">Materials</h3>
-                <ul className="list-disc list-inside text-muted-foreground">
+                <h3 className="text-lg font-mochiy text-foreground mb-2">Materials</h3>
+                <ul className="list-disc list-inside text-muted-foreground font-mochiy-p">
                   {product.materials.map((material, index) => (
                     <li key={index}>{material}</li>
                   ))}
@@ -128,16 +128,16 @@ export default async function ProductPage({
             {/* Dimensions */}
             {product.dimensions && (
               <div>
-                <h3 className="text-lg font-medium text-foreground mb-2">Dimensions</h3>
-                <p className="text-muted-foreground">{product.dimensions}</p>
+                <h3 className="text-lg font-mochiy text-foreground mb-2">Dimensions</h3>
+                <p className="text-muted-foreground font-mochiy-p">{product.dimensions}</p>
               </div>
             )}
 
             {/* Care Instructions */}
             {product.care_instructions && (
               <div>
-                <h3 className="text-lg font-medium text-foreground mb-2">Care Instructions</h3>
-                <p className="text-muted-foreground">{product.care_instructions}</p>
+                <h3 className="text-lg font-mochiy text-foreground mb-2">Care Instructions</h3>
+                <p className="text-muted-foreground font-mochiy-p">{product.care_instructions}</p>
               </div>
             )}
 
@@ -150,7 +150,7 @@ export default async function ProductPage({
               >
                 <Link href="/contact">Enquire About This Item</Link>
               </Button>
-              <p className="text-sm text-muted-foreground text-center mt-4">
+              <p className="text-sm text-muted-foreground text-center mt-4 font-mochiy-p">
                 Contact us to discuss customisation options or place an order.
               </p>
             </div>
