@@ -47,8 +47,8 @@ export function SortFilter({ currentSort }: SortFilterProps) {
         defaultValue={currentSort || "newest"}
         onValueChange={handleSortChange}
       >
-        <SelectTrigger className="w-[180px] bg-background border-primary/20">
-          <SelectValue placeholder="Sort by" />
+        <SelectTrigger className="w-[180px] bg-background border-primary/20 placeholder:text-gray-400">
+          <SelectValue placeholder="Sort by" className="placeholder:text-gray-400" />
         </SelectTrigger>
         <SelectContent 
           className="z-[100]" 

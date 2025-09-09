@@ -3,6 +3,9 @@ import { redirect } from "next/navigation"
 import { checkAdminAccess } from "@/lib/supabase/admin"
 import { AdminNav } from "@/components/admin/admin-nav"
 import { createClient } from "@/lib/supabase/server"
+import { Inter } from "next/font/google"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export default async function AdminLayout({
   children,
@@ -69,9 +72,9 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-amber-50">
+    <div className={`flex min-h-screen bg-slate-50 ${inter.className}`}>
       <AdminNav />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 md:ml-0">{children}</div>
     </div>
   )
 }

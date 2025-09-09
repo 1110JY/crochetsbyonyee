@@ -46,21 +46,21 @@ export function Navigation() {
   }
 
   return (
-    <nav className="fixed top-4 left-4 right-4 z-50">
+    <nav className="fixed top-4 left-0 right-0 z-50 px-4">
       <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20">
-        <div className="flex justify-between items-center h-18 px-8">
+        <div className="flex justify-between items-center h-16 md:h-18 px-4 md:px-8">
           {/* Left side - Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/about" className="text-muted-foreground hover:text-primary font-fredoka transition-colors">
+            <Link href="/about" className="text-foreground/70 hover:text-primary font-fredoka transition-colors">
               About
             </Link>
-            <Link href="/products" className="text-muted-foreground hover:text-primary font-fredoka transition-colors">
+            <Link href="/products" className="text-foreground/70 hover:text-primary font-fredoka transition-colors">
               Products
             </Link>
-            <Link href="/contact" className="text-muted-foreground hover:text-primary font-fredoka transition-colors">
+            <Link href="/contact" className="text-foreground/70 hover:text-primary font-fredoka transition-colors">
               Contact
             </Link>
-            <Link href="/faq" className="text-muted-foreground hover:text-primary font-fredoka transition-colors">
+            <Link href="/faq" className="text-foreground/70 hover:text-primary font-fredoka transition-colors">
               FAQ
             </Link>
           </div>
@@ -72,7 +72,7 @@ export function Navigation() {
               alt="Crochets by On-Yee"
               width={280}
               height={70}
-              className="h-28 w-auto"
+              className="h-20 md:h-28 w-auto"
               priority
             />
           </Link>
@@ -85,7 +85,7 @@ export function Navigation() {
                   <div className="flex items-center space-x-3">
                     <Link
                       href="/protected"
-                      className="text-muted-foreground hover:text-primary font-fredoka transition-colors"
+                      className="text-foreground/70 hover:text-primary font-fredoka transition-colors"
                     >
                       Account
                     </Link>
@@ -93,7 +93,7 @@ export function Navigation() {
                       variant="ghost"
                       size="sm"
                       onClick={handleSignOut}
-                      className="text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-full font-fredoka"
+                      className="text-foreground/70 hover:text-primary hover:bg-primary/10 rounded-full font-fredoka"
                     >
                       Sign Out
                     </Button>
@@ -104,7 +104,7 @@ export function Navigation() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-full font-fredoka"
+                        className="text-foreground/70 hover:text-primary hover:bg-primary/10 rounded-full font-fredoka"
                       >
                         Sign In
                       </Button>
@@ -113,7 +113,7 @@ export function Navigation() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-primary/20 text-primary hover:bg-primary/5 bg-transparent rounded-full font-fredoka"
+                        className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary bg-transparent rounded-full font-fredoka"
                       >
                         Sign Up
                       </Button>
@@ -124,7 +124,7 @@ export function Navigation() {
             )}
 
             {/* Social icons */}
-            <div className="flex items-center space-x-2 ml-1 pl-3 border-l border-border">
+            <div className="flex items-center space-x-2 ml-3 pl-3 border-l border-border">
                 <a
                   href="https://www.tiktok.com/@crochetsbyonyee"
                   target="_blank"
@@ -145,7 +145,7 @@ export function Navigation() {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <Button variant="ghost" size="sm" onClick={() => setIsOpen(!isOpen)} className="text-primary rounded-full">
+            <Button variant="ghost" size="sm" onClick={() => setIsOpen(!isOpen)} className="text-foreground/70 hover:text-primary hover:bg-primary/10 rounded-full">
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
           </div>
@@ -157,28 +157,28 @@ export function Navigation() {
             <div className="flex flex-col space-y-3">
               <Link
                 href="/about"
-                className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="/products"
-                className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 Products
               </Link>
               <Link
                 href="/contact"
-                className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 Contact
               </Link>
               <Link
                 href="/faq"
-                className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 FAQ
@@ -190,7 +190,7 @@ export function Navigation() {
                     <>
                       <Link
                         href="/protected"
-                        className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                        className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
                         Account
@@ -202,7 +202,7 @@ export function Navigation() {
                           handleSignOut()
                           setIsOpen(false)
                         }}
-                        className="text-muted-foreground hover:text-primary hover:bg-primary/5 w-fit rounded-full font-fredoka"
+                        className="text-foreground/70 hover:text-primary hover:bg-primary/10 w-fit rounded-full font-fredoka"
                       >
                         Sign Out
                       </Button>
@@ -211,14 +211,14 @@ export function Navigation() {
                     <>
                       <Link
                         href="/auth/login"
-                        className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                        className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
                         Sign In
                       </Link>
                       <Link
                         href="/auth/sign-up"
-                        className="text-muted-foreground hover:text-primary font-fredoka py-2"
+                        className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
                         onClick={() => setIsOpen(false)}
                       >
                         Sign Up

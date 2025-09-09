@@ -1,6 +1,5 @@
 "use client"
 
-import { AdminHeader } from "@/components/admin/admin-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -123,28 +122,42 @@ export default function AdminTestimonialsPage() {
 
   if (isLoading) {
     return (
-      <div>
-        <AdminHeader title="Testimonials" description="Manage customer testimonials and reviews" />
-        <div className="p-6">
-          <div className="text-center py-8">Loading testimonials...</div>
+      <div className="min-h-screen bg-slate-50">
+        <div className="border-b border-slate-200 bg-white">
+          <div className="px-6 py-6">
+            <div className="max-w-7xl mx-auto">
+              <h1 className="text-2xl font-semibold text-slate-900">Testimonials</h1>
+              <p className="text-slate-600 mt-1">Manage customer testimonials and reviews</p>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="text-center py-8 text-slate-600">Loading testimonials...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-      <AdminHeader title="Testimonials" description="Manage customer testimonials and reviews" />
+    <div className="min-h-screen bg-slate-50">
+      <div className="border-b border-slate-200 bg-white">
+        <div className="px-6 py-6">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-2xl font-semibold text-slate-900">Testimonials</h1>
+            <p className="text-slate-600 mt-1">Manage customer testimonials and reviews</p>
+          </div>
+        </div>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-8">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl font-serif font-light text-foreground">All Testimonials</h2>
-            <p className="text-muted-foreground">{testimonials.length} testimonials total</p>
+            <h2 className="text-xl font-semibold text-slate-900">All Testimonials</h2>
+            <p className="text-slate-500">{testimonials.length} testimonials total</p>
           </div>
           <Button
             onClick={() => setShowAddForm(true)}
-            className="bg-primary/90 hover:bg-primary text-primary-foreground"
+            className="bg-slate-900 hover:bg-slate-800 text-white"
             disabled={showAddForm || editingId !== null}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -154,9 +167,9 @@ export default function AdminTestimonialsPage() {
 
         {/* Pending Reviews Notice */}
         {testimonials.filter(t => !t.is_published).length > 0 && (
-          <Card className="bg-orange-50/50 backdrop-blur-sm border-orange-200 mb-6">
+          <Card className="bg-orange-50 border-orange-200 mb-6">
             <CardContent className="p-6">
-              <h3 className="text-xl font-serif font-light text-orange-800 mb-2 flex items-center">
+              <h3 className="text-xl font-semibold text-orange-800 mb-2 flex items-center">
                 <Eye className="w-5 h-5 mr-2" />
                 Pending Reviews ({testimonials.filter(t => !t.is_published).length})
               </h3>
@@ -167,33 +180,33 @@ export default function AdminTestimonialsPage() {
 
         {/* Add/Edit Form */}
         {(showAddForm || editingId) && (
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 mb-6">
+          <Card className="bg-white border-slate-200 shadow-sm mb-6">
             <CardContent className="p-6">
-              <h3 className="text-2xl font-serif font-light text-foreground mb-6">
+              <h3 className="text-lg font-semibold text-slate-900 mb-6">
                 {editingId ? "Edit Testimonial" : "Add New Testimonial"}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <Label htmlFor="customer_name" className="text-foreground">
+                  <Label htmlFor="customer_name" className="text-slate-900 font-medium">
                     Customer Name *
                   </Label>
                   <Input
                     id="customer_name"
                     value={formData.customer_name}
                     onChange={(e) => setFormData((prev) => ({ ...prev, customer_name: e.target.value }))}
-                    className="border-primary/20 focus:border-primary/30"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                     placeholder="e.g., Shrek"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="rating" className="text-foreground">
+                  <Label htmlFor="rating" className="text-slate-900 font-medium">
                     Rating *
                   </Label>
                   <select
                     id="rating"
                     value={formData.rating}
                     onChange={(e) => setFormData((prev) => ({ ...prev, rating: Number.parseInt(e.target.value) }))}
-                    className="w-full px-3 py-2 border border-primary/20 focus:border-primary/30 rounded-md bg-white/50"
+                    className="w-full px-3 py-2 border border-slate-300 focus:border-slate-500 focus:ring-slate-500 rounded-md bg-white text-slate-900"
                   >
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <option key={rating} value={rating}>
@@ -204,26 +217,14 @@ export default function AdminTestimonialsPage() {
                 </div>
               </div>
               <div className="mb-4">
-                <Label htmlFor="title" className="text-foreground">
-                  Review Title (optional)
-                </Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
-                  className="border-primary/20 focus:border-primary/30"
-                  placeholder="e.g., Beautiful craftsmanship!"
-                />
-              </div>
-              <div className="mb-4">
-                <Label htmlFor="content" className="text-foreground">
+                <Label htmlFor="content" className="text-slate-900 font-medium">
                   Testimonial Content *
                 </Label>
                 <Textarea
                   id="content"
                   value={formData.content}
                   onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-                  className="border-primary/20 focus:border-primary/30"
+                  className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                   rows={4}
                   placeholder="What did the customer say about your work?"
                 />
@@ -234,29 +235,29 @@ export default function AdminTestimonialsPage() {
                     type="checkbox"
                     checked={formData.is_published}
                     onChange={(e) => setFormData((prev) => ({ ...prev, is_published: e.target.checked }))}
-                    className="rounded border-primary/20 text-primary focus:ring-primary"
+                    className="rounded border-slate-300"
                   />
-                  <span className="text-foreground">Published</span>
+                  <span className="text-slate-600">Published</span>
                 </label>
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={formData.is_featured}
                     onChange={(e) => setFormData((prev) => ({ ...prev, is_featured: e.target.checked }))}
-                    className="rounded border-primary/20 text-primary focus:ring-primary"
+                    className="rounded border-slate-300"
                   />
-                  <span className="text-foreground">Featured</span>
+                  <span className="text-slate-600">Featured</span>
                 </label>
               </div>
               <div className="flex space-x-2">
-                <Button onClick={handleSave} className="bg-primary/90 hover:bg-primary text-primary-foreground">
+                <Button onClick={handleSave} className="bg-slate-900 hover:bg-slate-800 text-white">
                   <Save className="w-4 h-4 mr-2" />
                   Save
                 </Button>
                 <Button
                   onClick={handleCancel}
                   variant="outline"
-                  className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+                  className="border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Cancel

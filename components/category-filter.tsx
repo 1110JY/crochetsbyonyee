@@ -30,8 +30,8 @@ export function CategoryFilter({ categories, currentCategory }: CategoryFilterPr
           }
         }}
       >
-        <SelectTrigger className="w-[180px] bg-background border-primary/20">
-          <SelectValue placeholder="Select category" />
+        <SelectTrigger className="w-[180px] bg-background border-primary/20 placeholder:text-gray-400">
+          <SelectValue placeholder="Select category" className="placeholder:text-gray-400" />
         </SelectTrigger>
         <SelectContent 
           className="z-[100]" 

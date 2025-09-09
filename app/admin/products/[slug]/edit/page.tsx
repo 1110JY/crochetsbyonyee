@@ -1,6 +1,5 @@
 "use client"
 
-import { AdminHeader } from "@/components/admin/admin-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -186,14 +185,18 @@ export default function EditProductPage({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-        <AdminHeader 
-          title="Edit Product" 
-          description="Update product details" 
-        />
-        <div className="max-w-3xl mx-auto px-8 py-16">
+      <div className="min-h-screen bg-slate-50">
+        <div className="border-b border-slate-200 bg-white">
+          <div className="px-6 py-6">
+            <div className="max-w-3xl mx-auto">
+              <h1 className="text-2xl font-semibold text-slate-900">Edit Product</h1>
+              <p className="text-slate-600 mt-1">Update product details</p>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-3xl mx-auto px-6 py-16">
           <div className="flex items-center justify-center">
-            <div className="w-6 h-6 border-2 border-primary border-r-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-slate-900 border-r-transparent rounded-full animate-spin" />
           </div>
         </div>
       </div>
@@ -201,46 +204,51 @@ export default function EditProductPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-      <AdminHeader 
-        title="Edit Product" 
-        description="Update product details" 
-      />
+    <div className="min-h-screen bg-slate-50">
+      <div className="border-b border-slate-200 bg-white">
+        <div className="px-6 py-6">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-2xl font-semibold text-slate-900">Edit Product</h1>
+            <p className="text-slate-600 mt-1">Update product details</p>
+          </div>
+        </div>
+      </div>
 
-      <div className="max-w-3xl mx-auto px-8 pb-16">
-        <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
+      <div className="max-w-3xl mx-auto px-6 py-8">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="name">Product Name</Label>
+                  <Label htmlFor="name" className="text-slate-900 font-medium">Product Name</Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="e.g., Cozy Winter Blanket"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description" className="text-slate-900 font-medium">Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     placeholder="Describe your product..."
-                    className="h-32"
+                    className="h-32 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <Label htmlFor="images">Product Images</Label>
+                  <Label htmlFor="images" className="text-slate-900 font-medium">Product Images</Label>
                   <div className="flex items-center gap-4">
                     <Button
                       type="button"
                       variant="outline"
-                      className="border-primary/20 hover:border-primary/30 relative"
+                      className="border-slate-200 hover:border-slate-300 relative"
                       disabled={isLoading}
                     >
                       {isLoading ? "Uploading..." : "Add Images"}
@@ -254,7 +262,7 @@ export default function EditProductPage({
                         disabled={isLoading}
                       />
                     </Button>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-slate-500">
                       Upload product images (PNG, JPG, max 10MB each)
                     </p>
                   </div>
@@ -266,12 +274,12 @@ export default function EditProductPage({
                           <img
                             src={image}
                             alt={`Product image ${index + 1}`}
-                            className="w-full h-full object-cover rounded-lg border border-primary/20"
+                            className="w-full h-full object-cover rounded-lg border border-slate-200"
                           />
                           <button
                             type="button"
                             onClick={() => removeImage(index)}
-                            className="absolute top-2 right-2 bg-destructive/90 hover:bg-destructive text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M18 6L6 18M6 6l12 12"/>
@@ -285,7 +293,7 @@ export default function EditProductPage({
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="price">Price (£)</Label>
+                    <Label htmlFor="price" className="text-slate-900 font-medium">Price (£)</Label>
                     <Input
                       id="price"
                       type="number"
@@ -293,30 +301,32 @@ export default function EditProductPage({
                       value={formData.price || ""}
                       onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || null }))}
                       placeholder="0.00"
+                      className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="stock">Stock Quantity</Label>
+                    <Label htmlFor="stock" className="text-slate-900 font-medium">Stock Quantity</Label>
                     <Input
                       id="stock"
                       type="number"
                       value={formData.stock_quantity}
                       onChange={(e) => setFormData(prev => ({ ...prev, stock_quantity: parseInt(e.target.value) || 0 }))}
                       min="0"
+                      className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="category">Category</Label>
+                  <Label htmlFor="category" className="text-slate-900 font-medium">Category</Label>
                   <Select 
                     value={formData.category_id || ""} 
                     onValueChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}
                     required
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -335,33 +345,35 @@ export default function EditProductPage({
                 </div>
 
                 <div>
-                  <Label htmlFor="materials">Materials (comma-separated)</Label>
+                  <Label htmlFor="materials" className="text-slate-900 font-medium">Materials (comma-separated)</Label>
                   <Input
                     id="materials"
                     value={formData.materials?.join(", ") || ""}
                     onChange={(e) => handleMaterialsChange(e.target.value)}
                     placeholder="e.g., Cotton yarn, Polyester filling"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="dimensions">Dimensions</Label>
+                  <Label htmlFor="dimensions" className="text-slate-900 font-medium">Dimensions</Label>
                   <Input
                     id="dimensions"
                     value={formData.dimensions || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, dimensions: e.target.value }))}
                     placeholder="e.g., 40cm x 60cm"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="care">Care Instructions</Label>
+                  <Label htmlFor="care" className="text-slate-900 font-medium">Care Instructions</Label>
                   <Textarea
                     id="care"
                     value={formData.care_instructions || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, care_instructions: e.target.value }))}
                     placeholder="e.g., Hand wash cold, lay flat to dry"
-                    className="h-20"
+                    className="h-20 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
                   />
                 </div>
 
@@ -371,9 +383,9 @@ export default function EditProductPage({
                       type="checkbox"
                       checked={formData.is_available}
                       onChange={(e) => setFormData(prev => ({ ...prev, is_available: e.target.checked }))}
-                      className="rounded border-primary/20"
+                      className="rounded border-slate-300"
                     />
-                    <span className="text-sm text-muted-foreground">Available for Purchase</span>
+                    <span className="text-sm text-slate-600">Available for Purchase</span>
                   </label>
 
                   <label className="flex items-center space-x-2 cursor-pointer">
@@ -381,9 +393,9 @@ export default function EditProductPage({
                       type="checkbox"
                       checked={formData.is_featured}
                       onChange={(e) => setFormData(prev => ({ ...prev, is_featured: e.target.checked }))}
-                      className="rounded border-primary/20"
+                      className="rounded border-slate-300"
                     />
-                    <span className="text-sm text-muted-foreground">Featured Product</span>
+                    <span className="text-sm text-slate-600">Featured Product</span>
                   </label>
                 </div>
               </div>
@@ -393,14 +405,14 @@ export default function EditProductPage({
                   type="button"
                   variant="outline"
                   onClick={() => router.back()}
-                  className="border-primary/20 hover:border-primary/30"
+                  className="border-slate-200 hover:border-slate-300"
                 >
                   Cancel
                 </Button>
                 <Button 
                   type="submit"
                   disabled={isLoading}
-                  className="bg-primary/90 hover:bg-primary text-primary-foreground"
+                  className="bg-slate-900 hover:bg-slate-800 text-white"
                 >
                   {isLoading ? (
                     <>

@@ -18,6 +18,7 @@ export interface Testimonial {
   is_published: boolean
   created_at: string
   updated_at: string
+  images?: string[]
 }
 
 export async function getSiteSettings(): Promise<Record<string, string>> {

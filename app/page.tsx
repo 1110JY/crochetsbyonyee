@@ -30,7 +30,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-black/40"></div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-6xl md:text-8xl font-mochiy font-normal mb-4 text-balance">
+          <h1 className="text-6xl md:text-8xl font-mochiy font-normal mb-10 text-balance">
             {settings?.hero_title || "Crochets by On-Yee"}
           </h1>
           {settings?.hero_subtitle && (
@@ -88,8 +88,7 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-mochiy font-light text-foreground mb-8">About Our Craft</h2>
           <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto font-mochiy-p">
-            Each piece is meticulously handcrafted with premium materials and years of expertise. We believe in creating
-            timeless treasures that bring joy and comfort to your everyday life.
+            Each piece is meticulously handcrafted with premium materials and years of expertise. I make every piece by hand, using soft, quality yarns. The goal? To give you something cozy and cheerful that lasts.
           </p>
           <Button
             asChild
@@ -111,19 +110,51 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials?.filter(t => t.is_published).slice(0, 6).map((testimonial) => (
-              <div key={testimonial.id} className="bg-white/50 backdrop-blur-sm border border-primary/20 rounded-lg p-6">
-                <div className="mb-4">
-                  <h4 className="font-mochiy text-foreground mb-2">{testimonial.customer_name}</h4>
-                  <div className="flex items-center space-x-1 mb-2">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                    ))}
+            {testimonials?.filter(t => t.is_published).slice(0, 6).map((testimonial) => {
+              // Split content into title and description if it contains line breaks
+              const contentParts = testimonial.content.split('\n\n')
+              const hasTitle = contentParts.length > 1
+              const title = hasTitle ? contentParts[0] : null
+              const description = hasTitle ? contentParts[1] : testimonial.content
+              
+              return (
+                <div key={testimonial.id} className="bg-white/50 backdrop-blur-sm border border-primary/20 rounded-lg p-6">
+                  <div className="mb-4">
+                    <h4 className="font-mochiy text-foreground mb-2">{testimonial.customer_name}</h4>
+                    <div className="flex items-center space-x-1 mb-3">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    {title && (
+                      <h5 className="font-medium text-foreground mb-2 font-mochiy">{title}</h5>
+                    )}
+                    <p className="text-muted-foreground leading-relaxed italic font-mochiy-p">"{description}"</p>
+                    
+                    {/* Display review images if any */}
+                    {testimonial.images && testimonial.images.length > 0 && (
+                      <div className="mt-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {testimonial.images.slice(0, 3).map((imageUrl: string, index: number) => (
+                            <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+                              <img 
+                                src={imageUrl} 
+                                alt={`Review image ${index + 1}`}
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                                onError={(e) => {
+                                  console.warn(`Failed to load image: ${imageUrl}`)
+                                  e.currentTarget.style.display = 'none'
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <p className="text-muted-foreground leading-relaxed italic font-mochiy-p">"{testimonial.content}"</p>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           <div className="text-center mt-12">

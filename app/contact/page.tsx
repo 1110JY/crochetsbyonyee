@@ -10,8 +10,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { createClient } from "@/lib/supabase/client"
 import { CheckCircle, Mail, MessageCircle, Clock } from "lucide-react"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContactPage() {
+  const { toast } = useToast()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,9 +41,19 @@ export default function ContactPage() {
 
       setIsSubmitted(true)
       setFormData({ name: "", email: "", subject: "", message: "" })
+      
+      toast({
+        variant: "success",
+        title: "Message sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      })
     } catch (error) {
       console.error("Error submitting form:", error)
-      alert("There was an error sending your message. Please try again.")
+      toast({
+        variant: "error",
+        title: "Failed to send message",
+        description: "There was an error sending your message. Please try again.",
+      })
     } finally {
       setIsSubmitting(false)
     }

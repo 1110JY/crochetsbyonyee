@@ -1,6 +1,5 @@
 "use client"
 
-import { AdminHeader } from "@/components/admin/admin-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -144,68 +143,102 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-      <AdminHeader title="Products" description="Manage your crochet product catalog" />
-
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="flex justify-between items-center mb-8">
+    <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
+      {/* Header */}
+      <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-serif font-light text-foreground">All Products</h2>
-            <p className="text-muted-foreground">{products.length} products total</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Products</h1>
+            <p className="text-slate-600 mt-1">Manage your crochet product catalog</p>
           </div>
-          <Button 
-            asChild
-            className="bg-primary/90 hover:bg-primary text-primary-foreground"
-          >
-            <Link href="/admin/products/new">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Product
-            </Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+            <div className="text-sm text-slate-600 flex items-center">
+              <span className="font-medium">{products.length}</span>
+              <span className="ml-1">products total</span>
+            </div>
+            <Button 
+              asChild
+              className="bg-slate-900 hover:bg-slate-800 text-white"
+            >
+              <Link href="/admin/products/new">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Product
+              </Link>
+            </Button>
+          </div>
         </div>
+      </div>
 
-        {products.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <Card key={product.id} className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors overflow-hidden">
-                <div className="aspect-square bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center">
-                  {product.images?.[0] ? (
-                    <img
-                      src={product.images[0] || "/placeholder.svg"}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20 rounded-full flex items-center justify-center">
-                      <span className="text-primary text-xl">🧶</span>
-                    </div>
-                  )}
-                </div>
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <h3 className="font-serif text-lg text-foreground mb-1 line-clamp-1">{product.name}</h3>
+      {/* Loading State */}
+      {isLoading && (
+        <div className="bg-white rounded-lg border border-slate-200 p-8">
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-slate-300 border-r-slate-900 rounded-full animate-spin mr-3" />
+            <span className="text-slate-600">Loading products...</span>
+          </div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="bg-white rounded-lg border border-red-200 p-4">
+          <div className="flex items-center text-red-800">
+            <span className="text-sm">{error}</span>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={loadProducts}
+              className="ml-auto border-red-200 text-red-700 hover:bg-red-50"
+            >
+              Retry
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Products Grid */}
+      {!isLoading && !error && products.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          {products.map((product) => (
+            <Card key={product.id} className="bg-white border-slate-200 hover:shadow-md transition-shadow overflow-hidden">
+              <div className="aspect-square bg-slate-50 flex items-center justify-center">
+                {product.images?.[0] ? (
+                  <img
+                    src={product.images[0] || "/placeholder.svg"}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center">
+                    <span className="text-slate-400 text-xl">🧶</span>
+                  </div>
+                )}
+              </div>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  {/* Product Header */}
+                  <div>
+                    <h3 className="font-semibold text-slate-900 line-clamp-2 leading-tight">{product.name}</h3>
+                    <div className="flex items-center gap-2 mt-2">
                       {product.categories && (
-                        <Badge variant="outline" className="text-xs border-primary/20 text-primary mb-2">
+                        <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-700 border-slate-200">
                           {product.categories.name}
                         </Badge>
                       )}
-                    </div>
-                    <div className="flex items-center space-x-1">
                       <Badge 
-                        variant="outline" 
+                        variant="secondary" 
                         className={`text-xs ${
                           product.is_available 
-                            ? "border-primary/20 text-primary" 
-                            : "border-muted text-muted-foreground"
+                            ? "bg-green-100 text-green-700 border-green-200" 
+                            : "bg-red-100 text-red-700 border-red-200"
                         }`}
                       >
                         {product.is_available ? "Active" : "Inactive"}
                       </Badge>
                       {product.is_featured && (
                         <Badge 
-                          variant="outline"
-                          className="text-xs border-secondary/20 text-secondary ml-1"
+                          variant="secondary"
+                          className="text-xs bg-blue-100 text-blue-700 border-blue-200"
                         >
                           Featured
                         </Badge>
@@ -213,21 +246,23 @@ export default function AdminProductsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-lg font-serif text-foreground">
+                  {/* Price and Stock */}
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-semibold text-slate-900">
                       {product.price ? `£${product.price.toFixed(2)}` : "Price on request"}
                     </span>
-                    <span className="text-sm text-muted-foreground">Stock: {product.stock_quantity}</span>
+                    <span className="text-slate-500">Stock: {product.stock_quantity}</span>
                   </div>
 
-                  <div className="flex space-x-2">
+                  {/* Action Buttons */}
+                  <div className="flex gap-2 pt-2">
                     <Button
                       asChild
                       size="sm"
                       variant="outline"
-                      className="flex-1 border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+                      className="flex-1 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                     >
-                      <Link href={`/products/${product.slug}`}>
+                      <Link href={`/products/${product.slug}`} target="_blank">
                         <Eye className="w-3 h-3 mr-1" />
                         View
                       </Link>
@@ -236,7 +271,7 @@ export default function AdminProductsPage() {
                       asChild
                       size="sm"
                       variant="outline"
-                      className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
+                      className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                     >
                       <Link href={`/admin/products/${product.slug}/edit`}>
                         <Edit className="w-3 h-3" />
@@ -247,7 +282,7 @@ export default function AdminProductsPage() {
                       variant="outline"
                       disabled={isProcessing[product.id]}
                       onClick={() => handleDelete(product.id)} 
-                      className="border-destructive/30 hover:border-destructive/50 text-destructive hover:text-destructive"
+                      className="border-red-200 text-red-600 hover:text-red-700 hover:bg-red-50"
                     >
                       {isProcessing[product.id] ? (
                         <div className="w-3 h-3 border-2 border-current border-r-transparent rounded-full animate-spin" />
@@ -256,31 +291,34 @@ export default function AdminProductsPage() {
                       )}
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!isLoading && !error && products.length === 0 && (
+        <div className="bg-white rounded-lg border border-slate-200 p-8 md:p-12">
+          <div className="text-center max-w-md mx-auto">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Plus className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">No Products Yet</h3>
+            <p className="text-slate-600 mb-6">Start building your catalog by adding your first product.</p>
+            <Button 
+              asChild
+              className="bg-slate-900 hover:bg-slate-800 text-white"
+            >
+              <Link href="/admin/products/new">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Your First Product
+              </Link>
+            </Button>
           </div>
-        ) : (
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
-            <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Plus className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-foreground mb-2">No Products Yet</h3>
-              <p className="text-muted-foreground mb-6">Start building your catalog by adding your first product.</p>
-              <Button 
-                asChild
-                className="bg-primary/90 hover:bg-primary text-primary-foreground"
-              >
-                <Link href="/admin/products/new">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Your First Product
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

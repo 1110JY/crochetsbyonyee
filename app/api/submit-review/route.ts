@@ -2,14 +2,23 @@ import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
 export async function POST(request: NextRequest) {
+  console.log("=== Review submission started ===")
   try {
-    const body = await request.json()
-    const { rating, title, content, customerName, email } = body
-
+    // Parse form data for file uploads
+    console.log("Parsing form data...")
+    const formData = await request.formData()
+    
+    const rating = Number(formData.get('rating'))
+    const title = formData.get('title') as string
+    const content = formData.get('content') as string
+    const customerName = formData.get('customerName') as string
+    const email = formData.get('email') as string
+    
     console.log("Received review data:", { rating, title, content, customerName, email })
 
     // Validate required fields
     if (!rating || !content || !customerName || !email) {
+      console.log("Missing required fields")
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -18,17 +27,20 @@ export async function POST(request: NextRequest) {
 
     // Validate rating is between 1-5
     if (rating < 1 || rating > 5) {
+      console.log("Invalid rating")
       return NextResponse.json(
         { error: "Rating must be between 1 and 5" },
         { status: 400 }
       )
     }
 
+    console.log("Creating Supabase client...")
     const supabase = await createClient()
 
     // Combine title and content for the existing content field
     const reviewContent = title ? `${title}\n\n${content}` : content
-    const reviewerName = `${customerName} (${email})`
+    // Store only the customer name, not the email (email is private)
+    const reviewerName = customerName
 
     console.log("Inserting to database:", { 
       customer_name: reviewerName, 
@@ -38,17 +50,17 @@ export async function POST(request: NextRequest) {
     })
 
     // Insert the review as an unpublished testimonial for admin review
+    const insertData = {
+      customer_name: reviewerName,
+      content: reviewContent,
+      rating,
+      is_published: false, // Reviews need admin approval
+      is_featured: false,
+    }
+
     const { data, error } = await supabase
       .from("testimonials")
-      .insert([
-        {
-          customer_name: reviewerName,
-          content: reviewContent,
-          rating,
-          is_published: false, // Reviews need admin approval
-          is_featured: false,
-        }
-      ])
+      .insert([insertData])
       .select()
       .single()
 
@@ -71,7 +83,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { 
         message: "Review submitted successfully! It will be published after moderation.",
-        review: data 
+        review: data,
       },
       { status: 201 }
     )

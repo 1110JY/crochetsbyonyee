@@ -11,7 +11,7 @@ export interface Testimonial {
   is_published: boolean
   email?: string
   title?: string
-  image_urls?: string[]
+  images?: string[]
   source?: 'admin' | 'customer_review'
 }
 

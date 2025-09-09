@@ -24,6 +24,7 @@ import { Star, Upload, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import { useToast } from "@/hooks/use-toast"
 
 const reviewSchema = z.object({
   rating: z.number().min(1, "Please select a rating").max(5),
@@ -41,6 +42,7 @@ export function ReviewDialog() {
   const [hoverRating, setHoverRating] = useState(0)
   const [selectedImages, setSelectedImages] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast()
 
   const form = useForm<ReviewFormData>({
     resolver: zodResolver(reviewSchema),
@@ -55,11 +57,37 @@ export function ReviewDialog() {
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
+    console.log("Files selected:", files.length, files)
+    
     if (selectedImages.length + files.length > 3) {
-      alert("You can upload a maximum of 3 images")
+      toast({
+        variant: "error",
+        title: "Too many images",
+        description: "You can upload a maximum of 3 images",
+      })
       return
     }
-    setSelectedImages(prev => [...prev, ...files])
+    
+    // Validate file types
+    const validFiles = files.filter(file => {
+      if (file.type.startsWith('image/')) {
+        return true
+      } else {
+        console.warn(`Skipping non-image file: ${file.name}`)
+        return false
+      }
+    })
+    
+    if (validFiles.length > 0) {
+      setSelectedImages(prev => [...prev, ...validFiles])
+      console.log("Images added, total count:", selectedImages.length + validFiles.length)
+      
+      toast({
+        variant: "success",
+        title: "Images added",
+        description: `${validFiles.length} image${validFiles.length > 1 ? 's' : ''} selected successfully`,
+      })
+    }
   }
 
   const removeImage = (index: number) => {
@@ -67,38 +95,42 @@ export function ReviewDialog() {
   }
 
   const onSubmit = async (data: ReviewFormData) => {
+    console.log("=== Form submission started ===")
     setIsSubmitting(true)
     try {
-      // Upload images if any (you might want to implement this with Supabase storage)
-      let imageUrls: string[] = []
-      if (selectedImages.length > 0) {
-        // For now, we'll skip image upload implementation
-        // In a real app, you'd upload to Supabase storage and get URLs
-        console.log("Images to upload:", selectedImages)
-      }
-
-      // Submit review to API
-      const response = await fetch("/api/submit-review", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rating,
-          title: data.title,
-          content: data.content,
-          customerName: data.customerName,
-          email: data.email,
-          imageUrls,
-        }),
+      // Create FormData to handle file uploads
+      const formData = new FormData()
+      formData.append('rating', rating.toString())
+      formData.append('title', data.title || '')
+      formData.append('content', data.content)
+      formData.append('customerName', data.customerName)
+      formData.append('email', data.email)
+      
+      console.log("Form data prepared:", {
+        rating: rating.toString(),
+        title: data.title,
+        content: data.content,
+        customerName: data.customerName,
+        email: data.email,
+        imageCount: selectedImages.length
       })
 
+      // Submit review to API
+      console.log("Sending request to /api/submit-review")
+      const response = await fetch("/api/submit-review", {
+        method: "POST",
+        body: formData,
+      })
+
+      console.log("Response received:", { status: response.status, ok: response.ok })
+      
       const result = await response.json()
       console.log("API Response:", { status: response.status, result })
 
       if (!response.ok) {
         console.error("API Error:", result)
-        throw new Error(result.error || "Failed to submit review")
+        const errorMessage = result.error || result.details || `Server error: ${response.status}`
+        throw new Error(errorMessage)
       }
       
       // Reset form and close dialog
@@ -107,11 +139,19 @@ export function ReviewDialog() {
       setSelectedImages([])
       setOpen(false)
       
-      // Show success message (you could use a toast notification here)
-      alert("Thank you for your review! It will be published after moderation.")
+      // Show success message 
+      toast({
+        variant: "success",
+        title: "Review submitted!",
+        description: "Your review has been submitted and will be published after moderation.",
+      })
     } catch (error) {
       console.error("Error submitting review:", error)
-      alert(`There was an error submitting your review: ${error instanceof Error ? error.message : 'Please try again.'}`)
+      toast({
+        variant: "error",
+        title: "Failed to submit review",
+        description: error instanceof Error ? error.message : "Please try again later.",
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -281,18 +321,20 @@ export function ReviewDialog() {
               </div>
               
               {selectedImages.length > 0 && (
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
                   {selectedImages.map((file, index) => (
-                    <div key={index} className="relative">
+                    <div key={index} className="relative group">
                       <img
                         src={URL.createObjectURL(file)}
                         alt={`Upload ${index + 1}`}
-                        className="w-20 h-20 object-cover rounded-lg"
+                        className="w-full h-20 object-cover rounded-lg border border-border"
+                        onLoad={() => console.log(`Image ${index + 1} loaded successfully`)}
+                        onError={() => console.error(`Failed to load image ${index + 1}`)}
                       />
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
+                        className="absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X className="w-3 h-3" />
                       </button>

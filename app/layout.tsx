@@ -11,6 +11,7 @@ import { Nunito } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -95,6 +96,7 @@ export default function RootLayout({
       </head>
       <body className={`${playfair.variable} ${sourceSans.variable} ${dmSerif.variable} ${breeSerif.variable} ${mochiyPop.variable} ${mochiyPopP.variable} ${fredoka.variable} ${nunito.variable} ${GeistMono.variable}`}>
         <Suspense fallback={null}>{children}</Suspense>
+        <Toaster />
         <Analytics />
       </body>
     </html>

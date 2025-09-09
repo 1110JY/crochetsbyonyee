@@ -10,6 +10,7 @@ import { createClient } from "@/lib/supabase/client"
 import { useState, useEffect } from "react"
 import { Save, Settings } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 
 interface SiteSettings {
   site_title: string
@@ -26,6 +27,7 @@ interface SiteSettings {
 
 export default function AdminSettingsPage() {
   const router = useRouter()
+  const { toast } = useToast()
   const [settings, setSettings] = useState<SiteSettings>({
     site_title: "",
     site_description: "",
@@ -95,10 +97,18 @@ export default function AdminSettingsPage() {
       // Also force refresh the current page cache
       router.refresh()
 
-      alert("Settings saved successfully!")
+      toast({
+        variant: "success",
+        title: "Settings saved!",
+        description: "Your site settings have been updated successfully.",
+      })
     } catch (error) {
       console.error("Error saving settings:", error)
-      alert("Error saving settings. Please try again.")
+      toast({
+        variant: "error",
+        title: "Failed to save settings",
+        description: "There was an error saving your settings. Please try again.",
+      })
     } finally {
       setIsSaving(false)
     }
