@@ -8,6 +8,7 @@ import { Menu, X, Instagram } from "lucide-react"
 import { SiTiktok } from "react-icons/si"
 import { createBrowserClient } from "@supabase/ssr"
 import type { User as SupabaseUser } from "@supabase/supabase-js"
+import { CurrencySelector } from "@/components/currency-selector"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -123,8 +124,13 @@ export function Navigation() {
               </>
             )}
 
+            {/* Currency Selector */}
+            <div className="ml-2">
+              <CurrencySelector />
+            </div>
+
             {/* Social icons */}
-            <div className="flex items-center space-x-2 ml-3 pl-3 border-l border-border">
+            <div className="flex items-center space-x-2 ml-2 pl-2 border-l border-border">
                 <a
                   href="https://www.tiktok.com/@crochetsbyonyee"
                   target="_blank"
@@ -227,6 +233,12 @@ export function Navigation() {
                   )}
                 </>
               )}
+
+              {/* Mobile Currency Selector */}
+              <div className="pt-3 border-t border-border">
+                <div className="text-foreground/70 font-fredoka text-sm mb-2">Currency</div>
+                <CurrencySelector variant="mobile" />
+              </div>
             </div>
           </div>
         )}

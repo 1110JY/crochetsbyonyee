@@ -1,5 +1,8 @@
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
+import { PriceDisplay } from "@/components/price-display"
+import { CurrencyDisclaimer } from "@/components/currency-disclaimer"
+import { ShippingInfo } from "@/components/shipping-info"
 import { getProductBySlug } from "@/lib/supabase/products"
 import { getStaticProducts } from "@/lib/supabase/static"
 import { notFound } from "next/navigation"
@@ -87,9 +90,13 @@ export default async function ProductPage({
               <h1 className="text-4xl font-mochiy text-foreground mb-4">
                 {product.name}
               </h1>
-              {product.price && (
-                <p className="text-2xl text-foreground font-mochiy-p">£{product.price.toFixed(2)}</p>
-              )}
+              <PriceDisplay 
+                price={product.price} 
+                className="text-2xl text-foreground font-mochiy-p"
+              />
+              <div className="mt-3">
+                <CurrencyDisclaimer />
+              </div>
             </div>
 
             {/* Availability Badge */}
@@ -140,6 +147,9 @@ export default async function ProductPage({
                 <p className="text-muted-foreground font-mochiy-p">{product.care_instructions}</p>
               </div>
             )}
+
+            {/* Shipping Information */}
+            <ShippingInfo />
 
             {/* Contact Button */}
             <div className="pt-8">
