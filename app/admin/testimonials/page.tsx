@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -71,7 +71,6 @@ export default function AdminTestimonialsPage() {
         is_published: true,
       })
     } catch (error) {
-      console.error("Error saving testimonial:", error)
       alert("Error saving testimonial. Please try again.")
     }
   }
@@ -139,253 +138,250 @@ export default function AdminTestimonialsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="border-b border-slate-200 bg-white">
-        <div className="px-6 py-6">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-semibold text-slate-900">Testimonials</h1>
+    <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
+      {/* Header */}
+      <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Testimonials</h1>
             <p className="text-slate-600 mt-1">Manage customer testimonials and reviews</p>
           </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+            <div className="text-sm text-slate-600 flex items-center">
+              <span className="font-medium">{testimonials.length}</span>
+              <span className="ml-1">testimonials total</span>
+            </div>
+            <Button
+              onClick={() => setShowAddForm(true)}
+              className="bg-slate-900 hover:bg-slate-800 text-white"
+              disabled={showAddForm || editingId !== null}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              New Testimonial
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-xl font-semibold text-slate-900">All Testimonials</h2>
-            <p className="text-slate-500">{testimonials.length} testimonials total</p>
-          </div>
-          <Button
-            onClick={() => setShowAddForm(true)}
-            className="bg-slate-900 hover:bg-slate-800 text-white"
-            disabled={showAddForm || editingId !== null}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Testimonial
-          </Button>
-        </div>
+      {/* Pending Reviews Notice */}
+      {testimonials.filter(t => !t.is_published).length > 0 && (
+        <Card className="bg-amber-50 border-amber-200">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-amber-900 mb-2 flex items-center">
+              <Eye className="w-5 h-5 mr-2" />
+              Pending Reviews ({testimonials.filter(t => !t.is_published).length})
+            </h3>
+            <p className="text-amber-800 text-sm">Some testimonials are unpublished and may need your review.</p>
+          </CardContent>
+        </Card>
+      )}
 
-        {/* Pending Reviews Notice */}
-        {testimonials.filter(t => !t.is_published).length > 0 && (
-          <Card className="bg-orange-50 border-orange-200 mb-6">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold text-orange-800 mb-2 flex items-center">
-                <Eye className="w-5 h-5 mr-2" />
-                Pending Reviews ({testimonials.filter(t => !t.is_published).length})
-              </h3>
-              <p className="text-orange-700 text-sm">Some testimonials are unpublished and may need your review.</p>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Add/Edit Form */}
-        {(showAddForm || editingId) && (
-          <Card className="bg-white border-slate-200 shadow-sm mb-6">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-6">
-                {editingId ? "Edit Testimonial" : "Add New Testimonial"}
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <Label htmlFor="customer_name" className="text-slate-900 font-medium">
-                    Customer Name *
-                  </Label>
-                  <Input
-                    id="customer_name"
-                    value={formData.customer_name}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, customer_name: e.target.value }))}
-                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
-                    placeholder="e.g., Shrek"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="rating" className="text-slate-900 font-medium">
-                    Rating *
-                  </Label>
-                  <select
-                    id="rating"
-                    value={formData.rating}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, rating: Number.parseInt(e.target.value) }))}
-                    className="w-full px-3 py-2 border border-slate-300 focus:border-slate-500 focus:ring-slate-500 rounded-md bg-white text-slate-900"
-                  >
-                    {[1, 2, 3, 4, 5].map((rating) => (
-                      <option key={rating} value={rating}>
-                        {rating} Star{rating !== 1 ? "s" : ""}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="mb-4">
-                <Label htmlFor="content" className="text-slate-900 font-medium">
-                  Testimonial Content *
+      {/* Add/Edit Form */}
+      {(showAddForm || editingId) && (
+        <Card className="bg-white border-slate-200">
+          <CardHeader className="bg-slate-50 border-b border-slate-200">
+            <CardTitle className="text-slate-900 flex items-center gap-2">
+              <Star className="w-5 h-5" />
+              {editingId ? "Edit Testimonial" : "Add New Testimonial"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="customer_name" className="text-slate-700 font-medium">
+                  Customer Name *
                 </Label>
-                <Textarea
-                  id="content"
-                  value={formData.content}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-                  className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
-                  rows={4}
-                  placeholder="What did the customer say about your work?"
+                <Input
+                  id="customer_name"
+                  value={formData.customer_name}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, customer_name: e.target.value }))}
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  placeholder="e.g., Sarah Johnson"
                 />
               </div>
-              <div className="flex items-center space-x-6 mb-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.is_published}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, is_published: e.target.checked }))}
-                    className="rounded border-slate-300"
-                  />
-                  <span className="text-slate-600">Published</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.is_featured}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, is_featured: e.target.checked }))}
-                    className="rounded border-slate-300"
-                  />
-                  <span className="text-slate-600">Featured</span>
-                </label>
-              </div>
-              <div className="flex space-x-2">
-                <Button onClick={handleSave} className="bg-slate-900 hover:bg-slate-800 text-white">
-                  <Save className="w-4 h-4 mr-2" />
-                  Save
-                </Button>
-                <Button
-                  onClick={handleCancel}
-                  variant="outline"
-                  className="border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900"
+              <div>
+                <Label htmlFor="rating" className="text-slate-700 font-medium">
+                  Rating *
+                </Label>
+                <select
+                  id="rating"
+                  value={formData.rating}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, rating: Number.parseInt(e.target.value) }))}
+                  className="w-full border border-slate-200 rounded-md px-3 py-2 text-slate-900 focus:border-slate-400 focus:ring-slate-400 focus:outline-none"
                 >
-                  <X className="w-4 h-4 mr-2" />
-                  Cancel
-                </Button>
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <option key={rating} value={rating}>
+                      {rating} Star{rating !== 1 ? "s" : ""}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Testimonials List */}
-        {testimonials.length > 0 ? (
-          <div className="space-y-4">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-3">
-                        <h3 className="font-serif text-foreground">{testimonial.customer_name}</h3>
-                        <div className="flex items-center space-x-1">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                          ))}
-                        </div>
-                        <div className="flex space-x-2">
-                          <Badge 
-                            variant="outline" 
-                            className={testimonial.is_published 
-                              ? "border-primary/20 text-primary"
-                              : "border-muted text-muted-foreground"
-                            }
-                          >
-                            {testimonial.is_published ? "Published" : "Draft"}
-                          </Badge>
-                          {testimonial.is_featured && (
-                            <Badge 
-                              variant="outline"
-                              className="border-secondary/20 text-secondary"
-                            >
-                              Featured
-                            </Badge>
-                          )}
-                          {testimonial.source === 'customer_review' && (
-                            <Badge 
-                              variant="outline"
-                              className="border-blue-200 text-blue-600 bg-blue-50/50"
-                            >
-                              Customer Review
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      {testimonial.title && (
-                        <h4 className="font-medium text-foreground mb-2">"{testimonial.title}"</h4>
-                      )}
-
-                      <p className="text-muted-foreground mb-4 italic">"{testimonial.content}"</p>
-
-                      {testimonial.email && (
-                        <p className="text-xs text-muted-foreground mb-2">
-                          Email: {testimonial.email}
-                        </p>
-                      )}
-
-                      <p className="text-sm text-muted-foreground">
-                        Added {new Date(testimonial.created_at).toLocaleDateString()}
-                        {testimonial.source === 'customer_review' && ' (Submitted by customer)'}
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col space-y-2 ml-4">
-                      <Button
-                        onClick={() => togglePublished(testimonial.id, testimonial.is_published)}
-                        size="sm"
-                        variant="outline"
-                        className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-                      >
-                        {testimonial.is_published ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
-                      </Button>
-                      <Button
-                        onClick={() => toggleFeatured(testimonial.id, testimonial.is_featured)}
-                        size="sm"
-                        variant="outline"
-                        className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-                      >
-                        <Star className={`w-3 h-3 ${testimonial.is_featured ? "fill-primary" : ""}`} />
-                      </Button>
-                      <Button
-                        onClick={() => handleEdit(testimonial)}
-                        size="sm"
-                        variant="outline"
-                        className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-                        disabled={editingId !== null || showAddForm}
-                      >
-                        <Edit className="w-3 h-3" />
-                      </Button>
-                      <Button
-                        onClick={() => handleDelete(testimonial.id)}
-                        size="sm"
-                        variant="outline"
-                        className="border-destructive/30 hover:border-destructive/50 text-destructive hover:text-destructive"
-                        disabled={editingId !== null || showAddForm}
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
-            <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="w-8 h-8 text-white" />
+            </div>
+            
+            <div>
+              <Label htmlFor="content" className="text-slate-700 font-medium">
+                Testimonial Content *
+              </Label>
+              <Textarea
+                id="content"
+                value={formData.content}
+                onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                rows={4}
+                placeholder="Customer's feedback about your products or service..."
+              />
+            </div>
+            
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="is_featured"
+                  checked={formData.is_featured}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, is_featured: e.target.checked }))}
+                  className="h-4 w-4 text-slate-900 focus:ring-slate-400 border-slate-300 rounded"
+                />
+                <Label htmlFor="is_featured" className="text-slate-700 font-medium">
+                  Featured Testimonial
+                </Label>
               </div>
-              <h3 className="text-2xl font-serif font-light text-foreground mb-2">No Testimonials Yet</h3>
-              <p className="text-muted-foreground mb-6">Add customer testimonials to build trust and showcase your work.</p>
-              <Button onClick={() => setShowAddForm(true)} className="bg-primary/90 hover:bg-primary text-primary-foreground">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Your First Testimonial
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="is_published"
+                  checked={formData.is_published}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, is_published: e.target.checked }))}
+                  className="h-4 w-4 text-slate-900 focus:ring-slate-400 border-slate-300 rounded"
+                />
+                <Label htmlFor="is_published" className="text-slate-700 font-medium">
+                  Publish Immediately
+                </Label>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 pt-4">
+              <Button
+                onClick={handleCancel}
+                variant="outline"
+                className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              >
+                <X className="w-4 h-4 mr-2" />
+                Cancel
               </Button>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+              <Button 
+                onClick={handleSave} 
+                className="bg-slate-900 hover:bg-slate-800 text-white"
+              >
+                <Save className="w-4 h-4 mr-2" />
+                {editingId ? "Update" : "Create"} Testimonial
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Testimonials List */}
+      {testimonials.length > 0 ? (
+        <div className="space-y-4">
+          {testimonials.map((testimonial) => (
+            <Card key={testimonial.id} className="bg-white border-slate-200 hover:border-slate-300 transition-colors">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <h3 className="font-semibold text-slate-900">{testimonial.customer_name}</h3>
+                      <div className="flex items-center space-x-1">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        ))}
+                      </div>
+                      <div className="flex space-x-2">
+                        <Badge 
+                          variant="outline" 
+                          className={testimonial.is_published 
+                            ? "border-green-200 text-green-700 bg-green-50"
+                            : "border-slate-200 text-slate-600 bg-slate-50"
+                          }
+                        >
+                          {testimonial.is_published ? "Published" : "Draft"}
+                        </Badge>
+                        {testimonial.is_featured && (
+                          <Badge 
+                            variant="outline"
+                            className="border-blue-200 text-blue-700 bg-blue-50"
+                          >
+                            Featured
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="text-slate-700 mb-4 italic">"{testimonial.content}"</p>
+
+                    <p className="text-sm text-slate-500">
+                      Added {new Date(testimonial.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col space-y-2 ml-4">
+                    <Button
+                      onClick={() => togglePublished(testimonial.id, testimonial.is_published)}
+                      size="sm"
+                      variant="outline"
+                      className="border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900"
+                    >
+                      {testimonial.is_published ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                    </Button>
+                    <Button
+                      onClick={() => toggleFeatured(testimonial.id, testimonial.is_featured)}
+                      size="sm"
+                      variant="outline"
+                      className="border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900"
+                    >
+                      <Star className={`w-3 h-3 ${testimonial.is_featured ? "fill-amber-400 text-amber-400" : ""}`} />
+                    </Button>
+                    <Button
+                      onClick={() => handleEdit(testimonial)}
+                      size="sm"
+                      variant="outline"
+                      className="border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900"
+                      disabled={editingId !== null || showAddForm}
+                    >
+                      <Edit className="w-3 h-3" />
+                    </Button>
+                    <Button
+                      onClick={() => handleDelete(testimonial.id)}
+                      size="sm"
+                      variant="outline"
+                      className="border-red-200 hover:border-red-300 text-red-600 hover:text-red-700"
+                      disabled={editingId !== null || showAddForm}
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Card className="bg-white border-slate-200">
+          <CardContent className="p-12 text-center">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Star className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">No Testimonials Yet</h3>
+            <p className="text-slate-600 mb-6">Add customer testimonials to build trust and showcase your work.</p>
+            <Button 
+              onClick={() => setShowAddForm(true)} 
+              className="bg-slate-900 hover:bg-slate-800 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Your First Testimonial
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

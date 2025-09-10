@@ -41,7 +41,6 @@ export default function AdminProductsPage() {
       if (error) throw error
       setProducts(data || [])
     } catch (error) {
-      console.error("Error loading products:", error)
       setError("Failed to load products. Please try again.")
     } finally {
       setIsLoading(false)
@@ -70,7 +69,6 @@ export default function AdminProductsPage() {
         alert("Failed to update product availability. Please try again.")
       }
     } catch (error) {
-      console.error("Error toggling availability:", error)
       // Revert on error
       setProducts((prevProducts) =>
         prevProducts.map((p) =>
@@ -105,7 +103,6 @@ export default function AdminProductsPage() {
         alert("Failed to update product featured status. Please try again.")
       }
     } catch (error) {
-      console.error("Error toggling featured status:", error)
       // Revert on error
       setProducts((prevProducts) =>
         prevProducts.map((p) =>
@@ -134,7 +131,6 @@ export default function AdminProductsPage() {
         alert("Failed to delete product. Please try again.")
       }
     } catch (error) {
-      console.error("Error deleting product:", error)
       await loadProducts() // Reload all products if delete errors
       alert("An error occurred while deleting the product. Please try again.")
     } finally {
@@ -181,14 +177,14 @@ export default function AdminProductsPage() {
 
       {/* Error State */}
       {error && (
-        <div className="bg-white rounded-lg border border-red-200 p-4">
-          <div className="flex items-center text-red-800">
+        <div className="bg-white rounded-lg border border-slate-200 p-4">
+          <div className="flex items-center text-slate-800">
             <span className="text-sm">{error}</span>
             <Button 
               variant="outline" 
               size="sm" 
               onClick={loadProducts}
-              className="ml-auto border-red-200 text-red-700 hover:bg-red-50"
+              className="ml-auto border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
             >
               Retry
             </Button>
@@ -229,8 +225,8 @@ export default function AdminProductsPage() {
                         variant="secondary" 
                         className={`text-xs ${
                           product.is_available 
-                            ? "bg-green-100 text-green-700 border-green-200" 
-                            : "bg-red-100 text-red-700 border-red-200"
+                            ? "bg-slate-100 text-slate-700 border-slate-200" 
+                            : "bg-slate-200 text-slate-600 border-slate-300"
                         }`}
                       >
                         {product.is_available ? "Active" : "Inactive"}
@@ -238,7 +234,7 @@ export default function AdminProductsPage() {
                       {product.is_featured && (
                         <Badge 
                           variant="secondary"
-                          className="text-xs bg-blue-100 text-blue-700 border-blue-200"
+                          className="text-xs bg-slate-100 text-slate-700 border-slate-200"
                         >
                           Featured
                         </Badge>
@@ -282,7 +278,7 @@ export default function AdminProductsPage() {
                       variant="outline"
                       disabled={isProcessing[product.id]}
                       onClick={() => handleDelete(product.id)} 
-                      className="border-red-200 text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                     >
                       {isProcessing[product.id] ? (
                         <div className="w-3 h-3 border-2 border-current border-r-transparent rounded-full animate-spin" />

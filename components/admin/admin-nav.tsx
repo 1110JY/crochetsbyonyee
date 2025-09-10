@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import { LayoutDashboard, Package, FolderOpen, MessageSquare, Star, Settings, LogOut, ShoppingCart, Users, FileText, Globe, PaintBucket, Shield, Building2, Menu, X } from "lucide-react"
+import { LayoutDashboard, Package, FolderOpen, MessageSquare, Star, Settings, LogOut, ShoppingCart, Users, FileText, Globe, PaintBucket, Shield, Building2, Menu, X, Megaphone } from "lucide-react"
 import { useState } from "react"
 
 const navItems = [
@@ -22,6 +22,7 @@ const navItems = [
   { 
     section: "Content",
     items: [
+      { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
       { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
       { href: "/admin/testimonials", label: "Testimonials", icon: Star },
       { href: "/admin/blog", label: "Blog & Articles", icon: FileText },

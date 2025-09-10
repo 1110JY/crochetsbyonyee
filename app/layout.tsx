@@ -13,7 +13,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { Toaster } from "@/components/ui/toaster"
 import { CurrencyProvider } from "@/contexts/currency-context"
-import { AnnouncementBar } from "@/components/announcement-bar"
+import { ConditionalAnnouncementBar } from "../components/conditional-announcement-bar"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -96,10 +96,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Mochiy+Pop+P+One&family=Fredoka:wght@400&family=Nunito:wght@300&display=swap" rel="stylesheet" />
       </head>
-      <body className={`${playfair.variable} ${sourceSans.variable} ${dmSerif.variable} ${breeSerif.variable} ${mochiyPop.variable} ${mochiyPopP.variable} ${fredoka.variable} ${nunito.variable} ${GeistMono.variable} pb-12`}>
+      <body 
+        className={`${playfair.variable} ${sourceSans.variable} ${dmSerif.variable} ${breeSerif.variable} ${mochiyPop.variable} ${mochiyPopP.variable} ${fredoka.variable} ${nunito.variable} ${GeistMono.variable} pb-12`}
+        suppressHydrationWarning
+      >
         <CurrencyProvider>
           <Suspense fallback={null}>{children}</Suspense>
-          <AnnouncementBar />
+          <ConditionalAnnouncementBar />
           <Toaster />
         </CurrencyProvider>
         <Analytics />

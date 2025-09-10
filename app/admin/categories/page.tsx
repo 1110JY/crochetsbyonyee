@@ -1,14 +1,14 @@
 "use client"
 
-import { AdminHeader } from "@/components/admin/admin-header"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { createClient } from "@/lib/supabase/client"
 import { useState, useEffect } from "react"
-import { Plus, Edit, Trash2, Save, X } from "lucide-react"
+import { Plus, Edit, Trash2, Save, X, FolderOpen, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 interface Category {
   id: string
@@ -160,211 +160,234 @@ export default function AdminCategoriesPage() {
 
   if (isLoading) {
     return (
-      <div>
-        <AdminHeader title="Categories" description="Manage product categories" />
-        <div className="p-6">
-          <div className="text-center py-8">Loading categories...</div>
+      <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
+        <div className="bg-white rounded-lg border border-slate-200 p-8">
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-slate-300 border-r-slate-900 rounded-full animate-spin mr-3" />
+            <span className="text-slate-600">Loading categories...</span>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-      <AdminHeader title="Categories" description="Manage product categories" />
-
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="flex justify-between items-center mb-8">
+    <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
+      {/* Header */}
+      <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-serif font-light text-foreground">All Categories</h2>
-            <p className="text-muted-foreground">{categories.length} categories total</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Categories</h1>
+            <p className="text-slate-600 mt-1">Organize your products into categories</p>
           </div>
-          <Button
-            onClick={() => setShowAddForm(true)}
-            className="bg-primary/90 hover:bg-primary text-primary-foreground"
-            disabled={!!showAddForm || !!editingId}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Category
-          </Button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+            <div className="text-sm text-slate-600 flex items-center">
+              <span className="font-medium">{categories.length}</span>
+              <span className="ml-1">categories total</span>
+            </div>
+            <Button
+              onClick={() => setShowAddForm(true)}
+              className="bg-slate-900 hover:bg-slate-800 text-white"
+              disabled={!!showAddForm || !!editingId}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              New Category
+            </Button>
+          </div>
         </div>
+      </div>
 
-        {/* Add/Edit Form */}
-        {(showAddForm || editingId) && (
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 mb-6">
-            <CardContent className="p-6">
-              <h3 className="text-2xl font-serif font-light text-foreground mb-6">
-                {editingId ? "Edit Category" : "Add New Category"}
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <Label htmlFor="name" className="text-foreground">
-                    Name *
-                  </Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => {
-                      const name = e.target.value
-                      setFormData((prev) => ({
-                        ...prev,
-                        name,
-                        slug: prev.slug || generateSlug(name),
-                      }))
-                    }}
-                    className="border-primary/20 focus:border-primary/30"
-                    placeholder="e.g., Baby Items"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="slug" className="text-amber-800">
-                    Slug *
-                  </Label>
-                  <Input
-                    id="slug"
-                    value={formData.slug}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
-                    className="border-amber-200"
-                    placeholder="e.g., baby-items"
-                  />
-                </div>
-              </div>
-              <div className="mb-4">
-                <Label htmlFor="description" className="text-amber-800">
-                  Description
+      {/* Add/Edit Form */}
+      {(showAddForm || editingId) && (
+        <Card className="bg-white border-slate-200">
+          <CardHeader className="bg-slate-50 border-b border-slate-200">
+            <CardTitle className="text-slate-900 flex items-center gap-2">
+              <FolderOpen className="w-5 h-5" />
+              {editingId ? "Edit Category" : "Add New Category"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="name" className="text-slate-700 font-medium">
+                  Name *
                 </Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                  className="border-amber-200"
-                  rows={3}
-                  placeholder="Brief description of this category"
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => {
+                    const name = e.target.value
+                    setFormData((prev) => ({
+                      ...prev,
+                      name,
+                      slug: prev.slug || generateSlug(name),
+                    }))
+                  }}
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  placeholder="e.g., Baby Items"
                 />
               </div>
-              <div className="mb-4">
-                <Label htmlFor="image" className="text-amber-800">
-                  Category Image
+              <div>
+                <Label htmlFor="slug" className="text-slate-700 font-medium">
+                  Slug *
                 </Label>
-                <div className="mt-2 space-y-4">
-                  {(imagePreview || formData.image_url) && (
-                    <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-primary/20">
-                      <img
-                        src={imagePreview || formData.image_url}
-                        alt="Category preview"
-                        className="w-full h-full object-cover"
-                      />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        className="absolute top-2 right-2 p-1 h-8 w-8"
-                        onClick={() => {
-                          setSelectedImage(null)
-                          setImagePreview("")
-                          setFormData(prev => ({ ...prev, image_url: "" }))
-                        }}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  )}
-                  <div className="flex items-center space-x-4">
-                    <Input
-                      id="image"
-                      type="file"
-                      accept="image/*"
-                      className="border-amber-200"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0]
-                        if (file) {
-                          setSelectedImage(file)
-                          const reader = new FileReader()
-                          reader.onloadend = () => {
-                            setImagePreview(reader.result as string)
-                          }
-                          reader.readAsDataURL(file)
-                        }
-                      }}
+                <Input
+                  id="slug"
+                  value={formData.slug}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  placeholder="e.g., baby-items"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="description" className="text-slate-700 font-medium">
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                rows={3}
+                placeholder="Brief description of this category"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="image" className="text-slate-700 font-medium">
+                Category Image
+              </Label>
+              <div className="mt-2 space-y-4">
+                {(imagePreview || formData.image_url) && (
+                  <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-slate-200">
+                    <img
+                      src={imagePreview || formData.image_url}
+                      alt="Category preview"
+                      className="w-full h-full object-cover"
                     />
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="absolute top-2 right-2 p-1 h-6 w-6 bg-white/90 hover:bg-white border-slate-200"
+                      onClick={() => {
+                        setSelectedImage(null)
+                        setImagePreview("")
+                        setFormData(prev => ({ ...prev, image_url: "" }))
+                      }}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      setSelectedImage(file)
+                      const reader = new FileReader()
+                      reader.onloadend = () => {
+                        setImagePreview(reader.result as string)
+                      }
+                      reader.readAsDataURL(file)
+                    }
+                  }}
+                />
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 pt-4">
+              <Button
+                onClick={handleCancel}
+                variant="outline"
+                className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              >
+                <X className="w-4 h-4 mr-2" />
+                Cancel
+              </Button>
+              <Button onClick={handleSave} className="bg-slate-900 hover:bg-slate-800 text-white">
+                <Save className="w-4 h-4 mr-2" />
+                {editingId ? "Update" : "Create"} Category
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Categories List */}
+      {categories.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {categories.map((category) => (
+            <Card key={category.id} className="bg-white border-slate-200 hover:shadow-md transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">{category.name}</h3>
+                    <p className="text-sm text-slate-500 mb-2">/{category.slug}</p>
+                    {category.description && (
+                      <p className="text-sm text-slate-600 line-clamp-2 mb-3">{category.description}</p>
+                    )}
+                    {category.image_url && (
+                      <div className="mt-3">
+                        <img 
+                          src={category.image_url} 
+                          alt={category.name}
+                          className="w-16 h-16 object-cover rounded-lg border border-slate-200"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-              <div className="flex space-x-2">
-                <Button onClick={handleSave} className="bg-amber-600 hover:bg-amber-700 text-white">
-                  <Save className="w-4 h-4 mr-2" />
-                  Save
-                </Button>
-                <Button
-                  onClick={handleCancel}
-                  variant="outline"
-                  className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-                >
-                  <X className="w-4 h-4 mr-2" />
-                  Cancel
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
-        {/* Categories List */}
-        {categories.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((category) => (
-              <Card key={category.id} className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <h3 className="font-serif text-lg text-foreground mb-1">{category.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-2">/{category.slug}</p>
-                      {category.description && (
-                        <p className="text-sm text-muted-foreground/80 line-clamp-2">{category.description}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex space-x-2">
-                    <Button
-                      onClick={() => handleEdit(category)}
-                      size="sm"
-                      variant="outline"
-                      className="flex-1 border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground"
-                      disabled={editingId === category.id || showAddForm}
-                    >
-                      <Edit className="w-3 h-3 mr-1" />
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => handleDelete(category.id)}
-                      size="sm"
-                      variant="outline"
-                      className="border-destructive/30 hover:border-destructive/50 text-destructive hover:text-destructive"
-                      disabled={editingId === category.id || showAddForm}
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
-            <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Plus className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-foreground mb-2">No Categories Yet</h3>
-              <p className="text-muted-foreground mb-6">Create your first product category to get started.</p>
-              <Button onClick={() => setShowAddForm(true)} className="bg-primary/90 hover:bg-primary text-primary-foreground">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Your First Category
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+                <div className="flex gap-2 pt-3 border-t border-slate-200">
+                  <Button
+                    onClick={() => handleEdit(category)}
+                    size="sm"
+                    variant="outline"
+                    className="flex-1 border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    disabled={editingId === category.id || showAddForm}
+                  >
+                    <Edit className="w-3 h-3 mr-2" />
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(category.id)}
+                    size="sm"
+                    variant="outline"
+                    className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    disabled={editingId === category.id || showAddForm}
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Card className="bg-white border-slate-200">
+          <CardContent className="p-8 md:p-12 text-center">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FolderOpen className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">No categories yet</h3>
+            <p className="text-slate-600 mb-6">Create your first product category to get started organizing your inventory.</p>
+            <Button 
+              onClick={() => setShowAddForm(true)} 
+              className="bg-slate-900 hover:bg-slate-800 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Create First Category
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

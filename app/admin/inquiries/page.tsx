@@ -1,7 +1,6 @@
 "use client"
 
-import { AdminHeader } from "@/components/admin/admin-header"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -12,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { createClient } from "@/lib/supabase/client"
-import { Mail, Clock, CheckCircle, Send, Trash2 } from "lucide-react"
+import { Mail, Clock, CheckCircle, Send, Trash2, MessageSquare, Eye } from "lucide-react"
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -45,7 +44,6 @@ export default function AdminInquiriesPage() {
   
   const loadInquiries = async () => {
     setIsLoading(true)
-    console.log('Loading inquiries...')
     
     try {
       const supabase = createClient()
@@ -55,15 +53,12 @@ export default function AdminInquiriesPage() {
         .order("created_at", { ascending: false })
 
       if (error) {
-        console.error('Error loading inquiries:', error)
         toast.error('Failed to load inquiries')
         return
       }
 
-      console.log('Loaded inquiries:', data?.length || 0)
       setInquiries(data || [])
     } catch (error) {
-      console.error('Failed to load inquiries:', error)
       toast.error('Failed to load inquiries')
     } finally {
       setIsLoading(false)
@@ -83,7 +78,6 @@ export default function AdminInquiriesPage() {
         .eq("id", inquiryId)
 
       if (error) {
-        console.error('Failed to delete inquiry:', error)
         toast.error('Failed to delete inquiry')
         return
       }
@@ -91,18 +85,15 @@ export default function AdminInquiriesPage() {
       toast.success('Inquiry deleted')
       await loadInquiries()
     } catch (error) {
-      console.error('Error deleting inquiry:', error)
       toast.error('Failed to delete inquiry')
     }
   }
 
   const handleMarkRead = async (inquiryId: string) => {
     if (!inquiryId) {
-      console.error('No inquiry ID provided')
       return
     }
 
-    console.log('Starting mark as read for inquiry:', inquiryId)
     const supabase = createClient()
     
     try {
@@ -204,10 +195,12 @@ export default function AdminInquiriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-        <AdminHeader title="Customer Inquiries" description="Manage customer messages and requests" />
-        <div className="max-w-7xl mx-auto px-8 py-12 flex items-center justify-center">
-          <div className="w-8 h-8 border-4 border-primary border-r-transparent rounded-full animate-spin" />
+      <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
+        <div className="bg-white rounded-lg border border-slate-200 p-8">
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-slate-300 border-r-slate-900 rounded-full animate-spin mr-3" />
+            <span className="text-slate-600">Loading inquiries...</span>
+          </div>
         </div>
       </div>
     )
@@ -216,155 +209,172 @@ export default function AdminInquiriesPage() {
   const unreadCount = inquiries.filter((inquiry) => !inquiry.is_read).length
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
-      <AdminHeader title="Customer Inquiries" description="Manage customer messages and requests" />
-
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="flex justify-between items-center mb-8">
+    <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
+      {/* Header */}
+      <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-serif font-light text-foreground">All Inquiries</h2>
-            <p className="text-muted-foreground">
-              {inquiries.length} total inquiries • {unreadCount} unread
-            </p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Customer Inquiries</h1>
+            <p className="text-slate-600 mt-1">Manage customer messages and support requests</p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+            <div className="text-sm text-slate-600 flex items-center">
+              <span className="font-medium">{inquiries.length}</span>
+              <span className="ml-1">inquiries total</span>
+            </div>
+            {unreadCount > 0 && (
+              <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200">
+                {unreadCount} unread
+              </Badge>
+            )}
           </div>
         </div>
+      </div>
 
-        {inquiries.length > 0 ? (
-          <div className="space-y-4">
-            {inquiries.map((inquiry) => (
-              <Card key={inquiry.id} className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-3">
-                        <div className="flex items-center space-x-2">
-                          <Mail className="w-4 h-4 text-primary" />
-                          <span className="font-serif text-foreground">{inquiry.name}</span>
-                        </div>
-                        <span className="text-muted-foreground">{inquiry.email}</span>
-                        {!inquiry.is_read && (
-                          <Badge variant="secondary" className="bg-primary/10 text-primary">
-                            New
-                          </Badge>
-                        )}
+      {/* Inquiries List */}
+      {inquiries.length > 0 ? (
+        <div className="space-y-4 md:space-y-6">
+          {inquiries.map((inquiry) => (
+            <Card key={inquiry.id} className="bg-white border-slate-200 hover:shadow-md transition-shadow">
+              <CardContent className="p-4 md:p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Mail className="w-4 h-4 text-slate-400" />
+                        <span className="font-medium text-slate-900">{inquiry.name}</span>
                       </div>
-
-                      {inquiry.subject && (
-                        <h3 className="font-medium text-foreground mb-2">Subject: {inquiry.subject}</h3>
+                      <span className="text-slate-600 text-sm">{inquiry.email}</span>
+                      {!inquiry.is_read && (
+                        <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200 text-xs">
+                          New
+                        </Badge>
                       )}
-
-                      <p className="text-muted-foreground mb-4 leading-relaxed">{inquiry.message}</p>
-
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                        <div className="flex items-center space-x-1">
-                          <Clock className="w-3 h-3" />
-                          <span>{new Date(inquiry.created_at).toLocaleString()}</span>
-                        </div>
-                      </div>
+                      {inquiry.replied && (
+                        <Badge variant="secondary" className="bg-slate-100 text-slate-700 border-slate-200 text-xs">
+                          Replied
+                        </Badge>
+                      )}
                     </div>
 
-                    <div className="flex flex-col space-y-2 ml-4">
-                      {!inquiry.is_read && (
-                        <Button 
-                          size="sm" 
-                          className="bg-primary/90 hover:bg-primary text-primary-foreground"
-                          onClick={() => handleMarkRead(inquiry.id)}
-                          disabled={markingRead[inquiry.id]}
-                        >
-                          {markingRead[inquiry.id] ? (
-                            <>
-                              <div className="w-3 h-3 border-2 border-current border-r-transparent rounded-full animate-spin mr-1" />
-                              Marking...
-                            </>
-                          ) : (
-                            <>
-                              <CheckCircle className="w-3 h-3 mr-1" />
-                              Mark Read
-                            </>
-                          )}
-                        </Button>
-                      )}
-                      <div className="space-y-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-primary/20 hover:border-primary/30 text-muted-foreground hover:text-foreground w-full"
-                          onClick={() => setSelectedInquiry(inquiry)}
-                        >
-                          <Send className="w-3 h-3 mr-1" />
-                          Reply
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-destructive/20 hover:border-destructive text-destructive hover:text-destructive w-full"
-                          onClick={() => {
-                            if (window.confirm('Are you sure you want to delete this inquiry?')) {
-                              handleDelete(inquiry.id)
-                            }
-                          }}
-                        >
-                          <Trash2 className="w-3 h-3 mr-1" />
-                          Delete
-                        </Button>
+                    {inquiry.subject && (
+                      <h3 className="font-medium text-slate-900 mb-2">Subject: {inquiry.subject}</h3>
+                    )}
+
+                    <p className="text-slate-600 mb-4 leading-relaxed line-clamp-3">{inquiry.message}</p>
+
+                    <div className="flex items-center space-x-4 text-sm text-slate-500">
+                      <div className="flex items-center space-x-1">
+                        <Clock className="w-3 h-3" />
+                        <span>{new Date(inquiry.created_at).toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
 
-                  {inquiry.replied && inquiry.reply_message && (
-                    <div className="bg-muted/50 rounded-lg p-4 mt-4">
-                      <p className="text-sm font-medium text-muted-foreground mb-2">Your reply:</p>
-                      <p className="text-sm text-muted-foreground">{inquiry.reply_message}</p>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Sent on {new Date(inquiry.replied_at!).toLocaleString()}
-                      </p>
+                  <div className="flex flex-col space-y-2 ml-4">
+                    {!inquiry.is_read && (
+                      <Button 
+                        size="sm" 
+                        className="bg-slate-900 hover:bg-slate-800 text-white"
+                        onClick={() => handleMarkRead(inquiry.id)}
+                        disabled={markingRead[inquiry.id]}
+                      >
+                        {markingRead[inquiry.id] ? (
+                          <>
+                            <div className="w-3 h-3 border-2 border-current border-r-transparent rounded-full animate-spin mr-1" />
+                            Marking...
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Mark Read
+                          </>
+                        )}
+                      </Button>
+                    )}
+                    <div className="space-y-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 w-full"
+                        onClick={() => setSelectedInquiry(inquiry)}
+                      >
+                        <Send className="w-3 h-3 mr-1" />
+                        Reply
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 w-full"
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to delete this inquiry?')) {
+                            handleDelete(inquiry.id)
+                          }
+                        }}
+                      >
+                        <Trash2 className="w-3 h-3 mr-1" />
+                        Delete
+                      </Button>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20">
-            <CardContent className="p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary via-accent to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-serif font-light text-foreground mb-2">No Inquiries Yet</h3>
-              <p className="text-muted-foreground mb-6">Customer messages will appear here when they contact you.</p>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+                  </div>
+                </div>
 
+                {inquiry.replied && inquiry.reply_message && (
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-4">
+                    <p className="text-sm font-medium text-slate-700 mb-2 flex items-center">
+                      <Send className="w-3 h-3 mr-1" />
+                      Your reply:
+                    </p>
+                    <p className="text-sm text-slate-600 mb-2">{inquiry.reply_message}</p>
+                    <p className="text-xs text-slate-500">
+                      Sent on {new Date(inquiry.replied_at!).toLocaleString()}
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Card className="bg-white border-slate-200">
+          <CardContent className="p-8 md:p-12 text-center">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MessageSquare className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">No inquiries yet</h3>
+            <p className="text-slate-600 mb-6">Customer messages and support requests will appear here when they contact you.</p>
+          </CardContent>
+        </Card>
+      )}
       <Dialog open={!!selectedInquiry} onOpenChange={(open) => !open && setSelectedInquiry(null)}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Reply to {selectedInquiry?.name}</DialogTitle>
+            <DialogTitle className="text-slate-900">Reply to {selectedInquiry?.name}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="bg-muted p-4 rounded-lg">
-              <p className="text-sm font-medium text-muted-foreground mb-2">Original message:</p>
-              <p className="text-sm text-muted-foreground">{selectedInquiry?.message}</p>
+            <div className="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+              <p className="text-sm font-medium text-slate-700 mb-2">Original message:</p>
+              <p className="text-sm text-slate-600">{selectedInquiry?.message}</p>
             </div>
             <Textarea
               placeholder="Type your reply here..."
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               rows={6}
+              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
             />
             <div className="flex justify-end space-x-2">
               <Button
                 variant="outline"
                 onClick={() => setSelectedInquiry(null)}
-                className="border-primary/20 hover:border-primary/30"
+                className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleSendReply}
                 disabled={isSending || !replyText.trim()}
-                className="bg-primary/90 hover:bg-primary text-primary-foreground"
+                className="bg-slate-900 hover:bg-slate-800 text-white"
               >
                 {isSending ? (
                   <>
