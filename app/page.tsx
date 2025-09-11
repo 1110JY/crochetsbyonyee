@@ -25,9 +25,9 @@ export default async function HomePage() {
       <Navigation />
 
       {/* Hero Section - Batch style full-screen */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-primary via-accent to-secondary">
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-pink-300 via-pink-200 to-purple-300">
         {/* Background image overlay */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <h1 className="text-6xl md:text-8xl font-mochiy font-normal mb-10 text-balance">
