@@ -2,14 +2,22 @@ import { Resend } from 'resend';
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('RESEND_API_KEY is not defined');
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
   try {
+    // Check for RESEND_API_KEY at runtime
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Email service not configured',
+          details: 'RESEND_API_KEY is not defined'
+        },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
     const body = await request.json();
     const { to, subject, message, inquiryId } = body;
 
