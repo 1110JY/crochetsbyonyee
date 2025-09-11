@@ -159,88 +159,103 @@ export function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 px-6 border-t border-border">
-            <div className="flex flex-col space-y-3">
-              <Link
-                href="/about"
-                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                href="/products"
-                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Products
-              </Link>
-              <Link
-                href="/contact"
-                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
-              <Link
-                href="/faq"
-                className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                FAQ
-              </Link>
+          <>
+            {/* Mobile menu overlay */}
+            <div 
+              className="fixed inset-0 bg-black/20 z-40"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Mobile menu dropdown */}
+            <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 z-50">
+              <div className="py-6 px-6">
+                <div className="flex flex-col space-y-4">
+                  <Link
+                    href="/about"
+                    className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link
+                    href="/products"
+                    className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Products
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                  <Link
+                    href="/faq"
+                    className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    FAQ
+                  </Link>
 
-              {!loading && (
-                <>
-                  {user ? (
+                  {!loading && (
                     <>
-                      <Link
-                        href="/protected"
-                        className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Account
-                      </Link>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          handleSignOut()
-                          setIsOpen(false)
-                        }}
-                        className="text-foreground/70 hover:text-primary hover:bg-primary/10 w-fit rounded-full font-fredoka"
-                      >
-                        Sign Out
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        href="/auth/login"
-                        className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Sign In
-                      </Link>
-                      <Link
-                        href="/auth/sign-up"
-                        className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Sign Up
-                      </Link>
+                      {user ? (
+                        <>
+                          <div className="border-t border-border/30 pt-4">
+                            <Link
+                              href="/protected"
+                              className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors block"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              Account
+                            </Link>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                handleSignOut()
+                                setIsOpen(false)
+                              }}
+                              className="text-foreground/70 hover:text-primary hover:bg-primary/10 w-fit rounded-full font-fredoka mt-2"
+                            >
+                              Sign Out
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="border-t border-border/30 pt-4">
+                            <Link
+                              href="/auth/login"
+                              className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors block"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              Sign In
+                            </Link>
+                            <Link
+                              href="/auth/sign-up"
+                              className="text-foreground/70 hover:text-primary font-fredoka py-2 transition-colors block"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              Sign Up
+                            </Link>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
-                </>
-              )}
 
-              {/* Mobile Currency Selector */}
-              <div className="pt-3 border-t border-border">
-                <div className="text-foreground/70 font-fredoka text-sm mb-2">Currency</div>
-                <CurrencySelector variant="mobile" />
+                  {/* Mobile Currency Selector */}
+                  <div className="border-t border-border/30 pt-4">
+                    <div className="text-foreground/70 font-fredoka text-sm mb-3">Currency</div>
+                    <CurrencySelector variant="mobile" />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </nav>

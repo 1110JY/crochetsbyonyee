@@ -127,7 +127,7 @@ export function AnnouncementPopup({ className }: AnnouncementPopupProps) {
   if (currentAnnouncement.popup_style === 'small') {
     return (
       <div className="fixed bottom-4 right-4 z-50 max-w-sm">
-        <Card className="shadow-lg border-l-4 border-l-primary">
+        <Card className="shadow-lg border-l-4 border-l-purple-500">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
               {currentAnnouncement.image_url && (
@@ -179,7 +179,7 @@ export function AnnouncementPopup({ className }: AnnouncementPopupProps) {
   // Full banner style (top of page)
   if (currentAnnouncement.popup_style === 'full_banner') {
     return (
-      <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-primary-foreground">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-purple-500 text-white">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 flex-1">
@@ -218,7 +218,7 @@ export function AnnouncementPopup({ className }: AnnouncementPopupProps) {
                 variant="ghost"
                 size="sm"
                 onClick={handleClose}
-                className="text-primary-foreground hover:bg-primary-foreground/20"
+                className="text-white hover:bg-white/20"
               >
                 <X className="w-4 h-4" />
               </Button>
