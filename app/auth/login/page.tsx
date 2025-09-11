@@ -42,9 +42,9 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-accent to-secondary relative">
+    <div className="min-h-screen bg-gradient-to-br from-pink-300 via-pink-200 to-purple-300 relative">
       {/* Background overlay */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      <div className="absolute inset-0 bg-black/20"></div>
       
       {/* Content */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
