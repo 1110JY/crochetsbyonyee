@@ -20,30 +20,42 @@ export function ReviewSection() {
             </p>
           </div>
 
-          {/* Stats - Redesigned */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
+          {/* Stats - Redesigned for better mobile layout */}
+          <div className="grid grid-cols-1 gap-6 mb-16 max-w-md mx-auto sm:max-w-none sm:grid-cols-3 sm:gap-8">
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+              <div className="flex items-center gap-4 sm:flex-col sm:gap-0">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center sm:mx-auto sm:mb-4 flex-shrink-0">
+                  <Users className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                </div>
+                <div className="flex-1 sm:text-center">
+                  <div className="text-2xl sm:text-3xl font-mochiy text-primary">250+</div>
+                  <div className="text-sm text-muted-foreground font-mochiy">Happy Customers</div>
+                </div>
               </div>
-              <div className="text-2xl sm:text-3xl font-mochiy text-primary mb-2">250+</div>
-              <div className="text-sm text-muted-foreground font-mochiy-p">Happy Customers</div>
             </div>
 
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+              <div className="flex items-center gap-4 sm:flex-col sm:gap-0">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center sm:mx-auto sm:mb-4 flex-shrink-0">
+                  <Star className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                </div>
+                <div className="flex-1 sm:text-center">
+                  <div className="text-2xl sm:text-3xl font-mochiy text-primary">4.9/5</div>
+                  <div className="text-sm text-muted-foreground font-mochiy">Average Rating</div>
+                </div>
               </div>
-              <div className="text-2xl sm:text-3xl font-mochiy text-primary mb-2">4.9/5</div>
-              <div className="text-sm text-muted-foreground font-mochiy-p">Average Rating</div>
             </div>
 
-            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300 sm:col-span-1 col-span-1 max-w-sm mx-auto sm:max-w-none">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300">
+              <div className="flex items-center gap-4 sm:flex-col sm:gap-0">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center sm:mx-auto sm:mb-4 flex-shrink-0">
+                  <MessageCircle className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                </div>
+                <div className="flex-1 sm:text-center">
+                  <div className="text-2xl sm:text-3xl font-mochiy text-primary">180+</div>
+                  <div className="text-sm text-muted-foreground font-mochiy">Reviews</div>
+                </div>
               </div>
-              <div className="text-2xl sm:text-3xl font-mochiy text-primary mb-2">180+</div>
-              <div className="text-sm text-muted-foreground font-mochiy-p">Reviews</div>
             </div>
           </div>
 

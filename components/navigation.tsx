@@ -158,128 +158,120 @@ export function Navigation() {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <>
-            {/* Mobile menu overlay */}
-            <div 
-              className="fixed inset-0 z-40"
-              style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
-              onClick={() => setIsOpen(false)}
-            />
-            
-            {/* Mobile menu dropdown */}
-            <div 
-              className="absolute left-0 right-0 z-50"
-              style={{ 
-                top: '100%',
-                marginTop: '8px',
-                marginLeft: '16px',
-                marginRight: '16px',
-                backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                padding: '24px',
-                border: '0px solid transparent',
-                outline: '0px solid transparent',
-                boxShadow: '0 0 0 0 transparent'
-              }}
-            >
-              <div style={{ border: '0px solid transparent', outline: '0px solid transparent' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', border: '0px solid transparent', outline: '0px solid transparent' }}>
-                  <Link
-                    href="/about"
-                    className="text-foreground/70 hover:text-primary font-fredoka transition-colors"
-                    style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link
-                    href="/products"
-                    className="text-foreground/70 hover:text-primary font-fredoka transition-colors"
-                    style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Products
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="text-foreground/70 hover:text-primary font-fredoka transition-colors"
-                    style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                  <Link
-                    href="/faq"
-                    className="text-foreground/70 hover:text-primary font-fredoka transition-colors"
-                    style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    FAQ
-                  </Link>
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
+          {/* Mobile menu overlay */}
+          <div 
+            className={`fixed inset-0 z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Mobile menu dropdown */}
+          <div 
+            className={`absolute left-0 right-0 z-50 transform transition-all duration-300 ease-out ${
+              isOpen 
+                ? 'translate-y-0 opacity-100 scale-100' 
+                : '-translate-y-4 opacity-0 scale-95 pointer-events-none'
+            }`}
+            style={{ 
+              top: '100%',
+              marginTop: '8px',
+              marginLeft: '16px',
+              marginRight: '16px',
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              padding: '24px',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1), 0 4px 20px rgba(0, 0, 0, 0.05)'
+            }}
+          >
+            <div className="animate-in fade-in-0 slide-in-from-top-4 duration-300">
+              <div className="flex flex-col space-y-4">
+                <Link
+                  href="/about"
+                  className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1"
+                  onClick={() => setIsOpen(false)}
+                >
+                  About
+                </Link>
+                <Link
+                  href="/products"
+                  className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Products
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Contact
+                </Link>
+                <Link
+                  href="/faq"
+                  className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1"
+                  onClick={() => setIsOpen(false)}
+                >
+                  FAQ
+                </Link>
 
-                  {!loading && (
-                    <>
-                      {user ? (
-                        <>
-                          <div style={{ paddingTop: '16px', border: '0px solid transparent', outline: '0px solid transparent' }}>
-                            <Link
-                              href="/protected"
-                              className="text-foreground/70 hover:text-primary font-fredoka transition-colors block"
-                              style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              Account
-                            </Link>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                handleSignOut()
-                                setIsOpen(false)
-                              }}
-                              className="text-foreground/70 hover:text-primary hover:bg-primary/10 w-fit rounded-full font-fredoka mt-2"
-                              style={{ border: '0px solid transparent', outline: '0px solid transparent' }}
-                            >
-                              Sign Out
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div style={{ paddingTop: '16px', border: '0px solid transparent', outline: '0px solid transparent' }}>
-                            <Link
-                              href="/auth/login"
-                              className="text-foreground/70 hover:text-primary font-fredoka transition-colors block"
-                              style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              Sign In
-                            </Link>
-                            <Link
-                              href="/auth/sign-up"
-                              className="text-foreground/70 hover:text-primary font-fredoka transition-colors block"
-                              style={{ padding: '8px 0', border: '0px solid transparent', outline: '0px solid transparent' }}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              Sign Up
-                            </Link>
-                          </div>
-                        </>
-                      )}
-                    </>
-                  )}
+                {!loading && (
+                  <>
+                    {user ? (
+                      <>
+                        <div className="pt-4 border-t border-gray-100">
+                          <Link
+                            href="/protected"
+                            className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1 block"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            Account
+                          </Link>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              handleSignOut()
+                              setIsOpen(false)
+                            }}
+                            className="text-foreground/70 hover:text-primary hover:bg-primary/10 w-fit rounded-full font-fredoka mt-2 transition-all duration-200 transform hover:scale-105"
+                          >
+                            Sign Out
+                          </Button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="pt-4 border-t border-gray-100">
+                          <Link
+                            href="/auth/login"
+                            className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1 block"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            Sign In
+                          </Link>
+                          <Link
+                            href="/auth/sign-up"
+                            className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 transform hover:translate-x-1 block"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            Sign Up
+                          </Link>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
 
-                  {/* Mobile Currency Selector */}
-                  <div style={{ paddingTop: '16px', border: '0px solid transparent', outline: '0px solid transparent' }}>
-                    <div className="text-foreground/70 font-fredoka text-sm mb-3" style={{ border: '0px solid transparent', outline: '0px solid transparent' }}>Currency</div>
-                    <CurrencySelector variant="mobile" />
-                  </div>
+                {/* Mobile Currency Selector */}
+                <div className="pt-4 border-t border-gray-100">
+                  <div className="text-foreground/70 font-fredoka text-sm mb-3">Currency</div>
+                  <CurrencySelector variant="mobile" />
                 </div>
               </div>
             </div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </nav>
   )
