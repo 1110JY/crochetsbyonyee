@@ -19,7 +19,7 @@ export function CategoryFilter({ categories, currentCategory }: CategoryFilterPr
   const router = useRouter()
 
   return (
-    <div className="flex justify-end relative">
+    <div className="flex justify-start sm:justify-end relative">
       <Select
         defaultValue={currentCategory || "all"}
         onValueChange={(value) => {
@@ -30,20 +30,24 @@ export function CategoryFilter({ categories, currentCategory }: CategoryFilterPr
           }
         }}
       >
-        <SelectTrigger className="w-[180px] bg-background border-primary/20 placeholder:text-gray-400">
-          <SelectValue placeholder="Select category" className="placeholder:text-gray-400" />
+        <SelectTrigger className="w-full sm:w-[180px] bg-white border-2 border-gray-200 hover:border-primary/40 focus:border-primary shadow-sm text-gray-900 font-medium">
+          <SelectValue placeholder="Select category" className="text-gray-600" />
         </SelectTrigger>
         <SelectContent 
-          className="z-[100]" 
+          className="z-[100] bg-white border-2 border-gray-200 shadow-lg rounded-lg" 
           side="bottom" 
-          align="end" 
+          align="start" 
           sideOffset={4}
           avoidCollisions={false}
           position="popper"
         >
-          <SelectItem value="all">All Products</SelectItem>
+          <SelectItem value="all" className="text-gray-900 hover:bg-primary/10 focus:bg-primary/10 py-3 cursor-pointer">All Products</SelectItem>
           {categories.map((category) => (
-            <SelectItem key={category.id} value={category.slug}>
+            <SelectItem 
+              key={category.id} 
+              value={category.slug}
+              className="text-gray-900 hover:bg-primary/10 focus:bg-primary/10 py-3 cursor-pointer"
+            >
               {category.name}
             </SelectItem>
           ))}

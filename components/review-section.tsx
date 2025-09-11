@@ -5,66 +5,61 @@ import { MessageCircle, Star, Users } from "lucide-react"
 
 export function ReviewSection() {
   return (
-    <section className="py-16 bg-gradient-to-br from-accent/5 to-primary/5">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
+    <section className="py-16 px-10 sm:px-6 lg:px-8 bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
           {/* Header */}
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-mochiy text-primary mb-4">
+          <div className="mb-16">
+            <h2 className="text-3xl sm:text-4xl font-mochiy text-foreground mb-6">
               Share Your Experience
             </h2>
+            <div className="w-24 h-px bg-primary mx-auto mb-6"></div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-mochiy-p">
               Your feedback helps create better handmade treasures and helps others discover 
               the perfect crochet pieces for their homes and loved ones.
             </p>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                <Users className="w-8 h-8 text-primary" />
+          {/* Stats - Redesigned */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
               </div>
-              <div>
-                <div className="text-2xl font-mochiy text-primary">250+</div>
-                <div className="text-sm text-muted-foreground font-mochiy-p">Happy Customers</div>
-              </div>
+              <div className="text-2xl sm:text-3xl font-mochiy text-primary mb-2">250+</div>
+              <div className="text-sm text-muted-foreground font-mochiy-p">Happy Customers</div>
             </div>
 
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                <Star className="w-8 h-8 text-primary" />
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Star className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
               </div>
-              <div>
-                <div className="text-2xl font-mochiy text-primary">4.9/5</div>
-                <div className="text-sm text-muted-foreground font-mochiy-p">Average Rating</div>
-              </div>
+              <div className="text-2xl sm:text-3xl font-mochiy text-primary mb-2">4.9/5</div>
+              <div className="text-sm text-muted-foreground font-mochiy-p">Average Rating</div>
             </div>
 
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                <MessageCircle className="w-8 h-8 text-primary" />
+            <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-primary/10 hover:border-primary/20 transition-all duration-300 sm:col-span-1 col-span-1 max-w-sm mx-auto sm:max-w-none">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
               </div>
-              <div>
-                <div className="text-2xl font-mochiy text-primary">180+</div>
-                <div className="text-sm text-muted-foreground font-mochiy-p">Reviews</div>
-              </div>
+              <div className="text-2xl sm:text-3xl font-mochiy text-primary mb-2">180+</div>
+              <div className="text-sm text-muted-foreground font-mochiy-p">Reviews</div>
             </div>
           </div>
 
-          {/* Call to Action */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-border/50">
-            <h3 className="text-xl font-mochiy text-primary mb-3">
+          {/* Call to Action - Redesigned */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 sm:p-10 border border-primary/20 hover:border-primary/30 transition-all duration-300">
+            <h3 className="text-xl sm:text-2xl font-mochiy text-primary mb-4">
               Love your crochet purchase?
             </h3>
-            <p className="text-muted-foreground mb-6 font-mochiy-p">
+            <p className="text-muted-foreground mb-8 font-mochiy-p text-base sm:text-lg leading-relaxed">
               We'd love to hear about your experience! Share photos, rate your purchase, 
               and help fellow crochet enthusiasts discover their next favorite piece.
             </p>
             
             <ReviewDialog />
             
-            <p className="text-xs text-muted-foreground mt-4 font-mochiy-p">
+            <p className="text-xs text-muted-foreground mt-6 font-mochiy-p">
               All reviews are moderated to ensure quality and authenticity
             </p>
           </div>

@@ -57,7 +57,7 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Products Grid - Batch style */}
-      <section className="py-20 px-6 lg:px-8">
+      <section className="py-20 px-10 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">
@@ -95,7 +95,7 @@ export default async function HomePage() {
       </section>
 
       {/* About Section - Batch style minimal */}
-      <section className="py-20 px-6 lg:px-8 bg-muted/30">
+      <section className="py-20 px-10 sm:px-6 lg:px-8 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="text-4xl font-mochiy font-light text-foreground mb-8">About Our Craft</h2>
@@ -119,7 +119,7 @@ export default async function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-6 lg:px-8">
+      <section className="py-20 px-10 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <div className="text-center mb-16">

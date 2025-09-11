@@ -42,24 +42,28 @@ export function SortFilter({ currentSort }: SortFilterProps) {
   }
 
   return (
-    <div className="flex justify-end relative">
+    <div className="flex justify-start sm:justify-end relative">
       <Select
         defaultValue={currentSort || "newest"}
         onValueChange={handleSortChange}
       >
-        <SelectTrigger className="w-[180px] bg-background border-primary/20 placeholder:text-gray-400">
-          <SelectValue placeholder="Sort by" className="placeholder:text-gray-400" />
+        <SelectTrigger className="w-full sm:w-[180px] bg-white border-2 border-gray-200 hover:border-primary/40 focus:border-primary shadow-sm text-gray-900 font-medium">
+          <SelectValue placeholder="Sort by" className="text-gray-600" />
         </SelectTrigger>
         <SelectContent 
-          className="z-[100]" 
+          className="z-[100] bg-white border-2 border-gray-200 shadow-lg rounded-lg" 
           side="bottom" 
-          align="end" 
+          align="start" 
           sideOffset={4}
           avoidCollisions={false}
           position="popper"
         >
           {sortOptions.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem 
+              key={option.value} 
+              value={option.value}
+              className="text-gray-900 hover:bg-primary/10 focus:bg-primary/10 py-3 cursor-pointer"
+            >
               {option.label}
             </SelectItem>
           ))}

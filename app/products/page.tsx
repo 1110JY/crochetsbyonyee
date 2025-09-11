@@ -92,7 +92,7 @@ export default function ProductsPage() {
 
         {/* Products Grid Section */}
         <FadeIn delay={0.4} duration={0.6}>
-          <section className="py-12 px-4 sm:px-6 lg:px-8">
+          <section className="py-12 px-10 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               {products.length > 0 ? (
                 <>
@@ -100,9 +100,11 @@ export default function ProductsPage() {
                     <div>
                       <h2 className="text-3xl font-mochiy text-foreground">Our Handmade Treasures</h2>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                      <CategoryFilter categories={categories} />
-                      <SortFilter currentSort={sortBy} />
+                    <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+                        <CategoryFilter categories={categories} />
+                        <SortFilter currentSort={sortBy} />
+                      </div>
                     </div>
                   </div>
                   
@@ -136,7 +138,7 @@ export default function ProductsPage() {
         {/* Featured Categories Section */}
         {categories.length > 0 && (
           <FadeIn delay={0.6} duration={0.6}>
-            <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+            <section className="py-20 px-10 sm:px-6 lg:px-8 bg-muted/30">
               <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-16">
                   <h2 className="text-4xl font-mochiy text-foreground mb-6">Explore by Category</h2>

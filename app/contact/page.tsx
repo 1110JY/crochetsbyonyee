@@ -123,7 +123,7 @@ export default function ContactPage() {
 
         {/* Contact Info Section */}
         <FadeIn delay={0.4} duration={0.6}>
-          <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+          <section className="py-20 px-10 sm:px-6 lg:px-8 bg-muted/30">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="text-4xl font-mochiy text-foreground mb-6">Let's Create Together</h2>
@@ -167,7 +167,7 @@ export default function ContactPage() {
 
         {/* Contact Form Section */}
         <FadeIn delay={0.6} duration={0.6}>
-          <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <section className="py-20 px-10 sm:px-6 lg:px-8">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-4xl font-mochiy text-foreground mb-6">Send a Message</h2>
