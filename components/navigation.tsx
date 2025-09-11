@@ -48,7 +48,7 @@ export function Navigation() {
 
   return (
     <nav className="fixed top-4 left-0 right-0 z-50 px-4">
-      <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20">
+      <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg">
         <div className="flex justify-between items-center h-16 md:h-18 px-4 md:px-8">
           {/* Left side - Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
@@ -167,7 +167,7 @@ export function Navigation() {
             />
             
             {/* Mobile menu dropdown */}
-            <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 z-50">
+            <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white rounded-2xl shadow-xl z-50">
               <div className="py-6 px-6">
                 <div className="flex flex-col space-y-4">
                   <Link
