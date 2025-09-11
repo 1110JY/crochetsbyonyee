@@ -35,129 +35,149 @@ export interface Category {
 }
 
 export async function getProducts(categorySlug?: string, sortBy?: string): Promise<Product[]> {
-  const supabase = await createClient()
-  
-  let query = supabase
-    .from("products")
-    .select(`
-      *,
-      categories (
-        id,
-        name,
-        slug,
-        description
-      )
-    `)
+  try {
+    const supabase = await createClient()
+    
+    let query = supabase
+      .from("products")
+      .select(`
+        *,
+        categories (
+          id,
+          name,
+          slug,
+          description
+        )
+      `)
 
-  // Filter by category if provided
-  if (categorySlug) {
-    const { data: category } = await supabase
-      .from("categories")
-      .select("id")
-      .eq("slug", categorySlug)
-      .single()
+    // Filter by category if provided
+    if (categorySlug) {
+      const { data: category } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("slug", categorySlug)
+        .single()
 
-    if (category) {
-      query = query.eq("category_id", category.id)
+      if (category) {
+        query = query.eq("category_id", category.id)
+      }
     }
-  }
 
-  // Apply sorting
-  switch (sortBy) {
-    case "oldest":
-      query = query.order("created_at", { ascending: true })
-      break
-    case "price-high":
-      query = query.order("price", { ascending: false })
-      break
-    case "price-low":
-      query = query.order("price", { ascending: true })
-      break
-    case "alphabetical":
-      query = query.order("name", { ascending: true })
-      break
-    case "newest":
-    default:
-      query = query.order("created_at", { ascending: false })
-      break
-  }
+    // Apply sorting
+    switch (sortBy) {
+      case "oldest":
+        query = query.order("created_at", { ascending: true })
+        break
+      case "price-high":
+        query = query.order("price", { ascending: false })
+        break
+      case "price-low":
+        query = query.order("price", { ascending: true })
+        break
+      case "alphabetical":
+        query = query.order("name", { ascending: true })
+        break
+      case "newest":
+      default:
+        query = query.order("created_at", { ascending: false })
+        break
+    }
 
-  const { data, error } = await query
+    const { data, error } = await query
 
-  if (error) {
-    console.error("Error fetching products:", error)
+    if (error) {
+      console.error("Error fetching products:", error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error("Error creating Supabase client:", error)
     return []
   }
-
-  return data || []
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const supabase = await createClient()
-  
-  const { data, error } = await supabase
-    .from("products")
-    .select(`
-      *,
-      categories (
-        id,
-        name,
-        slug,
-        description
-      )
-    `)
-    .eq("slug", slug)
-    .single()
+  try {
+    const supabase = await createClient()
+    
+    const { data, error } = await supabase
+      .from("products")
+      .select(`
+        *,
+        categories (
+          id,
+          name,
+          slug,
+          description
+        )
+      `)
+      .eq("slug", slug)
+      .single()
 
-  if (error) {
-    console.error("Error fetching product:", error)
+    if (error) {
+      console.error("Error fetching product:", error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error("Error creating Supabase client:", error)
     return null
   }
-
-  return data
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  const supabase = await createClient()
-  
-  const { data, error } = await supabase
-    .from("products")
-    .select(`
-      *,
-      categories (
-        id,
-        name,
-        slug,
-        description
-      )
-    `)
-    .eq("is_featured", true)
-    .eq("is_available", true)
-    .order("created_at", { ascending: false })
-    .limit(6)
+  try {
+    const supabase = await createClient()
+    
+    const { data, error } = await supabase
+      .from("products")
+      .select(`
+        *,
+        categories (
+          id,
+          name,
+          slug,
+          description
+        )
+      `)
+      .eq("is_featured", true)
+      .eq("is_available", true)
+      .order("created_at", { ascending: false })
+      .limit(6)
 
-  if (error) {
-    console.error("Error fetching featured products:", error)
+    if (error) {
+      console.error("Error fetching featured products:", error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error("Error creating Supabase client:", error)
     return []
   }
-
-  return data || []
 }
 
 export async function getCategories(): Promise<Category[]> {
-  const supabase = await createClient()
-  
-  const { data, error } = await supabase
-    .from("categories")
-    .select("*")
-    .order("name", { ascending: true })
+  try {
+    const supabase = await createClient()
+    
+    const { data, error } = await supabase
+      .from("categories")
+      .select("*")
+      .order("name", { ascending: true })
 
-  if (error) {
-    console.error("Error fetching categories:", error)
+    if (error) {
+      console.error("Error fetching categories:", error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error("Error creating Supabase client:", error)
     return []
   }
-
-  return data || []
 }
 
 // Actions for managing products
