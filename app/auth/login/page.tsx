@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { FadeIn } from "@/components/animations"
 
 export default function Page() {
   const [email, setEmail] = useState("")
@@ -50,18 +51,21 @@ export default function Page() {
       <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           {/* Logo/Brand */}
-          <div className="text-center mb-12">
-            <Link 
-              href="/" 
-              className="text-4xl md:text-6xl font-mochiy text-white hover:text-white/80 transition-colors"
-            >
-              Crochets by On-Yee
-            </Link>
-            <div className="w-24 h-px bg-white/30 mx-auto mt-4"></div>
-          </div>
+          <FadeIn delay={0.2} duration={0.6}>
+            <div className="text-center mb-12">
+              <Link 
+                href="/" 
+                className="text-4xl md:text-6xl font-mochiy text-white hover:text-white/80 transition-colors"
+              >
+                Crochets by On-Yee
+              </Link>
+              <div className="w-24 h-px bg-white/30 mx-auto mt-4"></div>
+            </div>
+          </FadeIn>
 
           {/* Login Card */}
-          <Card className="border-white/20 bg-white/10 backdrop-blur-md shadow-2xl">
+          <FadeIn delay={0.4} duration={0.6}>
+            <Card className="border-white/20 bg-white/10 backdrop-blur-md shadow-2xl">
             <CardHeader className="text-center pb-8">
               <CardTitle className="text-3xl font-mochiy text-white mb-2">
                 Welcome Back
@@ -130,16 +134,19 @@ export default function Page() {
               </form>
             </CardContent>
           </Card>
+          </FadeIn>
 
           {/* Back to home */}
-          <div className="text-center mt-8">
-            <Link 
-              href="/" 
-              className="text-white/60 hover:text-white/80 text-sm font-nunito transition-colors"
-            >
-              ← Back to Home
-            </Link>
-          </div>
+          <FadeIn delay={0.6} duration={0.6}>
+            <div className="text-center mt-8">
+              <Link 
+                href="/" 
+                className="text-white/60 hover:text-white/80 text-sm font-nunito transition-colors"
+              >
+                ← Back to Home
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </div>
