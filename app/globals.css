@@ -124,9 +124,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     @apply bg-background text-foreground font-sans;
     /* Prevent layout shifts from scrollbar */
@@ -163,6 +160,13 @@
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
+}
+
+/* Override global border for mobile navigation */
+.no-border {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Marquee animation for announcement bar */

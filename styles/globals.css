@@ -114,10 +114,14 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Override global border for mobile navigation */
+.no-border {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }

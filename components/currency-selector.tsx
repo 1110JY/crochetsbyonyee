@@ -19,14 +19,14 @@ export function CurrencySelector({ variant = "default" }: CurrencySelectorProps)
 
   if (variant === "mobile") {
     return (
-      <div className="bg-primary/10 rounded-lg p-3">
+      <div className="bg-primary/10 rounded-lg p-3" style={{ border: 'none', outline: 'none' }}>
         <div className="flex items-center space-x-2 mb-2">
           <Globe className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium text-foreground">Currency</span>
         </div>
         
         <Select value={selectedCurrency} onValueChange={setSelectedCurrency} disabled={isLoading}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full" style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
             <div className="flex items-center space-x-2">
               <span className="font-medium">{selectedCurrency}</span>
               <span className="text-sm text-muted-foreground">
@@ -34,7 +34,7 @@ export function CurrencySelector({ variant = "default" }: CurrencySelectorProps)
               </span>
             </div>
           </SelectTrigger>
-          <SelectContent className="bg-white border border-gray-200 shadow-lg max-h-64 overflow-y-auto">
+          <SelectContent className="bg-white max-h-64 overflow-y-auto" style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
             {CURRENCIES.map((currency) => (
               <SelectItem 
                 key={currency.code} 
