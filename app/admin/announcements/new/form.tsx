@@ -131,11 +131,11 @@ export function NewAnnouncementForm() {
             <Input
               id="title"
               placeholder="e.g., Back to School Sale 🎒"
-              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
               {...register("title")}
             />
             {errors.title && (
-              <p className="text-sm text-red-600 mt-1">{errors.title.message}</p>
+              <p className="text-sm text-slate-600 mt-1">{errors.title.message}</p>
             )}
           </div>
 
@@ -145,11 +145,11 @@ export function NewAnnouncementForm() {
               id="message"
               placeholder="e.g., Get 15% off all scarves until Sept 30th. Use code SCHOOL15 at checkout."
               rows={4}
-              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
               {...register("message")}
             />
             {errors.message && (
-              <p className="text-sm text-red-600 mt-1">{errors.message.message}</p>
+              <p className="text-sm text-slate-600 mt-1">{errors.message.message}</p>
             )}
           </div>
 
@@ -159,7 +159,7 @@ export function NewAnnouncementForm() {
               <Input
                 id="cta_label"
                 placeholder="e.g., Shop Now, Learn More"
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
                 {...register("cta_label")}
               />
             </div>
@@ -168,11 +168,11 @@ export function NewAnnouncementForm() {
               <Input
                 id="cta_url"
                 placeholder="e.g., /products/scarves"
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
                 {...register("cta_url")}
               />
               {errors.cta_url && (
-                <p className="text-sm text-red-600 mt-1">{errors.cta_url.message}</p>
+                <p className="text-sm text-slate-600 mt-1">{errors.cta_url.message}</p>
               )}
             </div>
           </div>
@@ -199,11 +199,11 @@ export function NewAnnouncementForm() {
               <Input
                 id="start_date"
                 type="datetime-local"
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20"
                 {...register("start_date")}
               />
               {errors.start_date && (
-                <p className="text-sm text-red-600 mt-1">{errors.start_date.message}</p>
+                <p className="text-sm text-slate-600 mt-1">{errors.start_date.message}</p>
               )}
             </div>
             <div>
@@ -211,7 +211,7 @@ export function NewAnnouncementForm() {
               <Input
                 id="end_date"
                 type="datetime-local"
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20"
                 {...register("end_date")}
               />
             </div>
@@ -232,13 +232,14 @@ export function NewAnnouncementForm() {
                     onCheckedChange={(checked) => 
                       handlePageSelection(option.value, checked as boolean)
                     }
+                    className="data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500"
                   />
                   <Label htmlFor={`page-${option.value}`} className="text-slate-700">{option.label}</Label>
                 </div>
               ))}
             </div>
             {errors.show_on_pages && (
-              <p className="text-sm text-red-600 mt-1">{errors.show_on_pages.message}</p>
+              <p className="text-sm text-slate-600 mt-1">{errors.show_on_pages.message}</p>
             )}
           </div>
 
@@ -248,7 +249,7 @@ export function NewAnnouncementForm() {
               value={watchedValues.display_frequency}
               onValueChange={(value) => setValue("display_frequency", value as any)}
             >
-              <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400">
+              <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -265,7 +266,7 @@ export function NewAnnouncementForm() {
               value={watchedValues.popup_style}
               onValueChange={(value) => setValue("popup_style", value as any)}
             >
-              <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400">
+              <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -281,6 +282,7 @@ export function NewAnnouncementForm() {
               id="is_active"
               checked={watchedValues.is_active}
               onCheckedChange={(checked) => setValue("is_active", checked)}
+              className="data-[state=checked]:bg-purple-500 data-[state=unchecked]:bg-slate-200"
             />
             <Label htmlFor="is_active" className="text-slate-700">Active (announcement will be shown)</Label>
           </div>

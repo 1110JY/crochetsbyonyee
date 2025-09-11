@@ -156,11 +156,11 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
               <Input
                 id="title"
                 placeholder="Enter announcement title"
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
                 {...register("title")}
               />
               {errors.title && (
-                <p className="text-sm text-red-600 mt-1">{errors.title.message}</p>
+                <p className="text-sm text-slate-600 mt-1">{errors.title.message}</p>
               )}
             </div>
 
@@ -169,11 +169,11 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
               <Textarea
                 id="message"
                 placeholder="Enter your announcement message"
-                className="min-h-[100px] border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="min-h-[100px] border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
                 {...register("message")}
               />
               {errors.message && (
-                <p className="text-sm text-red-600 mt-1">{errors.message.message}</p>
+                <p className="text-sm text-slate-600 mt-1">{errors.message.message}</p>
               )}
             </div>
 
@@ -183,7 +183,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 <Input
                   id="cta_label"
                   placeholder="Learn More"
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
                   {...register("cta_label")}
                 />
               </div>
@@ -193,11 +193,11 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 <Input
                   id="cta_url"
                   placeholder="https://example.com"
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20 placeholder:text-gray-400"
                   {...register("cta_url")}
                 />
                 {errors.cta_url && (
-                  <p className="text-sm text-red-600 mt-1">{errors.cta_url.message}</p>
+                  <p className="text-sm text-slate-600 mt-1">{errors.cta_url.message}</p>
                 )}
               </div>
             </div>
@@ -234,11 +234,11 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 <Input
                   id="start_date"
                   type="datetime-local"
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20"
                   {...register("start_date")}
                 />
                 {errors.start_date && (
-                  <p className="text-sm text-red-600 mt-1">{errors.start_date.message}</p>
+                  <p className="text-sm text-slate-600 mt-1">{errors.start_date.message}</p>
                 )}
               </div>
 
@@ -247,7 +247,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 <Input
                   id="end_date"
                   type="datetime-local"
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20"
                   {...register("end_date")}
                 />
               </div>
@@ -278,7 +278,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                       onCheckedChange={(checked) => 
                         handlePageSelection(page.id, checked as boolean)
                       }
-                      className="border-slate-300 data-[state=checked]:bg-slate-900 data-[state=checked]:border-slate-900"
+                      className="border-slate-300 data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500"
                     />
                     <Label htmlFor={page.id} className="text-sm text-slate-700 cursor-pointer">
                       {page.label}
@@ -287,7 +287,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 ))}
               </div>
               {errors.show_on_pages && (
-                <p className="text-sm text-red-600 mt-2">{errors.show_on_pages.message}</p>
+                <p className="text-sm text-slate-600 mt-2">{errors.show_on_pages.message}</p>
               )}
             </div>
 
@@ -297,7 +297,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 value={watchedValues.display_frequency} 
                 onValueChange={(value) => setValue("display_frequency", value as any)}
               >
-                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400">
+                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -314,7 +314,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
                 value={watchedValues.popup_style} 
                 onValueChange={(value) => setValue("popup_style", value as any)}
               >
-                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400">
+                <SelectTrigger className="border-slate-200 focus:border-slate-400 focus:ring-slate-400/20">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -335,7 +335,7 @@ export function EditAnnouncementForm({ announcement }: EditAnnouncementFormProps
               <Switch
                 checked={watchedValues.is_active}
                 onCheckedChange={(checked) => setValue("is_active", checked)}
-                className="data-[state=checked]:bg-slate-900"
+                className="data-[state=checked]:bg-purple-500 data-[state=unchecked]:bg-slate-200"
               />
             </div>
           </CardContent>

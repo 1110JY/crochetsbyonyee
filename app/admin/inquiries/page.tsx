@@ -223,7 +223,7 @@ export default function AdminInquiriesPage() {
               <span className="ml-1">inquiries total</span>
             </div>
             {unreadCount > 0 && (
-              <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200">
+              <Badge variant="secondary" className="bg-slate-100 text-slate-800 border-slate-300">
                 {unreadCount} unread
               </Badge>
             )}
@@ -246,7 +246,7 @@ export default function AdminInquiriesPage() {
                       </div>
                       <span className="text-slate-600 text-sm">{inquiry.email}</span>
                       {!inquiry.is_read && (
-                        <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200 text-xs">
+                        <Badge variant="secondary" className="bg-slate-100 text-slate-800 border-slate-300 text-xs">
                           New
                         </Badge>
                       )}
@@ -361,7 +361,7 @@ export default function AdminInquiriesPage() {
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               rows={6}
-              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+              className="border-slate-200 focus:border-slate-400 focus:ring-slate-400 placeholder:text-gray-400"
             />
             <div className="flex justify-end space-x-2">
               <Button

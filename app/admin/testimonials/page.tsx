@@ -165,13 +165,13 @@ export default function AdminTestimonialsPage() {
 
       {/* Pending Reviews Notice */}
       {testimonials.filter(t => !t.is_published).length > 0 && (
-        <Card className="bg-amber-50 border-amber-200">
+        <Card className="bg-slate-50 border-slate-200">
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-amber-900 mb-2 flex items-center">
+            <h3 className="text-lg font-semibold text-slate-900 mb-2 flex items-center">
               <Eye className="w-5 h-5 mr-2" />
               Pending Reviews ({testimonials.filter(t => !t.is_published).length})
             </h3>
-            <p className="text-amber-800 text-sm">Some testimonials are unpublished and may need your review.</p>
+            <p className="text-slate-800 text-sm">Some testimonials are unpublished and may need your review.</p>
           </CardContent>
         </Card>
       )}
@@ -195,7 +195,7 @@ export default function AdminTestimonialsPage() {
                   id="customer_name"
                   value={formData.customer_name}
                   onChange={(e) => setFormData((prev) => ({ ...prev, customer_name: e.target.value }))}
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400 placeholder:text-gray-400"
                   placeholder="e.g., Sarah Johnson"
                 />
               </div>
@@ -226,7 +226,7 @@ export default function AdminTestimonialsPage() {
                 id="content"
                 value={formData.content}
                 onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400 placeholder:text-gray-400"
                 rows={4}
                 placeholder="Customer's feedback about your products or service..."
               />
@@ -292,14 +292,14 @@ export default function AdminTestimonialsPage() {
                       <h3 className="font-semibold text-slate-900">{testimonial.customer_name}</h3>
                       <div className="flex items-center space-x-1">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                          <Star key={i} className="w-4 h-4 fill-slate-400 text-slate-400" />
                         ))}
                       </div>
                       <div className="flex space-x-2">
                         <Badge 
                           variant="outline" 
                           className={testimonial.is_published 
-                            ? "border-green-200 text-green-700 bg-green-50"
+                            ? "border-slate-400 text-slate-800 bg-slate-100"
                             : "border-slate-200 text-slate-600 bg-slate-50"
                           }
                         >
@@ -308,7 +308,7 @@ export default function AdminTestimonialsPage() {
                         {testimonial.is_featured && (
                           <Badge 
                             variant="outline"
-                            className="border-blue-200 text-blue-700 bg-blue-50"
+                            className="border-slate-500 text-slate-900 bg-slate-200"
                           >
                             Featured
                           </Badge>
@@ -338,7 +338,7 @@ export default function AdminTestimonialsPage() {
                       variant="outline"
                       className="border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900"
                     >
-                      <Star className={`w-3 h-3 ${testimonial.is_featured ? "fill-amber-400 text-amber-400" : ""}`} />
+                      <Star className={`w-3 h-3 ${testimonial.is_featured ? "fill-slate-400 text-slate-400" : ""}`} />
                     </Button>
                     <Button
                       onClick={() => handleEdit(testimonial)}
@@ -353,7 +353,7 @@ export default function AdminTestimonialsPage() {
                       onClick={() => handleDelete(testimonial.id)}
                       size="sm"
                       variant="outline"
-                      className="border-red-200 hover:border-red-300 text-red-600 hover:text-red-700"
+                      className="border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-700"
                       disabled={editingId !== null || showAddForm}
                     >
                       <Trash2 className="w-3 h-3" />

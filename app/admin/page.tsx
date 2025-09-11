@@ -122,7 +122,7 @@ export default async function AdminDashboard() {
             <div className="text-2xl font-bold text-slate-900">{stats.inquiries}</div>
             <p className="text-xs text-slate-600">
               {stats.unreadInquiries > 0 && (
-                <span className="text-orange-600 font-medium">{stats.unreadInquiries} unread</span>
+                <span className="text-slate-700 font-medium">{stats.unreadInquiries} unread</span>
               )}
               {stats.unreadInquiries === 0 && "All caught up"}
             </p>
@@ -161,7 +161,7 @@ export default async function AdminDashboard() {
                     <div className="flex items-center space-x-2 mb-1">
                       <span className="font-medium text-slate-900 truncate">{inquiry.name}</span>
                       {!inquiry.is_read && (
-                        <Badge variant="secondary" className="bg-orange-100 text-orange-800 text-xs border-orange-200">
+                        <Badge variant="secondary" className="bg-slate-100 text-slate-800 text-xs border-slate-300">
                           New
                         </Badge>
                       )}
@@ -218,7 +218,7 @@ export default async function AdminDashboard() {
                   <span className="font-medium text-slate-900">Review Inquiries</span>
                 </div>
                 {stats.unreadInquiries > 0 && (
-                  <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200">
+                  <Badge variant="secondary" className="bg-slate-100 text-slate-800 border-slate-300">
                     {stats.unreadInquiries}
                   </Badge>
                 )}
@@ -262,7 +262,7 @@ export default async function AdminDashboard() {
                     <span className="font-medium text-slate-900">{testimonial.customer_name}</span>
                     <div className="flex">
                       {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star key={i} className="w-3 h-3 fill-slate-400 text-slate-400" />
                       ))}
                     </div>
                   </div>

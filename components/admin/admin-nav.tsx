@@ -81,7 +81,7 @@ export function AdminNav() {
                           variant="ghost"
                           className={`w-full justify-start text-sm font-medium ${
                             isActive 
-                              ? "bg-slate-100 text-slate-900" 
+                              ? "bg-purple-100 text-purple-900 hover:bg-purple-100 hover:text-purple-900" 
                               : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                           }`}
                         >
@@ -104,7 +104,7 @@ export function AdminNav() {
                   variant="ghost"
                   className={`w-full justify-start text-sm font-medium ${
                     isActive 
-                      ? "bg-slate-100 text-slate-900" 
+                      ? "bg-purple-100 text-purple-900 hover:bg-purple-100 hover:text-purple-900" 
                       : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                   }`}
                 >
@@ -125,7 +125,7 @@ export function AdminNav() {
             setIsMobileMenuOpen(false)
           }}
           variant="ghost"
-          className="w-full justify-start text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+          className="w-full justify-start text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 focus:bg-slate-50 focus:text-slate-900"
         >
           <LogOut className="w-4 h-4 mr-3" />
           Sign Out

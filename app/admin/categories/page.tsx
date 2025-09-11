@@ -223,7 +223,7 @@ export default function AdminCategoriesPage() {
                       slug: prev.slug || generateSlug(name),
                     }))
                   }}
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400 placeholder:text-gray-400 text-slate-900"
                   placeholder="e.g., Baby Items"
                 />
               </div>
@@ -235,7 +235,7 @@ export default function AdminCategoriesPage() {
                   id="slug"
                   value={formData.slug}
                   onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400 placeholder:text-gray-400 text-slate-900"
                   placeholder="e.g., baby-items"
                 />
               </div>
@@ -249,7 +249,7 @@ export default function AdminCategoriesPage() {
                 id="description"
                 value={formData.description}
                 onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="border-slate-200 focus:border-slate-400 focus:ring-slate-400 placeholder:text-gray-400 text-slate-900"
                 rows={3}
                 placeholder="Brief description of this category"
               />
@@ -261,7 +261,7 @@ export default function AdminCategoriesPage() {
               </Label>
               <div className="mt-2 space-y-4">
                 {(imagePreview || formData.image_url) && (
-                  <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-slate-200">
+                  <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-slate-300">
                     <img
                       src={imagePreview || formData.image_url}
                       alt="Category preview"
@@ -271,7 +271,7 @@ export default function AdminCategoriesPage() {
                       type="button"
                       size="sm"
                       variant="outline"
-                      className="absolute top-2 right-2 p-1 h-6 w-6 bg-white/90 hover:bg-white border-slate-200"
+                      className="absolute top-2 right-2 p-1 h-6 w-6 bg-white/95 hover:bg-white border-slate-300 hover:border-slate-400"
                       onClick={() => {
                         setSelectedImage(null)
                         setImagePreview("")
@@ -286,7 +286,7 @@ export default function AdminCategoriesPage() {
                   id="image"
                   type="file"
                   accept="image/*"
-                  className="border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                  className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 text-slate-900 bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
                   onChange={(e) => {
                     const file = e.target.files?.[0]
                     if (file) {

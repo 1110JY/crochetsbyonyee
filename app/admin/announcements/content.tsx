@@ -169,6 +169,7 @@ export function AnnouncementsContent({ initialAnnouncements }: AnnouncementsCont
                     checked={announcement.is_active}
                     onCheckedChange={() => handleToggleStatus(announcement)}
                     disabled={isLoading}
+                    className="data-[state=checked]:bg-purple-500 data-[state=unchecked]:bg-slate-200"
                   />
                 </div>
                 <DropdownMenu>
@@ -195,7 +196,7 @@ export function AnnouncementsContent({ initialAnnouncements }: AnnouncementsCont
                         setSelectedAnnouncement(announcement)
                         setDeleteDialogOpen(true)
                       }}
-                      className="text-red-600"
+                      className="text-slate-600"
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete
@@ -243,7 +244,7 @@ export function AnnouncementsContent({ initialAnnouncements }: AnnouncementsCont
             <AlertDialogAction 
               onClick={handleDelete}
               disabled={isLoading}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-slate-600 hover:bg-slate-700 text-white"
             >
               {isLoading ? "Deleting..." : "Delete"}
             </AlertDialogAction>

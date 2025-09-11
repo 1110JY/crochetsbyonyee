@@ -180,7 +180,7 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="mt-2"
+                      className="mt-2 placeholder:text-gray-400"
                       placeholder="Your full name"
                     />
                   </div>
@@ -196,7 +196,7 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="mt-2"
+                      className="mt-2 placeholder:text-gray-400"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -211,7 +211,7 @@ export default function ContactPage() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="mt-2"
+                    className="mt-2 placeholder:text-gray-400"
                     placeholder="Custom order, product inquiry, etc."
                   />
                 </div>
@@ -227,7 +227,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="mt-2"
+                    className="mt-2 placeholder:text-gray-400"
                     placeholder="Tell us about your project, questions, or how we can help..."
                   />
                 </div>

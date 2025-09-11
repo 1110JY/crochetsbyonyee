@@ -130,16 +130,16 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
       <AdminHeader title="Site Settings" description="Manage your website content and configuration" />
 
       <div className="max-w-4xl mx-auto px-8">
         <div className="space-y-6">
           {/* General Settings */}
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
+          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
             <CardHeader>
               <CardTitle className="text-foreground flex items-center font-serif font-light">
-                <Settings className="w-5 h-5 mr-2 text-primary" />
+                <Settings className="w-5 h-5 mr-2 text-slate-600" />
                 General Settings
               </CardTitle>
             </CardHeader>
@@ -153,7 +153,7 @@ export default function AdminSettingsPage() {
                     id="site_title"
                     value={settings.site_title}
                     onChange={(e) => handleChange("site_title", e.target.value)}
-                    className="border-primary/20 focus:border-primary/30"
+                    className="border-slate-200 focus:border-slate-400"
                   />
                 </div>
                 <div>
@@ -165,7 +165,7 @@ export default function AdminSettingsPage() {
                     type="email"
                     value={settings.contact_email}
                     onChange={(e) => handleChange("contact_email", e.target.value)}
-                    className="border-primary/20 focus:border-primary/30"
+                    className="border-slate-200 focus:border-slate-400"
                   />
                 </div>
               </div>
@@ -178,7 +178,7 @@ export default function AdminSettingsPage() {
                   id="site_description"
                   value={settings.site_description}
                   onChange={(e) => handleChange("site_description", e.target.value)}
-                  className="border-primary/20 focus:border-primary/30"
+                  className="border-slate-200 focus:border-slate-400"
                   rows={3}
                 />
               </div>
@@ -186,7 +186,7 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* Hero Section */}
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
+          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
             <CardHeader>
               <CardTitle className="text-foreground font-serif font-light">Hero Section</CardTitle>
             </CardHeader>
@@ -199,7 +199,7 @@ export default function AdminSettingsPage() {
                   id="hero_title"
                   value={settings.hero_title}
                   onChange={(e) => handleChange("hero_title", e.target.value)}
-                  className="border-primary/20 focus:border-primary/30"
+                  className="border-slate-200 focus:border-slate-400"
                 />
               </div>
               <div>
@@ -210,7 +210,7 @@ export default function AdminSettingsPage() {
                   id="hero_subtitle"
                   value={settings.hero_subtitle}
                   onChange={(e) => handleChange("hero_subtitle", e.target.value)}
-                  className="border-primary/20 focus:border-primary/30"
+                  className="border-slate-200 focus:border-slate-400"
                   rows={3}
                 />
               </div>
@@ -218,7 +218,7 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* Contact Information */}
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
+          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
             <CardHeader>
               <CardTitle className="text-foreground font-serif font-light">Contact Information</CardTitle>
             </CardHeader>
@@ -232,7 +232,7 @@ export default function AdminSettingsPage() {
                     id="phone_number"
                     value={settings.phone_number}
                     onChange={(e) => handleChange("phone_number", e.target.value)}
-                    className="border-primary/20 focus:border-primary/30"
+                    className="border-slate-200 focus:border-slate-400"
                   />
                 </div>
                 <div>
@@ -243,7 +243,7 @@ export default function AdminSettingsPage() {
                     id="address"
                     value={settings.address}
                     onChange={(e) => handleChange("address", e.target.value)}
-                    className="border-primary/20 focus:border-primary/30"
+                    className="border-slate-200 focus:border-slate-400"
                   />
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* Social Media */}
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
+          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
             <CardHeader>
               <CardTitle className="text-foreground font-serif font-light">Social Media</CardTitle>
             </CardHeader>
@@ -265,8 +265,8 @@ export default function AdminSettingsPage() {
                     id="social_instagram"
                     value={settings.social_instagram}
                     onChange={(e) => handleChange("social_instagram", e.target.value)}
-                    className="border-primary/20 focus:border-primary/30"
-                    placeholder="https://instagram.com/yourhandle"
+                    className="border-slate-200 focus:border-slate-400 placeholder:text-gray-400"
+                    placeholder="https://www.instagram.com/crochetsbyonyee/"
                   />
                 </div>
                 <div>
@@ -277,8 +277,8 @@ export default function AdminSettingsPage() {
                     id="social_tiktok"
                     value={settings.social_tiktok}
                     onChange={(e) => handleChange("social_tiktok", e.target.value)}
-                    className="border-primary/20 focus:border-primary/30"
-                    placeholder="https://facebook.com/yourpage"
+                    className="border-slate-200 focus:border-slate-400 placeholder:text-gray-400"
+                    placeholder="https://www.tiktok.com/@crochetsbyonyee"
                   />
                 </div>
               </div>
@@ -286,7 +286,7 @@ export default function AdminSettingsPage() {
           </Card>
 
           {/* About Section */}
-          <Card className="bg-white/50 backdrop-blur-sm border-primary/20 hover:border-primary/30 transition-colors">
+          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
             <CardHeader>
               <CardTitle className="text-foreground font-serif font-light">About Section</CardTitle>
             </CardHeader>
@@ -299,7 +299,7 @@ export default function AdminSettingsPage() {
                   id="about_text"
                   value={settings.about_text}
                   onChange={(e) => handleChange("about_text", e.target.value)}
-                  className="border-primary/20 focus:border-primary/30"
+                  className="border-slate-200 focus:border-slate-400"
                   rows={4}
                 />
               </div>
@@ -308,7 +308,7 @@ export default function AdminSettingsPage() {
 
           {/* Save Button */}
           <div className="flex justify-end">
-            <Button onClick={handleSave} disabled={isSaving} className="bg-primary/90 hover:bg-primary text-primary-foreground">
+            <Button onClick={handleSave} disabled={isSaving} className="bg-slate-600 hover:bg-slate-700 text-white">
               <Save className="w-4 h-4 mr-2" />
               {isSaving ? "Saving..." : "Save Settings"}
             </Button>

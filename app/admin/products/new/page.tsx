@@ -170,7 +170,7 @@ export default function NewProductPage() {
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="e.g., Cozy Winter Blanket"
-                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400"
                     required
                   />
                 </div>
@@ -182,7 +182,7 @@ export default function NewProductPage() {
                     value={formData.description || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     placeholder="Describe your product..."
-                    className="h-32 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                    className="h-32 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400"
                   />
                 </div>
 
@@ -192,7 +192,7 @@ export default function NewProductPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="border-slate-200 hover:border-slate-300 relative"
+                      className="border-slate-300 hover:border-slate-400 text-slate-700 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 relative"
                       disabled={isLoading}
                     >
                       {isLoading ? "Uploading..." : "Add Images"}
@@ -245,7 +245,7 @@ export default function NewProductPage() {
                       value={formData.price || ""}
                       onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || null }))}
                       placeholder="0.00"
-                      className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                      className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400"
                     />
                   </div>
 
@@ -270,17 +270,17 @@ export default function NewProductPage() {
                     onValueChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}
                     required
                   >
-                    <SelectTrigger className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500">
-                      <SelectValue placeholder="Select a category" />
+                    <SelectTrigger className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 bg-white">
+                      <SelectValue placeholder="Select a category" className="placeholder:text-gray-400" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-slate-300 shadow-lg">
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
+                        <SelectItem key={category.id} value={category.id} className="text-slate-900 hover:bg-slate-100 focus:bg-slate-100">
                           {category.name}
                         </SelectItem>
                       ))}
                       {categories.length === 0 && (
-                        <SelectItem value="create" disabled>
+                        <SelectItem value="create" disabled className="text-slate-500">
                           No categories available - Create one first
                         </SelectItem>
                       )}
@@ -295,7 +295,7 @@ export default function NewProductPage() {
                     value={formData.materials?.join(", ") || ""}
                     onChange={(e) => handleMaterialsChange(e.target.value)}
                     placeholder="e.g., Cotton yarn, Polyester filling"
-                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400"
                   />
                 </div>
 
@@ -306,7 +306,7 @@ export default function NewProductPage() {
                     value={formData.dimensions || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, dimensions: e.target.value }))}
                     placeholder="e.g., 40cm x 60cm"
-                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400"
                   />
                 </div>
 
@@ -317,7 +317,7 @@ export default function NewProductPage() {
                     value={formData.care_instructions || ""}
                     onChange={(e) => setFormData(prev => ({ ...prev, care_instructions: e.target.value }))}
                     placeholder="e.g., Hand wash cold, lay flat to dry"
-                    className="h-20 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500"
+                    className="h-20 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400"
                   />
                 </div>
 
@@ -375,3 +375,4 @@ export default function NewProductPage() {
     </div>
   )
 }
+

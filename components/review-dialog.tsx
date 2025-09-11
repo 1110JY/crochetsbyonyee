@@ -231,6 +231,7 @@ export function ReviewDialog() {
                   <FormControl>
                     <Input 
                       placeholder="Summarize your experience in a few words"
+                      className="placeholder:text-gray-400"
                       {...field}
                     />
                   </FormControl>
@@ -249,7 +250,7 @@ export function ReviewDialog() {
                   <FormControl>
                     <Textarea 
                       placeholder="Tell us about your experience with our products. What did you love? How was the quality?"
-                      className="min-h-[120px]"
+                      className="min-h-[120px] placeholder:text-gray-400"
                       {...field}
                     />
                   </FormControl>
@@ -268,6 +269,7 @@ export function ReviewDialog() {
                   <FormControl>
                     <Input 
                       placeholder="How should we display your name?"
+                      className="placeholder:text-gray-400"
                       {...field}
                     />
                   </FormControl>
@@ -287,6 +289,7 @@ export function ReviewDialog() {
                     <Input 
                       type="email"
                       placeholder="your.email@example.com (won't be displayed publicly)"
+                      className="placeholder:text-gray-400"
                       {...field}
                     />
                   </FormControl>
