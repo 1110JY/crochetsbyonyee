@@ -1,4 +1,5 @@
 import type React from "react"
+import "./admin-error-override.css"
 import { redirect } from "next/navigation"
 import { checkAdminAccess } from "@/lib/supabase/admin"
 import { AdminNav } from "@/components/admin/admin-nav"
@@ -72,7 +73,17 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className={`flex min-h-screen bg-slate-50 ${inter.className}`}>
+    <div
+      className={`admin-area flex min-h-screen bg-slate-50 ${inter.className}`}
+      style={{
+        ['--destructive' as any]: '#64748b',
+        ['--ring' as any]: '#C4B5FD',
+        ['--primary' as any]: '#334155',
+        ['--accent' as any]: '#C4B5FD',
+        ['--border' as any]: '#e6eef6',
+        ['--input' as any]: '#ffffff'
+      }}
+    >
       <AdminNav />
       <div className="flex-1 md:ml-0">{children}</div>
     </div>
