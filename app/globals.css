@@ -133,8 +133,9 @@
     /* Force scrollbar to always be visible to prevent layout shifts */
     overflow-y: scroll;
   }
-  h1 {
-    @apply font-serif;
+  /* Ensure headings are consistent for admin pages only (override page-level classes there) */
+  .admin-area h1, .admin-area h2, .admin-area h3, .admin-area h4, .admin-area h5, .admin-area h6 {
+    font-family: var(--font-serif) !important;
   }
 }
 
@@ -182,3 +183,98 @@
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
+/* --------------------------------------------------------------------------
+   Admin-area overrides (migrated from app/admin/admin-error-override.css)
+   Keeping these scoped to .admin-area so they only affect admin pages and are
+   included via the global CSS bundle to avoid issues with the dev build.
+   -------------------------------------------------------------------------- */
+
+/* Admin area theme overrides: force all error/destructive/ring/primary tokens to slate/gray
+   so no pink/red appears anywhere in admin pages. Add other admin root selectors if needed. */
+
+.admin-area, .app-admin {
+  /* Error / destructive */
+  --destructive: #64748b !important; /* slate-500 */
+  --destructive-foreground: #f1f5f9 !important; /* slate-100 */
+  --ring-destructive: #64748b !important; /* slate-500 */
+  --border-destructive: #64748b !important; /* slate-500 */
+
+  /* Focus ring and accents (lilac for admin) */
+  --ring: #C4B5FD !important; /* lilac */
+  --color-ring: #C4B5FD !important;
+
+  /* Primary / accent tokens (lilac accents for admin) */
+  --primary: #334155 !important; /* slate-700 */
+  --primary-foreground: #ffffff !important;
+  --accent: #C4B5FD !important;
+
+  /* Inputs / borders */
+  --border: #e6eef6 !important; /* light slate */
+  --input: #ffffff !important;
+
+  /* Sidebar / other ring tokens */
+  --sidebar-ring: #64748b !important;
+}
+
+/* Explicit overrides for form controls in admin area to beat compiled/global CSS */
+.admin-area :is(input, textarea, select, [data-slot="input"], [data-slot="textarea"], .select-trigger, .select-value) {
+  border-color: #cbd5e1 !important; /* slate-300 */
+  background-color: #ffffff !important;
+  color: #0f172a !important; /* slate-900 / black-ish */
+}
+
+.admin-area :is(input, textarea, select):focus,
+.admin-area :is(input, textarea, select):focus-visible,
+.admin-area :is([data-slot="input"],[data-slot="textarea"]):focus,
+.admin-area .select-trigger:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 6px rgba(196,181,253,0.14) !important; /* lilac at 14% */
+  border-color: #8b5cf6 !important; /* lilac-500 */
+}
+
+/* Invalid / error state overrides */
+.admin-area :is(input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"]) {
+  border-color: #8b5cf6 !important; /* lilac-500 */
+  box-shadow: 0 0 0 6px rgba(139,92,246,0.12) !important;
+}
+
+/* Force select placeholder / value text to black */
+.admin-area .select-value,
+.admin-area .select-trigger > .select-value,
+.admin-area .select-trigger {
+  color: #0f172a !important;
+}
+
+/* Tighter specificity for third-party compiled classes */
+.admin-area .select-trigger[role="button"] .select-value,
+.admin-area [data-slot="textarea"][aria-invalid="true"] {
+  color: #0f172a !important;
+  border-color: #64748b !important;
+}
+
+/* Force native form control accents to lilac across admin */
+.admin-area input[type="checkbox"],
+.admin-area input[type="radio"] {
+  accent-color: #8b5cf6 !important; /* lilac */
+}
+
+/* Subtle focus ring for buttons in admin */
+.admin-area button:focus {
+  box-shadow: 0 0 0 6px rgba(139,92,246,0.08) !important;
+  outline: none !important;
+}
+
+/* Override Radix/Tailwind data-placeholder variant for Select so placeholder text is black */
+.admin-area [data-slot="select-trigger"][data-placeholder],
+.admin-area [data-slot="select-trigger"] [data-slot="select-value"][data-placeholder],
+.admin-area [data-slot="select-trigger"][data-placeholder] > * {
+  color: #0f172a !important; /* black */
+  opacity: 1 !important;
+}
+
+/* Also ensure any placeholder tokens used by Tailwind variant are neutralized */
+.admin-area [data-placeholder] {
+  color: #0f172a !important;
+}
+

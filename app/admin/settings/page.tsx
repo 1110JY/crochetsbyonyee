@@ -16,13 +16,8 @@ interface SiteSettings {
   site_title: string
   site_description: string
   contact_email: string
-  phone_number: string
-  address: string
   social_instagram: string
   social_tiktok: string
-  hero_title: string
-  hero_subtitle: string
-  about_text: string
 }
 
 export default function AdminSettingsPage() {
@@ -32,13 +27,8 @@ export default function AdminSettingsPage() {
     site_title: "",
     site_description: "",
     contact_email: "",
-    phone_number: "",
-    address: "",
     social_instagram: "",
     social_tiktok: "",
-    hero_title: "",
-    hero_subtitle: "",
-    about_text: "",
   })
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
@@ -130,188 +120,89 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
-      <AdminHeader title="Site Settings" description="Manage your website content and configuration" />
-
-      <div className="max-w-4xl mx-auto px-8">
-        <div className="space-y-6">
-          {/* General Settings */}
-          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
-            <CardHeader>
-              <CardTitle className="text-foreground flex items-center font-serif font-light">
-                <Settings className="w-5 h-5 mr-2 text-slate-600" />
-                General Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="site_title" className="text-foreground">
-                    Site Title
-                  </Label>
-                  <Input
-                    id="site_title"
-                    value={settings.site_title}
-                    onChange={(e) => handleChange("site_title", e.target.value)}
-                    className="border-slate-200 focus:border-slate-400"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="contact_email" className="text-foreground">
-                    Contact Email
-                  </Label>
-                  <Input
-                    id="contact_email"
-                    type="email"
-                    value={settings.contact_email}
-                    onChange={(e) => handleChange("contact_email", e.target.value)}
-                    className="border-slate-200 focus:border-slate-400"
-                  />
-                </div>
-              </div>
-
+    <div className="min-h-screen bg-slate-50">
+      <div className="px-6 py-6">
+        <div className="max-w-full">
+          <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <Label htmlFor="site_description" className="text-foreground">
-                  Site Description
-                </Label>
-                <Textarea
-                  id="site_description"
-                  value={settings.site_description}
-                  onChange={(e) => handleChange("site_description", e.target.value)}
-                  className="border-slate-200 focus:border-slate-400"
-                  rows={3}
-                />
+                <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Site Settings</h1>
+                <p className="text-slate-600 mt-1">Manage your website content and configuration</p>
               </div>
-            </CardContent>
-          </Card>
+              <div className="flex items-center gap-3">
+                <Button onClick={handleSave} disabled={isSaving} className="bg-slate-900 hover:bg-slate-800 text-white">
+                  <Save className="w-4 h-4 mr-2" />
+                  {isSaving ? "Saving..." : "Save Settings"}
+                </Button>
+              </div>
+            </div>
 
-          {/* Hero Section */}
-          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
-            <CardHeader>
-              <CardTitle className="text-foreground font-serif font-light">Hero Section</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="hero_title" className="text-foreground">
-                  Hero Title
-                </Label>
-                <Input
-                  id="hero_title"
-                  value={settings.hero_title}
-                  onChange={(e) => handleChange("hero_title", e.target.value)}
-                  className="border-slate-200 focus:border-slate-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="hero_subtitle" className="text-foreground">
-                  Hero Subtitle
-                </Label>
-                <Textarea
-                  id="hero_subtitle"
-                  value={settings.hero_subtitle}
-                  onChange={(e) => handleChange("hero_subtitle", e.target.value)}
-                  className="border-slate-200 focus:border-slate-400"
-                  rows={3}
-                />
-              </div>
-            </CardContent>
-          </Card>
+            {/* Settings content */}
+            <div className="mt-4 border-t border-slate-100 pt-4">
+              <div className="grid grid-cols-1 gap-6">
+                {/* General Settings */}
+                <div className="bg-white">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="site_title" className="text-slate-900 mb-1">Site Title</Label>
+                      <Input
+                        id="site_title"
+                        value={settings.site_title}
+                        onChange={(e) => handleChange("site_title", e.target.value)}
+                        className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 text-slate-900"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="contact_email" className="text-slate-900 mb-1">Contact Email</Label>
+                      <Input
+                        id="contact_email"
+                        type="email"
+                        value={settings.contact_email}
+                        onChange={(e) => handleChange("contact_email", e.target.value)}
+                        className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 text-slate-900"
+                      />
+                    </div>
+                  </div>
 
-          {/* Contact Information */}
-          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
-            <CardHeader>
-              <CardTitle className="text-foreground font-serif font-light">Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="phone_number" className="text-foreground">
-                    Phone Number
-                  </Label>
-                  <Input
-                    id="phone_number"
-                    value={settings.phone_number}
-                    onChange={(e) => handleChange("phone_number", e.target.value)}
-                    className="border-slate-200 focus:border-slate-400"
-                  />
+                  <div className="mt-4">
+                    <Label htmlFor="site_description" className="text-slate-900 mb-1">Site Description</Label>
+                    <Textarea
+                      id="site_description"
+                      value={settings.site_description}
+                      onChange={(e) => handleChange("site_description", e.target.value)}
+                      className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 text-slate-900"
+                      rows={3}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="address" className="text-foreground">
-                    Address
-                  </Label>
-                  <Input
-                    id="address"
-                    value={settings.address}
-                    onChange={(e) => handleChange("address", e.target.value)}
-                    className="border-slate-200 focus:border-slate-400"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
-          {/* Social Media */}
-          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
-            <CardHeader>
-              <CardTitle className="text-foreground font-serif font-light">Social Media</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="social_instagram" className="text-foreground">
-                    Instagram URL
-                  </Label>
-                  <Input
-                    id="social_instagram"
-                    value={settings.social_instagram}
-                    onChange={(e) => handleChange("social_instagram", e.target.value)}
-                    className="border-slate-200 focus:border-slate-400 placeholder:text-gray-400"
-                    placeholder="https://www.instagram.com/crochetsbyonyee/"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="social_tiktok" className="text-foreground">
-                    TikTok URL
-                  </Label>
-                  <Input
-                    id="social_tiktok"
-                    value={settings.social_tiktok}
-                    onChange={(e) => handleChange("social_tiktok", e.target.value)}
-                    className="border-slate-200 focus:border-slate-400 placeholder:text-gray-400"
-                    placeholder="https://www.tiktok.com/@crochetsbyonyee"
-                  />
+                {/* Social Media */}
+                <div className="bg-white">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="social_instagram" className="text-slate-900 mb-1">Instagram URL</Label>
+                      <Input
+                        id="social_instagram"
+                        value={settings.social_instagram}
+                        onChange={(e) => handleChange("social_instagram", e.target.value)}
+                        className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400 text-slate-900"
+                        placeholder="https://www.instagram.com/youraccount"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="social_tiktok" className="text-slate-900 mb-1">TikTok URL</Label>
+                      <Input
+                        id="social_tiktok"
+                        value={settings.social_tiktok}
+                        onChange={(e) => handleChange("social_tiktok", e.target.value)}
+                        className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400 text-slate-900"
+                        placeholder="https://www.tiktok.com/@youraccount"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* About Section */}
-          <Card className="bg-white/50 backdrop-blur-sm border-slate-200 hover:border-slate-300 transition-colors">
-            <CardHeader>
-              <CardTitle className="text-foreground font-serif font-light">About Section</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div>
-                <Label htmlFor="about_text" className="text-foreground">
-                  About Text
-                </Label>
-                <Textarea
-                  id="about_text"
-                  value={settings.about_text}
-                  onChange={(e) => handleChange("about_text", e.target.value)}
-                  className="border-slate-200 focus:border-slate-400"
-                  rows={4}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Save Button */}
-          <div className="flex justify-end">
-            <Button onClick={handleSave} disabled={isSaving} className="bg-slate-600 hover:bg-slate-700 text-white">
-              <Save className="w-4 h-4 mr-2" />
-              {isSaving ? "Saving..." : "Save Settings"}
-            </Button>
+            </div>
           </div>
         </div>
       </div>

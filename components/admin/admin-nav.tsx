@@ -22,18 +22,14 @@ const navItems = [
   { 
     section: "Content",
     items: [
-      { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
       { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
       { href: "/admin/testimonials", label: "Testimonials", icon: Star },
-      { href: "/admin/blog", label: "Blog & Articles", icon: FileText },
     ]
   },
   { 
     section: "Site Settings",
     items: [
       { href: "/admin/settings", label: "General Settings", icon: Settings },
-      { href: "/admin/settings/appearance", label: "Appearance", icon: PaintBucket },
-      { href: "/admin/settings/social", label: "Social Media", icon: Globe },
       { href: "/admin/settings/policies", label: "Policies", icon: Shield },
     ]
   },

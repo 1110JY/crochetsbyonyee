@@ -183,7 +183,7 @@ export default function AdminCategoriesPage() {
 
   return (
     <div className="flex-1 space-y-4 md:space-y-6 p-4 md:p-6 bg-slate-50">
-      {/* Header */}
+      {/* Header + Search + List (single section) */}
       <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -205,6 +205,119 @@ export default function AdminCategoriesPage() {
             </Button>
           </div>
         </div>
+
+        {/* Search / meta */}
+        <div className="mt-4 border-t border-slate-100 pt-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex-1">
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search categories"
+                className="w-full max-w-md bg-slate-50 border border-slate-100 rounded-lg px-4 py-2 text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
+              />
+            </div>
+            <div className="text-sm text-slate-600">{categories.length} categories</div>
+          </div>
+        </div>
+
+        {/* Mobile list (small screens) */}
+        <div className="mt-4 md:hidden space-y-3">
+          {categories
+            .filter((c) => {
+              const t = searchTerm.trim().toLowerCase()
+              if (!t) return true
+              return (
+                c.name.toLowerCase().includes(t) ||
+                c.slug.toLowerCase().includes(t) ||
+                (c.description || "").toLowerCase().includes(t)
+              )
+            })
+            .map((category) => (
+              <div key={category.id} className="bg-slate-50 rounded-lg border border-slate-100 p-3 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  {category.image_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={category.image_url} alt={category.name} className="w-12 h-12 object-cover rounded-md border border-slate-200" />
+                  ) : (
+                    <div className="w-12 h-12 bg-slate-100 rounded-md flex items-center justify-center">📁</div>
+                  )}
+                  <div>
+                    <div className="font-medium text-slate-900">{category.name}</div>
+                    <div className="text-xs text-slate-500">/{category.slug}</div>
+                    {category.description && <div className="text-sm text-slate-600 line-clamp-2 mt-2">{category.description}</div>}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" className="border-slate-200 text-slate-600" onClick={() => handleEdit(category)} disabled={editingId === category.id || showAddForm}>
+                    <Edit className="w-3 h-3" />
+                  </Button>
+                  <Button size="sm" variant="outline" className="border-slate-200 text-slate-600" onClick={() => handleDelete(category.id)} disabled={editingId === category.id || showAddForm}>
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+        </div>
+
+        {/* Table (md+) */}
+        <div className="hidden md:block mt-4 overflow-x-auto">
+          <table className="min-w-full divide-y divide-slate-100">
+            <thead className="bg-slate-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-slate-700">Category</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-slate-700">Description</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-slate-700">Created</th>
+                <th className="px-6 py-3 text-right text-sm font-semibold text-slate-700">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-slate-100">
+              {categories
+                .filter((c) => {
+                  const t = searchTerm.trim().toLowerCase()
+                  if (!t) return true
+                  return (
+                    c.name.toLowerCase().includes(t) ||
+                    c.slug.toLowerCase().includes(t) ||
+                    (c.description || "").toLowerCase().includes(t)
+                  )
+                })
+                .map((category) => (
+                  <tr key={category.id} className="hover:bg-slate-50">
+                    <td className="px-6 py-4 align-middle">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-md overflow-hidden bg-slate-100 flex items-center justify-center">
+                          {category.image_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={category.image_url} alt={category.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="text-slate-400">📁</span>
+                          )}
+                        </div>
+                        <div>
+                          <div className="font-medium text-slate-900">{category.name}</div>
+                          <div className="text-xs text-slate-500">/{category.slug}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 align-middle text-sm text-slate-600 max-w-md">
+                      <div className="line-clamp-2">{category.description}</div>
+                    </td>
+                    <td className="px-6 py-4 align-middle text-sm text-slate-700">{formatDate(category.created_at)}</td>
+                    <td className="px-6 py-4 align-middle text-right space-x-2">
+                      <Button onClick={() => handleEdit(category)} size="sm" variant="outline" className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50" disabled={editingId === category.id || showAddForm}>
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button onClick={() => handleDelete(category.id)} size="sm" variant="outline" className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50" disabled={editingId === category.id || showAddForm}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
   {/* Add/Edit Form */}
@@ -219,7 +332,7 @@ export default function AdminCategoriesPage() {
           <CardContent className="p-6 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="name" className="text-slate-700 font-medium">
+                <Label htmlFor="name" className="text-slate-700 font-medium mb-1">
                   Name *
                 </Label>
                 <Input
@@ -238,7 +351,7 @@ export default function AdminCategoriesPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="slug" className="text-slate-700 font-medium">
+                <Label htmlFor="slug" className="text-slate-700 font-medium mb-1">
                   Slug *
                 </Label>
                 <Input
@@ -252,7 +365,7 @@ export default function AdminCategoriesPage() {
             </div>
             
             <div>
-              <Label htmlFor="description" className="text-slate-700 font-medium">
+              <Label htmlFor="description" className="text-slate-700 font-medium mb-1">
                 Description
               </Label>
               <Textarea
@@ -292,27 +405,33 @@ export default function AdminCategoriesPage() {
                     </Button>
                   </div>
                 )}
-                <Input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  className="border-slate-300 focus:border-slate-500 focus:ring-slate-500 text-slate-900 bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) {
-                      setSelectedImage(file)
-                      const reader = new FileReader()
-                      reader.onloadend = () => {
-                        setImagePreview(reader.result as string)
-                      }
-                      reader.readAsDataURL(file)
-                    }
-                  }}
-                />
+                <label htmlFor="image" className="block">
+                  <div className="relative border-2 border-dashed border-slate-200 rounded-lg p-6 text-center hover:border-slate-300 transition-colors bg-slate-50">
+                    <div className="text-slate-700 font-medium">Drag & drop images here</div>
+                    <div className="text-sm text-slate-500 mt-1">PNG or JPG — up to 10MB each</div>
+                    <input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          setSelectedImage(file)
+                          const reader = new FileReader()
+                          reader.onloadend = () => {
+                            setImagePreview(reader.result as string)
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </label>
               </div>
             </div>
             
-            <div className="flex justify-end gap-3 pt-4">
+            <div className="flex justify-end gap-3 pt-4 float-left">
               <Button
                 onClick={handleCancel}
                 variant="outline"
@@ -329,152 +448,6 @@ export default function AdminCategoriesPage() {
           </CardContent>
         </Card>
       )}
-      {/* Categories List */}
-      <div className="mt-4">
-        <div className="w-full">
-          <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-4">
-            <div className="flex items-center gap-4">
-              <Input
-                type="search"
-                placeholder="Search categories"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-md bg-slate-50 border border-slate-100 rounded-lg px-3 py-2 text-slate-700 placeholder:text-slate-400"
-              />
-              <div className="text-sm text-slate-600 ml-auto">{categories.length} categories</div>
-            </div>
-          </div>
-        </div>
-
-        {categories.length === 0 ? (
-          <div className="w-full mt-6">
-            <Card className="bg-white border-slate-200">
-              <CardContent className="p-8 md:p-12 text-center">
-                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <FolderOpen className="w-8 h-8 text-slate-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">No categories yet</h3>
-                <p className="text-slate-600 mb-6">Create your first product category to get started organizing your inventory.</p>
-                <Button 
-                  onClick={() => setShowAddForm(true)} 
-                  className="bg-slate-900 hover:bg-slate-800 text-white"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create First Category
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        ) : (
-          <div className="w-full mt-6 space-y-4">
-            {/* Mobile cards */}
-            <div className="space-y-4 md:hidden">
-              {categories
-                .filter((c) => {
-                  const t = searchTerm.trim().toLowerCase()
-                  if (!t) return true
-                  return (
-                    c.name.toLowerCase().includes(t) ||
-                    c.slug.toLowerCase().includes(t) ||
-                    (c.description || "").toLowerCase().includes(t)
-                  )
-                })
-                .map((category) => (
-                  <Card key={category.id} className="bg-white border-slate-200 hover:shadow-md transition-shadow">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start gap-4">
-                          {category.image_url ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={category.image_url} alt={category.name} className="w-12 h-12 object-cover rounded-md border border-slate-200" />
-                          ) : (
-                            <div className="w-12 h-12 bg-slate-100 rounded-md flex items-center justify-center">📁</div>
-                          )}
-                          <div className="min-w-0">
-                            <div className="text-sm font-semibold text-slate-900 truncate">{category.name}</div>
-                            <div className="text-xs text-slate-500">/{category.slug}</div>
-                            {category.description && <div className="text-sm text-slate-600 line-clamp-2 mt-2">{category.description}</div>}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button size="sm" variant="outline" className="border-slate-200 text-slate-600" onClick={() => handleEdit(category)} disabled={editingId === category.id || showAddForm}>
-                            <Edit className="w-3 h-3" />
-                          </Button>
-                          <Button size="sm" variant="outline" className="border-slate-200 text-slate-600" onClick={() => handleDelete(category.id)} disabled={editingId === category.id || showAddForm}>
-                            <Trash2 className="w-3 h-3" />
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-            </div>
-
-            {/* Table for md+ */}
-            <div className="hidden md:block bg-white rounded-lg border border-slate-200 overflow-hidden">
-              <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-                <div className="text-sm text-slate-600">Showing {categories.length} categories</div>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-100">
-                  <thead className="bg-slate-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-slate-700">Category</th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-slate-700">Description</th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-slate-700">Created</th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-slate-700">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-slate-100">
-                    {categories
-                      .filter((c) => {
-                        const t = searchTerm.trim().toLowerCase()
-                        if (!t) return true
-                        return (
-                          c.name.toLowerCase().includes(t) ||
-                          c.slug.toLowerCase().includes(t) ||
-                          (c.description || "").toLowerCase().includes(t)
-                        )
-                      })
-                      .map((category) => (
-                        <tr key={category.id} className="hover:bg-slate-50">
-                          <td className="px-6 py-4 align-middle">
-                            <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 rounded-md overflow-hidden bg-slate-100 flex items-center justify-center">
-                                {category.image_url ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img src={category.image_url} alt={category.name} className="w-full h-full object-cover" />
-                                ) : (
-                                  <span className="text-slate-400">📁</span>
-                                )}
-                              </div>
-                              <div>
-                                <div className="font-medium text-slate-900">{category.name}</div>
-                                <div className="text-xs text-slate-500">/{category.slug}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 align-middle text-sm text-slate-600 max-w-md">
-                            <div className="line-clamp-2">{category.description}</div>
-                          </td>
-                          <td className="px-6 py-4 align-middle text-sm text-slate-700">{formatDate(category.created_at)}</td>
-                          <td className="px-6 py-4 align-middle text-right space-x-2">
-                            <Button onClick={() => handleEdit(category)} size="sm" variant="outline" className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50" disabled={editingId === category.id || showAddForm}>
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button onClick={() => handleDelete(category.id)} size="sm" variant="outline" className="border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50" disabled={editingId === category.id || showAddForm}>
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   )
 }

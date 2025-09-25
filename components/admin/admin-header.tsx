@@ -14,9 +14,9 @@ interface AdminHeaderProps {
 
 export function AdminHeader({ title, description, children }: AdminHeaderProps) {
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-serif font-light text-foreground mb-2">{title}</h1>
-      <p className="text-lg text-muted-foreground mb-6">{description}</p>
+    <div className="px-6 py-6">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">{title}</h1>
+      <p className="text-slate-600 mt-1 mb-4">{description}</p>
       {children}
     </div>
   )

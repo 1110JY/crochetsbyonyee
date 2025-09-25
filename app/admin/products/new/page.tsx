@@ -172,7 +172,7 @@ export default function NewProductPage() {
         </div>
       </div>
 
-  <div className="w-full ml-0 px-2 md:px-6 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+  <div className="w-full ml-0 px-2 md:px-6 py-2 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
         {/* Main Form */}
         <div className="md:col-span-2 space-y-8 text-left">
           {/* Basic Info */}

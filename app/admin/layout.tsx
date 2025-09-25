@@ -1,5 +1,5 @@
 import type React from "react"
-import "./admin-error-override.css"
+// admin-specific CSS overrides are merged into app/globals.css to avoid dev build plugin issues
 import { redirect } from "next/navigation"
 import { checkAdminAccess } from "@/lib/supabase/admin"
 import { AdminNav } from "@/components/admin/admin-nav"
