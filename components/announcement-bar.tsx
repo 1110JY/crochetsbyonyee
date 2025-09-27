@@ -4,7 +4,7 @@ export function AnnouncementBar() {
   const message = "Worldwide Shipping Available"
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-purple-500 text-white overflow-hidden whitespace-nowrap">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-purple-500 text-white overflow-hidden whitespace-nowrap" style={{ paddingRight: 'var(--cart-offset, 0px)' }}>
       <div className="py-2">
         <div className="animate-marquee inline-block">
           <span className="text-sm font-medium">

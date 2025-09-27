@@ -123,10 +123,10 @@ export function AnnouncementPopup({ className }: AnnouncementPopupProps) {
     return null
   }
 
-  // Small toast style (bottom right corner)
-  if (currentAnnouncement.popup_style === 'small') {
+    // Small toast style (bottom right corner)
+    if (currentAnnouncement.popup_style === 'small') {
     return (
-      <div className="fixed bottom-4 right-4 z-50 max-w-sm">
+      <div className="fixed bottom-4 right-4 z-50 max-w-sm" style={{ right: 'calc(1rem + var(--cart-offset, 0px))' }}>
         <Card className="shadow-lg border-l-4 border-l-purple-500">
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
@@ -179,7 +179,7 @@ export function AnnouncementPopup({ className }: AnnouncementPopupProps) {
   // Full banner style (top of page)
   if (currentAnnouncement.popup_style === 'full_banner') {
     return (
-      <div className="fixed top-0 left-0 right-0 z-50 bg-purple-500 text-white">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-purple-500 text-white" style={{ paddingRight: 'var(--cart-offset, 0px)' }}>
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 flex-1">

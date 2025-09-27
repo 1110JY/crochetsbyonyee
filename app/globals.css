@@ -5,6 +5,8 @@
 
 :root {
   /* Updated color tokens to match the crochet business color palette */
+  /* Default cart offset (JS will update this when cart opens) */
+  --cart-offset: 0px;
   --background: #ffffff;
   --foreground: #804942;
   --card: #ffc5bf;
@@ -128,10 +130,28 @@
     @apply bg-background text-foreground font-sans;
     /* Prevent layout shifts from scrollbar */
     overflow-y: scroll;
+    /* Prevent horizontal gap caused by off-screen fixed elements (cart sidebar) */
+    overflow-x: hidden;
   }
   html {
     /* Force scrollbar to always be visible to prevent layout shifts */
     overflow-y: scroll;
+    /* Ensure no horizontal overflow from fixed/transformed elements */
+    overflow-x: hidden;
+  }
+
+  /* When the cart is open we add padding to the main content to make room for the
+     cart drawer. We apply it only at the small (sm) breakpoint and above so mobile
+     retains the full-width overlay behavior. JS toggles the "cart-open" class on
+     <html> and updates --cart-offset. Default --cart-offset is 0px above. */
+  .cart-offset-padding {
+    transition: padding-right 300ms ease-in-out;
+  }
+
+  @media (min-width: 640px) {
+    html.cart-open .cart-offset-padding {
+      padding-right: var(--cart-offset, 0px);
+    }
   }
   /* Ensure headings are consistent for admin pages only (override page-level classes there) */
   .admin-area h1, .admin-area h2, .admin-area h3, .admin-area h4, .admin-area h5, .admin-area h6 {
@@ -167,6 +187,37 @@
 .no-border {
   border: none !important;
   outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Utility to disable hover effects for specific controls (used for the cart Close buttons) */
+.no-hover,
+.no-hover:hover,
+.no-hover:focus {
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Underline hover utility: removes background hover but shows underline on hover/focus */
+.underline-hover {
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  transform: none !important;
+  /* prepare underline styles */
+  text-decoration: underline transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+.underline-hover:hover,
+.underline-hover:focus {
+  text-decoration-color: var(--primary) !important;
+  color: var(--primary) !important;
+  background: transparent !important;
   box-shadow: none !important;
 }
 

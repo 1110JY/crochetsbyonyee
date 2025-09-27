@@ -5,15 +5,19 @@ import Image from "next/image"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Instagram } from "lucide-react"
+import { ShoppingCart } from "lucide-react"
 import { SiTiktok } from "react-icons/si"
 import { createBrowserClient } from "@supabase/ssr"
 import type { User as SupabaseUser } from "@supabase/supabase-js"
 import { CurrencySelector } from "@/components/currency-selector"
+import { useCart } from "./cart-context"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const { items, setOpen, open } = useCart()
   const [user, setUser] = useState<SupabaseUser | null>(null)
   const [loading, setLoading] = useState(true)
+  const [hydrated, setHydrated] = useState(false)
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -41,14 +45,20 @@ export function Navigation() {
     return () => subscription.unsubscribe()
   }, [supabase.auth])
 
+  useEffect(() => {
+    // mark hydrated on client so UI that depends on localStorage-driven state
+    // doesn't cause a server/client render mismatch
+    setHydrated(true)
+  }, [])
+
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     setUser(null)
   }
 
   return (
-    <nav className="fixed top-4 left-0 right-0 z-50 px-4">
-      <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg">
+    <nav className="fixed top-4 left-0 z-50 px-4" style={{ right: 'var(--cart-offset, 0px)', transition: 'right 300ms ease-in-out' }}>
+      <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg" style={{ transition: 'width 300ms ease-in-out' }}>
         <div className="flex justify-between items-center h-16 md:h-18 px-4 md:px-8">
           {/* Left side - Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
@@ -67,7 +77,13 @@ export function Navigation() {
           </div>
 
           {/* Center - Logo */}
-          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity absolute left-1/2 transform -translate-x-1/2">
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity absolute left-1/2 transform -translate-x-1/2" onClick={(e) => {
+            // If the cart is open, clicking the logo should close it instead of navigating
+            if ((window as any).__cartOpen) {
+              e.preventDefault()
+              setOpen(false)
+            }
+          }}>
             <Image
               src="/navlogo.png"
               alt="Crochets by On-Yee"
@@ -78,8 +94,18 @@ export function Navigation() {
             />
           </Link>
 
-          {/* Right side - Auth and Social */}
+          {/* Right side - Auth, Cart and Social */}
           <div className="hidden md:flex items-center space-x-3">
+            {/* Cart button */}
+            <div className="relative">
+              <button onClick={() => setOpen(!open)} className="p-2 rounded-full hover:bg-primary/10" aria-expanded={open} aria-controls="cart-sidebar">
+                <ShoppingCart className="w-5 h-5 text-foreground/70" />
+              </button>
+              {hydrated && items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">{items.reduce((s, i) => s + i.quantity, 0)}</span>
+              )}
+            </div>
+            
             {!loading && (
               <>
                 {user ? (
@@ -215,6 +241,11 @@ export function Navigation() {
                   FAQ
                 </Link>
 
+                {/* Mobile cart entry */}
+                <button onClick={() => { setOpen(true); setIsOpen(false) }} className="text-foreground/70 hover:text-primary font-fredoka transition-all duration-200 py-2 px-3 rounded-lg hover:bg-primary/5 text-left">
+                  View cart{hydrated ? ` (${items.reduce((s, i) => s + i.quantity, 0)})` : ''}
+                </button>
+
                 {!loading && (
                   <>
                     {user ? (
@@ -272,6 +303,15 @@ export function Navigation() {
             </div>
           </div>
         </div>
+      </div>
+      {/* Floating mobile cart button */}
+      <div className="md:hidden fixed bottom-6 right-4 z-50">
+        <button onClick={() => setOpen(!open)} className="bg-primary text-white p-3 rounded-full shadow-lg flex items-center justify-center relative" aria-expanded={open} aria-controls="cart-sidebar">
+          <ShoppingCart className="w-5 h-5" />
+          {hydrated && items.length > 0 && (
+            <span className="absolute -top-1 -right-1 bg-white text-primary rounded-full text-xs w-5 h-5 flex items-center justify-center">{items.reduce((s, i) => s + i.quantity, 0)}</span>
+          )}
+        </button>
       </div>
     </nav>
   )

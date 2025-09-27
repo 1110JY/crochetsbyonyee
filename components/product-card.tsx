@@ -1,7 +1,10 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PriceDisplay } from "@/components/price-display"
 import type { Product } from "@/lib/supabase/products"
+import { useCart } from "./cart-context"
 
 interface ProductCardProps {
   product: Product
@@ -9,6 +12,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const primaryImage = product.images?.[0] || "/crochet-item.png"
+  const { addItem, setOpen } = useCart()
 
   return (
     <div className="group">
@@ -27,9 +31,12 @@ export function ProductCard({ product }: ProductCardProps) {
           className="text-muted-foreground mb-4 font-mochiy-p"
         />
 
-        <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-12 rounded-full">
-          <Link href={`/products/${product.categories?.slug || 'uncategorized'}/${product.slug}`}>View Product</Link>
-        </Button>
+        <div className="flex gap-3 justify-center">
+          <Button onClick={() => addItem({ id: product.id, name: product.name, price: product.price || 0, image: primaryImage, slug: product.slug })} variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-6 rounded-full">Add to cart</Button>
+          <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-6 rounded-full">
+            <Link href={`/products/${product.categories?.slug || 'uncategorized'}/${product.slug}`}>View</Link>
+          </Button>
+        </div>
       </div>
     </div>
   )

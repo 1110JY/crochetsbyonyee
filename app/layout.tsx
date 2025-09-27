@@ -14,6 +14,9 @@ import { Suspense } from "react"
 import { Toaster } from "@/components/ui/toaster"
 import { CurrencyProvider } from "@/contexts/currency-context"
 import { ConditionalAnnouncementBar } from "../components/conditional-announcement-bar"
+import { CartProvider } from "@/components/cart-context"
+import { CartDrawer } from "@/components/cart-drawer"
+import { CartAwareWrapper } from "@/components/cart-aware-wrapper"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -101,9 +104,14 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <CurrencyProvider>
-          <Suspense fallback={null}>{children}</Suspense>
-          <ConditionalAnnouncementBar />
-          <Toaster />
+          <CartProvider>
+            <CartAwareWrapper>
+              <Suspense fallback={null}>{children}</Suspense>
+            </CartAwareWrapper>
+            <ConditionalAnnouncementBar />
+            <CartDrawer />
+            <Toaster />
+          </CartProvider>
         </CurrencyProvider>
         <Analytics />
       </body>
