@@ -60,8 +60,31 @@ export function Navigation() {
     <nav className="fixed top-4 left-0 z-50 px-4" style={{ right: 'var(--cart-offset, 0px)', transition: 'right 300ms ease-in-out' }}>
       <div className="max-w-7xl mx-auto bg-white/90 backdrop-blur-sm rounded-full shadow-lg" style={{ transition: 'width 300ms ease-in-out' }}>
         <div className="flex justify-between items-center h-16 md:h-18 px-4 md:px-8">
-          {/* Left side - Navigation Links */}
+          {/* Left side - Socials then Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
+            {/* Social icons moved to the left with a bigger divider and improved spacing */}
+            <div className="flex items-center space-x-2 mr-6 pr-4 border-r-2 border-border">
+              <a
+                href="https://www.tiktok.com/@crochetsbyonyee"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <SiTiktok className="w-4 h-4" />
+              </a>
+
+              <a
+                href="https://www.instagram.com/crochetsbyonyee/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+            </div>
+
             <Link href="/about" className="text-foreground/70 hover:text-primary font-fredoka transition-colors">
               About
             </Link>
@@ -94,18 +117,8 @@ export function Navigation() {
             />
           </Link>
 
-          {/* Right side - Auth, Cart and Social */}
+          {/* Right side - Auth, Currency and Cart (cart moved to the far right) */}
           <div className="hidden md:flex items-center space-x-3">
-            {/* Cart button */}
-            <div className="relative">
-              <button onClick={() => setOpen(!open)} className="p-2 rounded-full hover:bg-primary/10" aria-expanded={open} aria-controls="cart-sidebar">
-                <ShoppingCart className="w-5 h-5 text-foreground/70" />
-              </button>
-              {hydrated && items.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">{items.reduce((s, i) => s + i.quantity, 0)}</span>
-              )}
-            </div>
-            
             {!loading && (
               <>
                 {user ? (
@@ -151,27 +164,18 @@ export function Navigation() {
             )}
 
             {/* Currency Selector */}
-            <div className="ml-2">
+            <div className="ml-3">
               <CurrencySelector />
             </div>
 
-            {/* Social icons */}
-            <div className="flex items-center space-x-2 ml-2 pl-2 border-l border-border">
-                <a
-                  href="https://www.tiktok.com/@crochetsbyonyee"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <SiTiktok className="w-4 h-4 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/crochetsbyonyee/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >   
-                  <Instagram className="w-4 h-4 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-                </a>
+            {/* Cart button moved to the far right where socials were (no divider) */}
+            <div className="relative ml-3">
+              <button onClick={() => setOpen(!open)} className="p-2 rounded-full hover:bg-primary/10" aria-expanded={open} aria-controls="cart-sidebar">
+                <ShoppingCart className="w-5 h-5 text-foreground/70" />
+              </button>
+              {hydrated && items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">{items.reduce((s, i) => s + i.quantity, 0)}</span>
+              )}
             </div>
           </div>
 

@@ -120,17 +120,6 @@ export default async function ProductPage({
               </div>
             )}
 
-            {/* Materials */}
-            {product.materials && product.materials.length > 0 && (
-              <div>
-                <h3 className="text-lg font-mochiy text-foreground mb-2">Materials</h3>
-                <ul className="list-disc list-inside text-muted-foreground font-mochiy-p">
-                  {product.materials.map((material, index) => (
-                    <li key={index}>{material}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             {/* Dimensions */}
             {product.dimensions && (
@@ -140,13 +129,7 @@ export default async function ProductPage({
               </div>
             )}
 
-            {/* Care Instructions */}
-            {product.care_instructions && (
-              <div>
-                <h3 className="text-lg font-mochiy text-foreground mb-2">Care Instructions</h3>
-                <p className="text-muted-foreground font-mochiy-p">{product.care_instructions}</p>
-              </div>
-            )}
+            
 
             {/* Shipping Information */}
             <ShippingInfo />

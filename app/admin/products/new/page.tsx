@@ -22,9 +22,8 @@ export default function NewProductPage() {
     description: "",
     price: null,
     category_id: null,
-    materials: [],
     dimensions: "",
-    care_instructions: "",
+    // care_instructions removed from admin form
     is_featured: false,
     is_available: true,
     stock_quantity: 1,
@@ -68,7 +67,6 @@ export default function NewProductPage() {
           slug,
           price: formData.price ? parseFloat(formData.price.toString()) : null,
           stock_quantity: parseInt(formData.stock_quantity?.toString() || "1"),
-          materials: formData.materials?.filter(Boolean) || [],
         })
 
       if (error) throw error
@@ -88,12 +86,6 @@ export default function NewProductPage() {
     }
   }
 
-  const handleMaterialsChange = (value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      materials: value.split(",").map(m => m.trim()).filter(Boolean)
-    }))
-  }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -308,17 +300,7 @@ export default function NewProductPage() {
                     required
                   />
                 </div>
-                <div>
-                  <Label htmlFor="materials" className="text-slate-900 font-medium mb-1">Materials</Label>
-                  <Input
-                    id="materials"
-                    value={formData.materials?.join(", ") || ""}
-                    onChange={(e) => handleMaterialsChange(e.target.value)}
-                    placeholder="e.g., Cotton yarn, Polyester filling"
-                    className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400 rounded-lg"
-                  />
-                  <span className="text-xs text-slate-500">Separate with commas</span>
-                </div>
+                {/* Materials removed */}
                 <div>
                   <Label htmlFor="dimensions" className="text-slate-900 font-medium mb-1">Dimensions</Label>
                   <Input
@@ -329,16 +311,7 @@ export default function NewProductPage() {
                     className="text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400 rounded-lg"
                   />
                 </div>
-                <div className="md:col-span-2">
-                  <Label htmlFor="care" className="text-slate-900 font-medium mb-1">Care Instructions</Label>
-                  <Textarea
-                    id="care"
-                    value={formData.care_instructions || ""}
-                    onChange={(e) => setFormData(prev => ({ ...prev, care_instructions: e.target.value }))}
-                    placeholder="e.g., Hand wash cold, lay flat to dry"
-                    className="h-20 text-slate-900 border-slate-300 focus:border-slate-500 focus:ring-slate-500 placeholder:text-gray-400 rounded-lg"
-                  />
-                </div>
+                {/* Care Instructions removed */}
               </div>
             </CardContent>
           </Card>

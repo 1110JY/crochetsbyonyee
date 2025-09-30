@@ -122,7 +122,7 @@ export function CartDrawer() {
 
                 <div className="flex gap-2 mt-4">
                   <StripeCheckoutButton items={stripeItems} />
-                  <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-6 rounded-full" onClick={() => clear()}>Clear</Button>
+                  <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-6 rounded-md" onClick={() => clear()}>Clear</Button>
                 </div>
               </div>
             )}
@@ -167,7 +167,7 @@ export function CartDrawer() {
 
                 <div className="flex gap-2 mt-4">
                   <StripeCheckoutButton items={stripeItems} />
-                  <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-6 rounded-full" onClick={() => clear()}>Clear</Button>
+                  <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent px-6 rounded-md" onClick={() => clear()}>Clear</Button>
                 </div>
               </div>
             )}
