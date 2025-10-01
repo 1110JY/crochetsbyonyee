@@ -2,15 +2,28 @@ import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 import createServiceClient from '@/lib/supabase/service'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2025-08-27.basil' })
+// Do not instantiate Stripe at module load so we can surface clearer runtime errors
+
 
 export async function POST(req: Request) {
   const buf = await req.arrayBuffer()
   const payload = Buffer.from(buf)
   const sig = req.headers.get('stripe-signature') || ''
 
+  // Runtime checks
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('STRIPE_SECRET_KEY not set')
+    return NextResponse.json({ error: 'Stripe secret key not configured' }, { status: 500 })
+  }
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.error('STRIPE_WEBHOOK_SECRET not set')
+    return NextResponse.json({ error: 'Stripe webhook secret not configured' }, { status: 500 })
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-08-27.basil' })
+
   try {
-    const event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET || '')
+    const event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET)
 
     // Handle event types you care about
     switch (event.type) {
@@ -32,7 +45,8 @@ export async function POST(req: Request) {
             break
           }
 
-          // Prefer the metadata.products snapshot (set at session creation)
+          // Prefer the metadata.products snapshot (set at session creation) when available.
+          // However, we intentionally don't store the full products JSON in metadata to avoid size limits.
           let products: { id: string; slug: string; quantity: number; unit_amount: number }[] = []
           if (session.metadata && session.metadata.products) {
             try {
@@ -40,6 +54,9 @@ export async function POST(req: Request) {
             } catch (e) {
               console.warn('Failed to parse session.metadata.products', e)
             }
+          } else if (session.metadata && session.metadata.products_count) {
+            // Helpful for debugging: note expected products count from metadata
+            console.log('Webhook metadata products_count:', session.metadata.products_count)
           }
 
           // If metadata missing, fall back to listing Stripe line items

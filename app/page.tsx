@@ -1,12 +1,24 @@
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Instagram } from "lucide-react"
-import { SiTiktok } from "react-icons/si"
+// removed unused icon imports that are client-only to avoid SSR issues
 import { getFeaturedProducts, getCategories } from "@/lib/supabase/products"
 import { getSiteSettings } from "@/lib/supabase/settings"
 import { getTestimonials } from "@/lib/supabase/testimonials"
-import { Star } from "lucide-react"
+// Inline SVG star to avoid importing client-only icon libs into a server component
+function StarIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+    </svg>
+  )
+}
 import { ReviewSection } from "@/components/review-section"
 import { FadeIn, ScrollReveal } from "@/components/animations"
 
@@ -143,7 +155,7 @@ export default async function HomePage() {
                       <h4 className="font-mochiy text-foreground mb-2">{testimonial.customer_name}</h4>
                       <div className="flex items-center space-x-1 mb-3">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                          <StarIcon key={i} className="w-4 h-4 fill-primary text-primary" />
                         ))}
                       </div>
                       {title && (

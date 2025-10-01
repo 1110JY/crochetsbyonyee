@@ -309,7 +309,7 @@ export function Navigation() {
         </div>
       </div>
       {/* Floating mobile cart button */}
-      <div className="md:hidden fixed bottom-6 right-4 z-50">
+  <div className="md:hidden fixed bottom-12 right-3 z-60">
         <button onClick={() => setOpen(!open)} className="bg-primary text-white p-3 rounded-full shadow-lg flex items-center justify-center relative" aria-expanded={open} aria-controls="cart-sidebar">
           <ShoppingCart className="w-5 h-5" />
           {hydrated && items.length > 0 && (
