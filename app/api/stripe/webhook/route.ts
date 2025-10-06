@@ -1,4 +1,6 @@
 import Stripe from 'stripe'
+import { Resend } from 'resend'
+import React from 'react'
 import { NextResponse } from 'next/server'
 import createServiceClient from '@/lib/supabase/service'
 
@@ -9,6 +11,18 @@ export async function POST(req: Request) {
   const buf = await req.arrayBuffer()
   const payload = Buffer.from(buf)
   const sig = req.headers.get('stripe-signature') || ''
+
+  // Debug: log presence of important env vars (do NOT log values)
+  try {
+    console.log('ENV presence:', {
+      STRIPE_SECRET_KEY: !!process.env.STRIPE_SECRET_KEY,
+      STRIPE_WEBHOOK_SECRET: !!process.env.STRIPE_WEBHOOK_SECRET,
+      RESEND_API_KEY: !!process.env.RESEND_API_KEY,
+      SEND_FROM_EMAIL: !!process.env.SEND_FROM_EMAIL,
+    })
+  } catch (e) {
+    // ignore logging errors
+  }
 
   // Runtime checks
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -73,7 +87,6 @@ export async function POST(req: Request) {
           // Build order record
           const orderRecord: any = {
             stripe_session_id: session.id,
-            session_reference: session.metadata?.session_reference ?? null,
             amount_total: session.amount_total ?? null,
             currency: session.currency ?? null,
             customer_email: (session.customer_details && session.customer_details.email) || session.customer_email || null,
@@ -81,8 +94,38 @@ export async function POST(req: Request) {
             payment_status: session.payment_status || null,
           }
 
+          // Only include session_reference if it exists in metadata (avoids schema cache errors if the column doesn't exist)
+          if (session.metadata && session.metadata.session_reference) {
+            orderRecord.session_reference = session.metadata.session_reference
+          }
+
           // Insert order and items inside a transaction-like flow (Supabase doesn't support multi-statement transactions via client easily)
-          const { data: orderData, error: orderError } = await supabase.from('orders').insert([orderRecord]).select('*').single()
+          let { data: orderData, error: orderError } = await supabase.from('orders').insert([orderRecord]).select('*').single()
+
+          // Defensive fallback: if Supabase reports missing column(s) in the schema cache (PGRST204),
+          // remove the offending keys from the payload and retry once so orders still get created.
+          if (orderError && (orderError.code === 'PGRST204' || (orderError.message && orderError.message.includes('Could not find')))) {
+            try {
+              console.warn('Supabase schema error on order insert, attempting fallback by removing unknown columns:', orderError.message)
+              // Try to parse the column name from the message
+              const msg: string = orderError.message || ''
+              const m = msg.match(/Could not find the '([a-zA-Z0-9_]+)' column of '([a-zA-Z0-9_]+)'/)
+              if (m && m[1]) {
+                const missingCol = m[1]
+                if (missingCol in orderRecord) {
+                  delete orderRecord[missingCol]
+                }
+              }
+              // retry once
+              const retry = await supabase.from('orders').insert([orderRecord]).select('*').single()
+              orderData = retry.data
+              orderError = retry.error
+              if (orderError) console.error('Retry insert still failed:', orderError)
+              else console.log('Order insert succeeded on retry after removing unknown columns')
+            } catch (retryErr) {
+              console.error('Retry insert failed with exception', retryErr)
+            }
+          }
 
           if (orderError) {
             console.error('Failed to create order record in Supabase:', orderError)
@@ -90,16 +133,34 @@ export async function POST(req: Request) {
             const orderId = orderData.id
 
             // Prepare order items using metadata products
-            const itemsToInsert = products.map((p) => ({
-              order_id: orderId,
-              product_id: p.id,
-              product_slug: p.slug,
-              product_name: null,
-              description: null,
-              unit_amount: p.unit_amount ?? null,
-              quantity: p.quantity ?? 1,
-              currency: session.currency ?? null,
-            }))
+            const itemsToInsert: any[] = []
+            // Try to map Stripe product ids (prod_...) or slugs to internal product UUIDs
+            for (const p of products) {
+              let resolvedProductId: string | null = null
+              // If the id looks like a UUID, assume it's internal
+              const uuidLike = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(p.id)
+              if (uuidLike) {
+                resolvedProductId = p.id
+              } else if (p.slug) {
+                try {
+                  const { data: prodRow } = await supabase.from('products').select('id').eq('slug', p.slug).maybeSingle()
+                  if (prodRow && prodRow.id) resolvedProductId = prodRow.id
+                } catch (e) {
+                  // ignore lookup errors and fall back
+                }
+              }
+
+              itemsToInsert.push({
+                order_id: orderId,
+                product_id: resolvedProductId ?? p.id,
+                product_slug: p.slug,
+                product_name: p.slug || null,
+                description: null,
+                unit_amount: p.unit_amount ?? null,
+                quantity: p.quantity ?? 1,
+                currency: session.currency ?? null,
+              })
+            }
 
             if (itemsToInsert.length > 0) {
               const { error: itemsError } = await supabase.from('order_items').insert(itemsToInsert)
@@ -128,6 +189,67 @@ export async function POST(req: Request) {
             }
 
             console.log('Order and items recorded in Supabase', orderId)
+
+            // Send confirmation email to customer if we have an email and Resend is configured
+            try {
+              const customerEmail = orderRecord.customer_email || (session.customer_details && session.customer_details.email) || null
+              if (customerEmail) {
+                if (!process.env.RESEND_API_KEY) {
+                  console.warn('RESEND_API_KEY not set; skipping confirmation email')
+                } else {
+                  const resend = new Resend(process.env.RESEND_API_KEY)
+
+                  // Build simple items list for the email
+                  const itemsForEmail = products.map((p) => ({
+                    name: p.slug || p.id || undefined,
+                    slug: p.slug || undefined,
+                    quantity: p.quantity || 1,
+                    unit_amount: p.unit_amount ?? null,
+                  }))
+
+                  const total = orderRecord.amount_total ?? null
+
+                  // Render React Email template to HTML
+                  // Dynamically import server-only modules and the email component to avoid build errors
+                  const [{ renderToStaticMarkup }, OrderConfirmationModule] = await Promise.all([
+                    import('react-dom/server'),
+                    import('@/components/emails/order-confirmation'),
+                  ])
+                  const EmailComponent = (OrderConfirmationModule as any).default
+                  const element = React.createElement(EmailComponent as any, { orderId, items: itemsForEmail, total, customerName: session.customer_details?.name || null })
+                  const html = renderToStaticMarkup(element)
+
+                  const fromAddress = process.env.SEND_FROM_EMAIL || 'onboarding@resend.dev'
+                  console.log('Preparing to send order confirmation email', { to: customerEmail, from: fromAddress, orderId, htmlType: typeof html, htmlLength: html?.length ?? 0 })
+                  try {
+                    const emailResult = await resend.emails.send({
+                      from: fromAddress,
+                      to: [customerEmail],
+                      subject: `Order confirmation — ${orderId}`,
+                      html,
+                    })
+                    console.log('Order confirmation email sent, Resend response:', { result: emailResult })
+
+                    // Persist resend message id into the orders table if the column exists
+                    try {
+                      const raw = JSON.parse(JSON.stringify(emailResult))
+                      const messageId = raw?.data?.id || raw?.id || null
+                      if (messageId) {
+                        const { error: updErr } = await supabase.from('orders').update({ resend_message_id: messageId }).eq('id', orderId)
+                        if (updErr) console.warn('Failed to persist resend_message_id on order', orderId, updErr)
+                        else console.log('Persisted resend_message_id on order', orderId, messageId)
+                      }
+                    } catch (persistErr) {
+                      console.warn('Failed to persist resend message id', persistErr)
+                    }
+                  } catch (sendErr) {
+                    console.error('Resend send() failed for order email', { err: sendErr, to: customerEmail, orderId })
+                  }
+                }
+              }
+            } catch (emailErr) {
+              console.error('Failed to send confirmation email', emailErr)
+            }
           }
         } catch (dbErr) {
           console.error('Error processing checkout.session.completed:', dbErr)

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation"
+import { CheckoutSuccessHandler } from "@/components/checkout-success-handler"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 // removed unused icon imports that are client-only to avoid SSR issues
@@ -35,6 +36,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <CheckoutSuccessHandler />
       <Navigation />
 
       {/* Hero Section - Batch style full-screen */}

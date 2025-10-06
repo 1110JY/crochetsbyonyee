@@ -3,7 +3,8 @@ import { getProductBySlug } from '@/lib/supabase/products'
 
 export async function GET(req: Request, { params }: { params: { slug: string } }) {
   try {
-    const slug = params.slug
+    // `params` may be a promise in newer Next.js versions — await it before using
+    const { slug } = await params as { slug?: string }
     if (!slug) return NextResponse.json({ error: 'Missing slug' }, { status: 400 })
 
     const product = await getProductBySlug(slug)
